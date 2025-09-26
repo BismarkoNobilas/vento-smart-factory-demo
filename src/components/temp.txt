@@ -1,0 +1,20 @@
+<div className="grid bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit">
+              <KV k="Conveyor Speed" />
+              <div className="h-full font-bold text-6xl text-amber-500 flex items-center justify-center">
+                {chartData[5].Energy1}
+                {/* {live.Energy1} */}
+              </div>
+              <div className="h-full font-semibold text-2xl flex items-center justify-center">
+                RPM
+              </div>
+            </div>
+            <div className="grid bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit">
+              <KV k="Water Flow" />
+              <div className="h-full font-bold text-6xl text-blue-700 flex items-center justify-center">
+                {chartData[5].Energy2}
+                {/* {live.Energy1} */}
+              </div>
+              <div className="h-full font-semibold text-2xl flex items-center justify-center">
+                LPM
+              </div>
+            </div>

@@ -1,0 +1,102 @@
+void sendToMQTT() {
+  
+  int pump1_low = digitalRead(button_pump1L);
+  int pump1_mid = digitalRead(button_pump1M);
+  int pump1_high = digitalRead(button_pump1H);
+  int pump2_low = digitalRead(button_pump2L);
+  int pump2_mid = digitalRead(button_pump2M);
+  int pump2_high = digitalRead(button_pump2H);
+
+  // save the the last state
+  lastState = currentState;
+  for(int i = 0; i < NUM_PZEMS; i++){
+    
+    float voltage = pzems[i].voltage();
+    float current = pzems[i].current();
+    float power = pzems[i].power();
+    float energy = pzems[i].energy();
+    float frequency = pzems[i].frequency();
+    float pf = pzems[i].pf();
+    
+    StaticJsonDocument<200> message;
+    
+    message["Voltage"] = voltage;
+    message["Current"] = current;
+    message["Power"] = power;
+    message["Energy"] = energy;
+    message["Frequency"] = frequency;
+    message["PF"] = pf;
+
+    //Level Pompa 1
+    if (pump1_low == LOW && pump1_mid == LOW && pump1_high == LOW){
+      message["lvlpump1"] = 0;
+    }
+    else if (pump1_low == HIGH && pump1_mid == LOW && pump1_high == LOW){
+      message["lvlpump1"] = 1;
+    }
+    else if (pump1_low == HIGH && pump1_mid == HIGH && pump1_high == LOW){
+      message["lvlpump1"] = 2;
+    }
+    else if (pump1_low == HIGH && pump1_mid == HIGH && pump1_high == HIGH){
+      message["lvlpump1"] = 3;
+      digitalWrite(Pump1, HIGH);
+      pump1_stat_send = false;
+    }
+
+    //Level Pompa 2
+    if (pump2_low == LOW && pump2_mid == LOW && pump2_high == LOW){
+      message["lvlpump2"] = 0;
+    }
+    else if (pump2_low == HIGH && pump2_mid == LOW && pump2_high == LOW){
+      message["lvlpump2"] = 1;
+    }
+    else if (pump2_low == HIGH && pump2_mid == HIGH && pump2_high == LOW){
+      message["lvlpump2"] = 2;
+    }
+    else if (pump2_low == HIGH && pump2_mid == HIGH && pump2_high == HIGH){
+      message["lvlpump2"] = 3;
+      digitalWrite(Pump2, HIGH);
+      pump2_stat_send = false;
+    }
+
+    //Status aktuator
+    if (machine_stat_send == true){
+      message["Machine"] = 1;
+    }
+    else{
+      message["Machine"] = 0;
+    }
+    
+    if (lamp_stat_send == true){
+      message["Lamp"] = 1;
+    }
+    else{
+      message["Lamp"] = 0;
+    }
+    
+    if (pump1_stat_send == true){
+      message["Pump1"] = 1;
+    }
+    else{
+      message["Pump1"] = 0;
+    }
+
+    if (pump2_stat_send == true){
+      message["Pump2"] = 1;
+    }
+    else{
+      message["Pump2"] = 0;
+    }
+
+    char messageBuffer[512];
+    serializeJson(message, messageBuffer);
+
+    mqtt.publish(PUBLISH_TOPIC, messageBuffer);
+
+    Serial.println("ESP32 - sent to MQTT:");
+    Serial.print("- topic: ");
+    Serial.println(PUBLISH_TOPIC);
+    Serial.print("- payload:");
+    Serial.println(messageBuffer);
+  }
+}
