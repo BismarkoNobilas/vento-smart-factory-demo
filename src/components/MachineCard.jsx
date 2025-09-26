@@ -219,10 +219,10 @@ export default function MachineCard({ conveyor, pump, live }) {
 
   return (
     <div className="grid gap-2">
-      <Card className="p-4 w-full h-fit">
+      <Card className="p-4 w-[1324px] h-fit relative overflow-hidden">
         <Tabs
           defaultValue="mach1"
-          className="grid grid-cols-[auto_full] w-fit gap-2 h-fit"
+          className="grid grid-cols-[auto_full] w-auto gap-2 h-fit"
         >
           <div className="col-span-3 h-fit flex justify-between w-full">
             <h3 className="font-bold">Overall Equipment Effectiveness</h3>
@@ -394,14 +394,14 @@ export default function MachineCard({ conveyor, pump, live }) {
               </div>
             </div>
           </div>
-          <div className=" absolute w-[970px] ml-[390px] mt-[62px]">
+          <div className="absolute w-[971px] ml-[390px] mt-[62px]">
             <video
               src="/R2-Inside-factory.webm"
               autoPlay
               loop
               muted
               playsInline // ensures it works on mobile
-              className="h-[570px] absolute"
+              className="h-auto absolute"
             />
 
             <div className="absolute bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit p-1 ml-[290px] mt-[420px]">
@@ -424,10 +424,10 @@ export default function MachineCard({ conveyor, pump, live }) {
                 Unit
               </div>
             </div>
-            <div className=" absolute w-fit p-1 ml-[782px] mt-[166px]">
+            <div className=" absolute w-fit p-1 ml-[783px] mt-[165px]">
               <div className="h-[80px] w-[11px] bg-green-400 -skew-y-22"></div>
             </div>
-            <div className=" absolute w-fit p-1 ml-[687px] mt-[154px]">
+            <div className=" absolute w-fit p-1 ml-[687px] mt-[153px]">
               <div className="h-[40px] w-[11px] bg-red-500 -skew-y-22"></div>
             </div>
           </div>
