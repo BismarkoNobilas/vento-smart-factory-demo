@@ -394,42 +394,42 @@ export default function MachineCard({ conveyor, pump, live }) {
               </div>
             </div>
           </div>
-          <div className="w-auto absolute ml-[455px]">
+          <div className=" absolute w-[970px] ml-[390px] mt-[62px]">
             <video
               src="/R2-Inside-factory.webm"
               autoPlay
               loop
               muted
               playsInline // ensures it works on mobile
-              className="h-[570px] mt-[35px]"
+              className="h-[570px] absolute"
             />
-          </div>
 
-          <div className="absolute bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit mt-[320px] ml-[1020px] p-1">
-            <KV k="Pack Production" width={100} />
-            <div className="h-fit font-bold text-2xl text-orange-400 flex items-center justify-center">
-              {162}
-              {/* {live.Energy1} */}
+            <div className="absolute bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit p-1 ml-[290px] mt-[420px]">
+              <KV k="Pack Production" width={100} />
+              <div className="h-fit font-bold text-2xl text-orange-400 flex items-center justify-center">
+                {162}
+                {/* {live.Energy1} */}
+              </div>
+              <div className="h-fit font-semibold text-xl flex items-center justify-center">
+                Unit
+              </div>
             </div>
-            <div className="h-fit font-semibold text-xl flex items-center justify-center">
-              Unit
+            <div className=" absolute bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit p-1 ml-[380px] mt-[135px]">
+              <KV k="Bottle Production" width={110} />
+              <div className="h-fit font-bold text-2xl text-blue-700 flex items-center justify-center">
+                {1944}
+                {/* {live.Energy1} */}
+              </div>
+              <div className="h-fit font-semibold text-xl flex items-center justify-center">
+                Unit
+              </div>
             </div>
-          </div>
-          <div className="absolute bg-zinc-50 shadow-sm rounded grid-rows-3 w-fit mt-[150px] ml-[720px] p-1">
-            <KV k="Bottle Production" width={110} />
-            <div className="h-fit font-bold text-2xl text-blue-700 flex items-center justify-center">
-              {1944}
-              {/* {live.Energy1} */}
+            <div className=" absolute w-fit p-1 ml-[782px] mt-[166px]">
+              <div className="h-[80px] w-[11px] bg-green-400 -skew-y-22"></div>
             </div>
-            <div className="h-fit font-semibold text-xl flex items-center justify-center">
-              Unit
+            <div className=" absolute w-fit p-1 ml-[687px] mt-[154px]">
+              <div className="h-[40px] w-[11px] bg-red-500 -skew-y-22"></div>
             </div>
-          </div>
-          <div className="absolute w-fit mt-[205px] ml-[1148px] p-1">
-            <div className="h-[80px] w-[11px] bg-green-400 -skew-y-22"></div>
-          </div>
-          <div className="absolute w-fit mt-[199px] ml-[1063px] p-1">
-            <div className="h-[40px] w-[11px] bg-red-500 -skew-y-22"></div>
           </div>
         </Tabs>
       </Card>
