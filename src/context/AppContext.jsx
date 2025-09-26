@@ -37,12 +37,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     fetchLive();
     fetchHistory();
-    const id = setInterval(() => {
-      fetchLive();
-      fetchHistory();
-      setNow(new Date());
-    }, 6000);
-    return () => clearInterval(id);
+    setNow(new Date());
   }, []);
 
   return (
