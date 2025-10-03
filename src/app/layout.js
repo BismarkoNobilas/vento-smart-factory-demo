@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 import { AppProvider } from "@/context/AppContext";
 import Link from "next/link";
-import Clock from "@/components/Clock";
-import RoleSwitcher from "@/components/RoleSwitcher";
+import Clock from "@/components/custom/Clock";
+import RoleSwitcher from "@/components/custom/RoleSwitcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
               </div>
 
               {/* Sidebar + Content */}
-              <div className="grid grid-cols-[180px_auto]">
+              <div className="grid grid-cols-[180px_auto] w-auto h-auto">
                 <Sidebar className="w-45 border-r">
                   <SidebarContent>
                     <SidebarHeader>
@@ -74,9 +74,9 @@ export default function RootLayout({ children }) {
                             </Link>
                           </SidebarMenuItem>
                           <SidebarMenuItem>
-                            <Link href="/dashboard">
+                            <Link href="/component">
                               <SidebarMenuButton asChild>
-                                <span>Dashboard</span>
+                                <span>Components</span>
                               </SidebarMenuButton>
                             </Link>
                           </SidebarMenuItem>
@@ -88,9 +88,9 @@ export default function RootLayout({ children }) {
                             </Link>
                           </SidebarMenuItem>
                           <SidebarMenuItem>
-                            <Link href="/monitor">
+                            <Link href="/OEE">
                               <SidebarMenuButton asChild>
-                                <span>Monitoring</span>
+                                <span>OEE</span>
                               </SidebarMenuButton>
                             </Link>
                           </SidebarMenuItem>

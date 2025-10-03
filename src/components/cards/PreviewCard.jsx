@@ -6,9 +6,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
-import AnalogGaugeWrapper from "@/components/AnalogGaugeWrapper";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import Temperature from "./Temperature";
+import AnalogGaugeWrapper from "@/components/layout/AnalogGaugeWrapper";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Temperature from "@/components/custom/Temperature";
 
 function KV({ k, v, unit = "", val }) {
   return (
@@ -124,7 +124,7 @@ function MiniChartArea({ data, dataKey, label }) {
   );
 }
 
-export default function EnergyDisplayCard({ conveyor, pump, live }) {
+export default function PreviewCard({ conveyor, pump, live }) {
   //Demo data
   const chartData = [
     {

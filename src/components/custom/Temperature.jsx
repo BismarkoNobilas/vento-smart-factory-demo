@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import styles from "./css/Temperature.module.css";
+import styles from "../css/Temperature.module.css";
 
 export default function Temperature({ label = "Temp", initial = 42 }) {
   const units = {
