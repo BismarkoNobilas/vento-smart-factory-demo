@@ -24,16 +24,13 @@ function FactoryOverlay({ videoSrc, width, height = "auto", overlays }) {
       {overlays.map((item, idx) => {
         if (item.type === "card") {
           return (
-            <Popover>
+            <Popover key={idx}>
               <PopoverTrigger
                 className="absolute w-15 h-15 bg-zinc-500/30 rounded "
                 style={{ top: item.pos.top, left: item.pos.left }}
               ></PopoverTrigger>
 
-              <PopoverContent
-                key={idx}
-                className="absolute bg-zinc-50/95 shadow-sm rounded p-1 w-fit grid-rows-3"
-              >
+              <PopoverContent className="absolute bg-zinc-50/95 shadow-sm rounded p-1 w-fit grid-rows-3">
                 <TitleBlock title={item.title} width={item.width || 100} />
                 <div
                   className={`h-fit font-bold text-2xl flex items-center justify-center ${item.color}`}
