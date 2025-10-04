@@ -21,7 +21,7 @@ export default function MachineCard({ conveyor, pump, live }) {
           <div className="col-span-3 h-fit flex justify-between w-full">
             <h3 className="font-bold">Overall Equipment Effectiveness</h3>
           </div>
-          <div className="absolute -left-[160px] w-auto h-auto">
+          <div className="absolute -left-[20px] top-[10px] w-auto h-auto">
             {/* w-[971px] ml-[390px] mt-[62px] */}
             <FactoryOverlay
               videoSrc="/R2-Inside-factory.webm"
@@ -34,16 +34,14 @@ export default function MachineCard({ conveyor, pump, live }) {
             <div className="relative left-[2px] top-[12px]">
               <MachineStatusCard machines={machineStatuses} />
             </div>
-            <div className="relative left-[664px] top-[-120px]">
+            <div className="relative left-[4px] top-[370px]">
               <OEECard />
             </div>
-            <div className="relative left-[736px] top-[-114px] w-fit">
+            <div className="relative left-[802px] top-[124px] w-[485px]">
               <MiniChartCard />
             </div>
-            <div className="relative left-[2px] top-[-160px] w-fit">
+            <div className="relative left-[802px] top-[-606px] w-fit flex justify-between gap-2">
               <RunTimeCard logs={logData} />
-            </div>
-            <div className="relative left-[246px] top-[-312px] w-fit">
               <RunTimeCard
                 logs={logData3}
                 title="Water Filler"
@@ -53,7 +51,7 @@ export default function MachineCard({ conveyor, pump, live }) {
                 warningColor="bg-orange-500"
               />
             </div>
-            <div className="relative left-[490px] top-[-464px] w-fit">
+            <div className="relative left-[1049px] top-[-598px] w-fit">
               <RunTimeCard
                 logs={logData2}
                 title="Water Tank Pump"
