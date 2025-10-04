@@ -16,6 +16,7 @@ import { AppProvider } from "@/context/AppContext";
 import Link from "next/link";
 import Clock from "@/components/custom/Clock";
 import RoleSwitcher from "@/components/custom/RoleSwitcher";
+import AppNavbar from "@/components/layout/AppNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,70 +49,8 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen min-h-screen`}
       >
         <AppProvider>
-          <SidebarProvider>
-            <div className="flex flex-col h-screen w-full">
-              {/* Top Navbar */}
-              <div className="h-16 p-2 flex items-center justify-end-safe border-b bg-white w-full">
-                <div className="flex items-center gap-6 text-sm font-mono">
-                  <Clock />
-                  <RoleSwitcher />
-                </div>
-              </div>
-
-              {/* Sidebar + Content */}
-              <div className="grid grid-cols-[180px_auto] w-auto h-auto">
-                <Sidebar className="w-45 border-r">
-                  <SidebarContent>
-                    <SidebarHeader>
-                      <div className="flex items-center gap-3">
-                        <img
-                          src="/VE_Logo.png"
-                          alt="Logo"
-                          className="rounded-lg h-auto w-auto"
-                        />
-                      </div>
-                    </SidebarHeader>
-                    <SidebarGroup>
-                      <SidebarGroupLabel>Menu</SidebarGroupLabel>
-                      <SidebarGroupContent>
-                        <SidebarMenu>
-                          <SidebarMenuItem>
-                            <Link href="/">
-                              <SidebarMenuButton asChild>
-                                <span>Home</span>
-                              </SidebarMenuButton>
-                            </Link>
-                          </SidebarMenuItem>
-                          <SidebarMenuItem>
-                            <Link href="/component">
-                              <SidebarMenuButton asChild>
-                                <span>Components</span>
-                              </SidebarMenuButton>
-                            </Link>
-                          </SidebarMenuItem>
-                          <SidebarMenuItem>
-                            <Link href="/machine">
-                              <SidebarMenuButton asChild>
-                                <span>Machine</span>
-                              </SidebarMenuButton>
-                            </Link>
-                          </SidebarMenuItem>
-                          <SidebarMenuItem>
-                            <Link href="/OEE">
-                              <SidebarMenuButton asChild>
-                                <span>OEE</span>
-                              </SidebarMenuButton>
-                            </Link>
-                          </SidebarMenuItem>
-                        </SidebarMenu>
-                      </SidebarGroupContent>
-                    </SidebarGroup>
-                  </SidebarContent>
-                </Sidebar>
-                {children}
-              </div>
-            </div>
-          </SidebarProvider>
+          <AppNavbar />
+          <main className="flex-1 overflow-auto p-2">{children}</main>
         </AppProvider>
       </body>
     </html>
