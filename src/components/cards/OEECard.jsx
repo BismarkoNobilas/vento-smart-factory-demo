@@ -16,7 +16,7 @@ export default function OEECard({
         <p>OEE</p>
         <FullRadialChart
           value={overall}
-          size={200}
+          size={230}
           strokeWidth={14}
           label="Overall"
           className="flex justify-center items-center"
@@ -27,19 +27,19 @@ export default function OEECard({
       <div className="flex justify-center items-center w-fit h-fit gap-3">
         <FullRadialChart
           value={quality}
-          size={120}
+          size={140}
           strokeWidth={10}
           label="Quality"
         />
         <FullRadialChart
           value={performance}
-          size={120}
+          size={140}
           strokeWidth={10}
           label="Performance"
         />
         <FullRadialChart
           value={availability}
-          size={120}
+          size={140}
           strokeWidth={10}
           label="Availability"
         />

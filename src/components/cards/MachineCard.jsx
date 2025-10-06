@@ -16,7 +16,7 @@ import MetricCard from "./MetricCard";
 
 export default function MachineCard({ conveyor, pump, live }) {
   return (
-    <Card className="p-4 m-3 w-auto h-full relative overflow-hidden gap-2">
+    <Card className="p-4 mx-3 my-1 w-auto h-full relative overflow-hidden gap-2">
       <h3 className="font-bold">Overall Equipment Effectiveness</h3>
       <div className="-left-[20px] top-[10px] w-auto h-auto">
         {/* w-[971px] ml-[390px] mt-[62px] */}
@@ -25,7 +25,7 @@ export default function MachineCard({ conveyor, pump, live }) {
           overlays={overlays}
         />
       </div>
-      <div className="absolute grid grid-cols-9 gap-3 top-[30px] w-auto left-0 right-0 m-4">
+      <div className="absolute grid grid-cols-9 gap-2 top-[25px] w-auto left-0 right-0 m-4">
         <div className="col-span-2">
           <MachineStatusCard machines={machineStatuses} />
         </div>
@@ -78,6 +78,9 @@ export default function MachineCard({ conveyor, pump, live }) {
             className="w-full"
           />
         </div>
+        <div className="col-span-5 row-span-2 self-end">
+          <OEECard />
+        </div>
         <div className="col-start-7 col-end-9">
           <RunTimeCard
             logs={logData2}
@@ -108,10 +111,7 @@ export default function MachineCard({ conveyor, pump, live }) {
           />
         </div>
         <div className="col-span-4">
-          <OEECard />
-        </div>
-        <div className="col-span-2">
-          <MiniChartCard />
+          <MiniChartCard chartHeight="h-[115px]" height="h-fit" />
         </div>
       </div>
       <div className="h-[340px]" />

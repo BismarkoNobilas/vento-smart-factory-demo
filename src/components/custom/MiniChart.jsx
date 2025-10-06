@@ -14,6 +14,7 @@ export default function MiniChart({
   axisStateX,
   axisStateY,
   domainAdd,
+  height = "h-full",
 }) {
   const config = {
     [dataKey]: {
@@ -39,20 +40,32 @@ export default function MiniChart({
   return (
     <ChartContainer
       config={config}
-      className="aspect-auto rounded-md h-full w-full"
+      className={`"aspect-auto rounded-md w-full ${height} "`}
     >
       <AreaChart data={data}>
         {axisStateX && (
           <XAxis
-            dataKey="t"
+            ddataKey={dataKey} // can be "t" or "day"
             tickMargin={5}
-            tickFormatter={(v) =>
-              new Date(v).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              })
-            }
+            tickFormatter={(v) => {
+              if (dataKey === "t") {
+                // 🕒 Format as time
+                return new Date(v).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                });
+              } else if (dataKey === "day") {
+                // 📅 Format as date
+                return new Date(v).toLocaleDateString([], {
+                  day: "2-digit",
+                  month: "short",
+                });
+              } else {
+                // default fallback
+                return v;
+              }
+            }}
           />
         )}
         {axisStateY && (

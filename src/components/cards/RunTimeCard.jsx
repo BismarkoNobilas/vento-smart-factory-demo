@@ -18,7 +18,7 @@ function RunTimeCard({
         {/* Status */}
         <div className="flex gap-4 mt-1">
           <span className="font-semibold text-[13px]">Status:</span>
-          <span className={`${statusColor} text-white px-2 text-[13px]`}>
+          <span className={`${statusColor} text-white px-2 h-fit text-[13px]`}>
             {status}
           </span>
         </div>
@@ -26,7 +26,7 @@ function RunTimeCard({
         {/* Warning */}
         <div className="flex gap-4 mt-1">
           <span className="font-semibold text-[13px]">Peringatan:</span>
-          <span className={`${warningColor} text-white px-2 text-[13px]`}>
+          <span className={`${warningColor} text-white px-2 h-fit text-[13px]`}>
             {warning}
           </span>
         </div>
