@@ -46,11 +46,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen overflow-x-hidden`}
       >
         <AppProvider>
           <AppNavbar />
-          <main className="flex-1 overflow-auto p-2">{children}</main>
+          <main>{children}</main>
         </AppProvider>
       </body>
     </html>

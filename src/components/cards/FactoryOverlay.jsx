@@ -1,15 +1,13 @@
+"use client";
 import React from "react";
 import TitleBlock from "../custom/TitleBlock";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
 
-function FactoryOverlay({ videoSrc, width, height = "auto", overlays }) {
+function FactoryOverlay({ videoSrc, overlays }) {
   return (
-    <div className="relative" style={{ width, height }}>
+    <div className="relative w-full aspect-[971/545] max-w-[880px] h-auto">
+      {" "}
+      {/* maintain aspect ratio */}
       {/* background video */}
       <video
         src={videoSrc}
@@ -17,17 +15,20 @@ function FactoryOverlay({ videoSrc, width, height = "auto", overlays }) {
         loop
         muted
         playsInline
-        className="h-auto w-full"
+        className="w-full h-full object-cover rounded"
       />
-
       {/* overlays */}
       {overlays.map((item, idx) => {
         if (item.type === "card") {
           return (
             <Popover key={idx}>
               <PopoverTrigger
-                className="absolute w-15 h-15 bg-zinc-500/30 rounded "
-                style={{ top: item.pos.top, left: item.pos.left }}
+                className="absolute w-[40px] h-[40px] bg-zinc-500/30 rounded cursor-pointer z-50"
+                style={{
+                  top: item.pos.top,
+                  left: item.pos.left,
+                  transform: "translate(-50%, -50%)",
+                }}
               ></PopoverTrigger>
 
               <PopoverContent className="absolute bg-zinc-50/95 shadow-sm rounded p-1 w-fit grid-rows-3">
@@ -49,12 +50,20 @@ function FactoryOverlay({ videoSrc, width, height = "auto", overlays }) {
           return (
             <div
               key={idx}
-              className="absolute w-fit p-1"
-              style={{ top: item.pos.top, left: item.pos.left }}
+              className="absolute p-1 h-full"
+              style={{
+                top: item.pos.top,
+                left: item.pos.left,
+                transform: "translate(-50%, -50%)",
+              }}
             >
               <div
                 className={`${item.color} ${item.skew || ""}`}
-                style={{ height: item.height, width: item.width }}
+                style={{
+                  height: item.height,
+                  width: item.width,
+                  minHeight: "2px",
+                }}
               />
             </div>
           );

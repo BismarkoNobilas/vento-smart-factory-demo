@@ -12,9 +12,9 @@ export default function TitleBlock({
 
   return (
     <div
-      className={`p-2 rounded bg-slate-200 flex ${
+      className={`p-2 px-3 rounded bg-slate-200 flex ${
         showValue ? "justify-between" : "justify-center"
-      } font-semibold text-[11px] h-fit w-full ${cosClass}`}
+      } font-semibold text-[11px] h-fit w-full ${cosClass} text-[13px] min-w-fit place-content-start`}
       style={widthStyle}
     >
       <span>{title}</span>

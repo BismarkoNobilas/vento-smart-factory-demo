@@ -18,7 +18,7 @@ export default function GaugeCard({
 }) {
   return (
     <Card
-      className={`grid w-[220px] place-items-center bg-zinc-50 shadow-sm rounded ${className}`}
+      className={`grid w-auto p-2 h-full place-items-center gap-2 bg-zinc-50 shadow-sm rounded ${className}`}
     >
       <TitleBlock title={title} showValue={false} />
       <AnalogGaugeWrapper
@@ -29,7 +29,7 @@ export default function GaugeCard({
         min-label={minLabel}
         max-label={maxLabel}
         values={values}
-        className="w-[200px]"
+        className="w-full h-auto"
         style={{
           "--analog-gauge-value-mark-fs": "6cqi",
           "--analog-gauge-value-mark-asr": "1",

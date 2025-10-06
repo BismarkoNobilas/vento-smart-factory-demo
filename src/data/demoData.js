@@ -105,9 +105,9 @@ export const logData3 = [
 ];
 
 export const machineStatuses = [
-  { name: "Machine 1", status: "RUNNING" },
-  { name: "Machine 2", status: "STOP" },
-  { name: "Machine 3", status: "WARNING" },
+  { name: "Package Machine", status: "RUNNING" },
+  { name: "Filler Machine", status: "WARNING" },
+  { name: "Water Pump", status: "STOP" },
 ];
 
 export const overlays = [
@@ -117,7 +117,7 @@ export const overlays = [
     value: 162,
     unit: "Unit",
     color: "text-orange-600",
-    pos: { top: "280px", left: "178px" },
+    pos: { top: "57%", left: "23%" }, // was 280px / 178px
     width: 100,
   },
   {
@@ -126,23 +126,23 @@ export const overlays = [
     value: 1944,
     unit: "Unit",
     color: "text-blue-700",
-    pos: { top: "230px", left: "335px" },
+    pos: { top: "45%", left: "37%" }, // was 230px / 335px
     width: 110,
   },
   {
     type: "tank",
-    height: 80,
-    width: 11,
-    color: "bg-green-400",
+    height: "11.9vh",
+    width: "0.69vw",
+    color: "bg-green-500",
     skew: "-skew-y-22",
-    pos: { top: "165px", left: "783px" },
+    pos: { top: "75.1%", left: "81.57%" },
   },
   {
     type: "tank",
-    height: 40,
-    width: 11,
+    height: "3.8vh",
+    width: "0.69vw",
     color: "bg-red-500",
     skew: "-skew-y-22",
-    pos: { top: "153px", left: "687px" },
+    pos: { top: "77.9%", left: "71.69%" },
   },
 ];

@@ -14,7 +14,7 @@ export default function MachineTimeline({ logs }) {
   }
 
   return (
-    <div className="w-full border border-black flex h-4">
+    <div className="w-full border border-black flex h-5">
       {logs.map((log, i) => {
         const start = getMinutes(log.start);
         const end = getMinutes(log.end);

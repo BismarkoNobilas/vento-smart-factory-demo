@@ -10,23 +10,23 @@ function RunTimeCard({
   timelineLabels = ["07:00", "15:00", "23:00", "07:00"],
 }) {
   return (
-    <div className="col-span-2 grid bg-zinc-50 shadow-sm rounded w-auto">
-      <div className="p-3">
+    <div className="grid bg-zinc-50 shadow-sm rounded w-auto h-full">
+      <div className="p-3 grid">
         {/* Title */}
         <h2 className="font-bold">{title}</h2>
 
         {/* Status */}
         <div className="flex gap-4 mt-1">
-          <span className="font-semibold text-[12px]">Status:</span>
-          <span className={`${statusColor} text-white px-2 text-[12px]`}>
+          <span className="font-semibold text-[13px]">Status:</span>
+          <span className={`${statusColor} text-white px-2 text-[13px]`}>
             {status}
           </span>
         </div>
 
         {/* Warning */}
         <div className="flex gap-4 mt-1">
-          <span className="font-semibold text-[12px]">Peringatan:</span>
-          <span className={`${warningColor} text-white px-2 text-[12px]`}>
+          <span className="font-semibold text-[13px]">Peringatan:</span>
+          <span className={`${warningColor} text-white px-2 text-[13px]`}>
             {warning}
           </span>
         </div>
@@ -34,7 +34,7 @@ function RunTimeCard({
         {/* Timeline */}
         <div className="mt-1">
           <MachineTimeline logs={logs} />
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between text-[13px]">
             {timelineLabels.map((label, i) => (
               <span key={i}>{label}</span>
             ))}
@@ -47,7 +47,7 @@ function RunTimeCard({
             <span className="w-3 h-3 bg-green-500"></span> RUNNING
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-yellow-400"></span> PERINGATAN
+            <span className="w-3 h-3 bg-yellow-400"></span> WARNING
           </span>
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 bg-red-500"></span> STOP

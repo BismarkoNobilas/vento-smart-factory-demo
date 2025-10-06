@@ -7,32 +7,36 @@ export default function MetricCard({
   title,
   value,
   unit,
-  chart = null, // pass a chart component or leave null
+  chart = null, // optional chart
   color = "text-emerald-400",
   className = "",
+  textSize = "text-5xl", // 🔹 default text size for value
+  unitSize = "text-3xl", // 🔹 default text size for unit
 }) {
   return (
-    <Card className={`grid bg-zinc-50 shadow-sm rounded relative ${className}`}>
+    <Card
+      className={`bg-zinc-50 shadow-sm rounded relative gap-1 h-full p-2 ${className}`}
+    >
       {/* Title */}
       <TitleBlock title={title} showValue={false} />
 
       {/* Chart (optional) */}
       {chart && <div className="relative">{chart}</div>}
 
-      {/* Value + Unit overlay (centered if chart, stacked if not) */}
+      {/* Value + Unit */}
       <div
         className={`${
           chart
-            ? "absolute inset-0 flex items-center justify-center"
-            : "grid grid-rows-2 h-full w-full"
+            ? "absolute inset-0 flex items-center justify-center w-full p-2 space-x-3 h-full"
+            : "flex items-center justify-center w-full p-1 space-x-3 h-full"
         }`}
       >
         <div
-          className={`h-full font-bold text-6xl ${color} flex items-center justify-center`}
+          className={`h-fit font-bold ${textSize} ${color} flex items-center justify-center`}
         >
           {value}
         </div>
-        <div className="h-full font-semibold text-3xl flex items-center justify-center">
+        <div className={`h-suto font-semibold ${unitSize} flex justify-center`}>
           {unit}
         </div>
       </div>

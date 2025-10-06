@@ -20,12 +20,14 @@ export default function MachineStatusCard({ machines = [] }) {
       <TitleBlock title="Status" showValue={false} />
 
       {machines.map((machine, index) => (
-        <div key={index} className="flex gap-4 mt-2 px-3">
-          <span className="font-semibold text-[12px]">{machine.name}:</span>
+        <div key={index} className="flex gap-4 mt-2 px-3 w-auto">
+          <span className="font-semibold text-[13px] w-auto">
+            {machine.name}:
+          </span>
           <span
             className={`${getStatusColor(
               machine.status
-            )} text-white text-[12px] h-fit w-[80px] text-center`}
+            )} text-white text-[13px] h-fit w-[80px] text-center`}
           >
             {machine.status}
           </span>

@@ -119,6 +119,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  div {
+    @apply w-auto h-auto;
+  }
 }
 
 .wave {
@@ -257,4 +260,3 @@ input:checked + .slider:before {
   }
 }
 /* animation: expandPulse 3600ms linear infinite; */
-

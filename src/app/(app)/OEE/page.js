@@ -5,14 +5,12 @@ import { getInitialData } from "@/lib/getInitialData";
 export default async function OEEPage() {
   const initialData = await getInitialData();
   return (
-    <main className="flex-1 p-2 overflow-auto">
+    <div className="flex-1 px-2 justify-center items-center w-full min-h-screen">
       {/* {live ? ( */}
-      <div className="grid gap-4">
-        <MachineCard />
-      </div>
+      <MachineCard />
       {/* ) : (
          <Card className="p-6 text-center text-gray-500">Loading data…</Card>
        )} */}
-    </main>
+    </div>
   );
 }

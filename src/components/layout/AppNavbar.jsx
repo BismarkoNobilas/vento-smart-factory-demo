@@ -7,7 +7,7 @@ import RoleSwitcher from "../custom/RoleSwitcher";
 
 export default function AppNavbar() {
   return (
-    <Navbar isBordered className="p-3">
+    <Navbar isBordered className="py-3">
       {/* Left logo / brand */}
       <NavbarBrand>
         <img src="/VE_Logo.png" alt="Logo" className="rounded-lg h-8 w-auto" />
