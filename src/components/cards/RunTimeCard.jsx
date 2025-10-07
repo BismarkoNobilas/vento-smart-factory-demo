@@ -25,7 +25,7 @@ function RunTimeCard({
 
         {/* Warning */}
         <div className="flex gap-4 mt-1">
-          <span className="font-semibold text-[13px]">Peringatan:</span>
+          <span className="font-semibold text-[13px]">Caution:</span>
           <span className={`${warningColor} text-white px-2 h-fit text-[13px]`}>
             {warning}
           </span>

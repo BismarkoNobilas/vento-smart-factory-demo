@@ -15,17 +15,17 @@ export default function AppNavbar() {
 
       {/* Middle navigation links */}
       <NavbarContent className="hidden sm:flex gap-6" justify="center">
-        <NavbarItem>
+        {/* <NavbarItem>
           <Link href="/">Home</Link>
+        </NavbarItem> */}
+        <NavbarItem>
+          <Link href="/monitoring">Monitoring</Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="/component">Components</Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="/machine">Machine</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="/OEE">OEE</Link>
         </NavbarItem>
       </NavbarContent>
 

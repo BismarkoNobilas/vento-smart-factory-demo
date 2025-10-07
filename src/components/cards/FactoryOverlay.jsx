@@ -23,13 +23,18 @@ function FactoryOverlay({ videoSrc, overlays }) {
           return (
             <Popover key={idx}>
               <PopoverTrigger
-                className="absolute w-[40px] h-[40px] bg-zinc-500/30 rounded cursor-pointer z-50"
+                className="absolute cursor-pointer z-50"
                 style={{
                   top: item.pos.top,
                   left: item.pos.left,
                   transform: "translate(-50%, -50%)",
                 }}
-              ></PopoverTrigger>
+              >
+                <img
+                  src="info_icon.svg"
+                  className="w-[40px] h-[40px] opacity-90"
+                />
+              </PopoverTrigger>
 
               <PopoverContent className="absolute bg-zinc-50/95 shadow-sm rounded p-1 w-fit grid-rows-3">
                 <TitleBlock title={item.title} width={item.width || 100} />

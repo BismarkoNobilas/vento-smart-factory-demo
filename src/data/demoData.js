@@ -106,7 +106,7 @@ export const logData3 = [
 
 export const machineStatuses = [
   { name: "Package Machine", status: "RUNNING" },
-  { name: "Filler Machine", status: "WARNING" },
+  { name: "Filling Machine", status: "WARNING" },
   { name: "Water Pump", status: "STOP" },
 ];
 
@@ -117,7 +117,7 @@ export const overlays = [
     value: 162,
     unit: "Unit",
     color: "text-orange-600",
-    pos: { top: "57%", left: "23%" }, // was 280px / 178px
+    pos: { top: "67.5%", left: "22%" }, // was 280px / 178px
     width: 100,
   },
   {
@@ -126,7 +126,25 @@ export const overlays = [
     value: 1944,
     unit: "Unit",
     color: "text-blue-700",
-    pos: { top: "45%", left: "37%" }, // was 230px / 335px
+    pos: { top: "42%", left: "31.5%" }, // was 230px / 335px
+    width: 110,
+  },
+  {
+    type: "card",
+    title: "Water Level",
+    value: 20,
+    unit: "%",
+    color: "text-red-500",
+    pos: { top: "11%", left: "70%" }, // was 230px / 335px
+    width: 110,
+  },
+  {
+    type: "card",
+    title: "Water Level",
+    value: 80,
+    unit: "%",
+    color: "text-green-500",
+    pos: { top: "20.5%", left: "80%" }, // was 230px / 335px
     width: 110,
   },
   {

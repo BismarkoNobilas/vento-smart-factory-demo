@@ -1,6 +1,8 @@
 import { Card } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+  redirect("/monitoring");
   return (
     <main className="flex-1 p-6 overflow-auto justify-center items-center w-auto h-auto">
       <Card className="min-w-[450px] min-h-[100px] flex justify-center items-center p-4">

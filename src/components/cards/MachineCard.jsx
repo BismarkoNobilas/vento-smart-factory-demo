@@ -53,7 +53,7 @@ export default function MachineCard({ conveyor, pump, live }) {
         <div className="col-start-7 col-end-9">
           <RunTimeCard
             logs={logData3}
-            title="Water Filler"
+            title="Water Filling Machine"
             status="RUNNING"
             statusColor="bg-green-500"
             warning="WARNING"
