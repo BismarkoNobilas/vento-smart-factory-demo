@@ -117,7 +117,7 @@ export const overlays = [
     value: 162,
     unit: "Unit",
     color: "text-orange-600",
-    pos: { top: "67.5%", left: "22%" }, // was 280px / 178px
+    pos: { top: "70%", left: "18%" }, // was 280px / 178px
     width: 100,
   },
   {
@@ -126,7 +126,7 @@ export const overlays = [
     value: 1944,
     unit: "Unit",
     color: "text-blue-700",
-    pos: { top: "42%", left: "31.5%" }, // was 230px / 335px
+    pos: { top: "45%", left: "28.5%" }, // was 230px / 335px
     width: 110,
   },
   {
@@ -135,7 +135,7 @@ export const overlays = [
     value: 20,
     unit: "%",
     color: "text-red-500",
-    pos: { top: "11%", left: "70%" }, // was 230px / 335px
+    pos: { top: "14.5%", left: "62.5%" }, // was 230px / 335px
     width: 110,
   },
   {
@@ -144,24 +144,24 @@ export const overlays = [
     value: 80,
     unit: "%",
     color: "text-green-500",
-    pos: { top: "20.5%", left: "80%" }, // was 230px / 335px
+    pos: { top: "24%", left: "73.5%" }, // was 230px / 335px
     width: 110,
   },
   {
     type: "tank",
     height: "18%",
-    width: "11px",
+    width: "12px",
     color: "bg-green-500",
     skew: "-skew-y-22",
-    pos: { top: "75.1%", left: "81.54%" },
+    pos: { top: "-9.4%", left: "76.3%" },
   },
   {
     type: "tank",
     height: "6%",
-    width: "11px",
+    width: "12px",
     color: "bg-red-500",
     skew: "-skew-y-22",
-    pos: { top: "77.9%", left: "71.69%" },
+    pos: { top: "-18.9%", left: "65.5%" },
   },
 ];
 
@@ -197,3 +197,57 @@ export const productionData = [
   { day: "2025-09-29", count: 205 },
   { day: "2025-09-30", count: 162 },
 ];
+
+// lib/demoData.js
+
+// --- 1. Production Data (60 points) ---
+function generateProductionData() {
+  const data = [];
+  const now = Date.now();
+
+  for (let i = 0; i < 60; i++) {
+    const time = new Date(now - (60 - i) * 60000); // 1-min intervals
+    data.push({
+      t: time.toISOString(),
+      count: 150 + Math.floor(Math.random() * 100), // 150–250 range
+    });
+  }
+  return data;
+}
+
+// --- 2. OEE Data ---
+function generateOEEData() {
+  const Availability = 60 + Math.random() * 40; // 60–100%
+  const Performance = 60 + Math.random() * 40;
+  const Quality = 70 + Math.random() * 30;
+  const Overall = (Availability * Performance * Quality) / 10000;
+  return {
+    Availability: Availability.toFixed(1),
+    Performance: Performance.toFixed(1),
+    Quality: Quality.toFixed(1),
+    Overall: Overall.toFixed(1),
+  };
+}
+
+// --- 3. Production Quantity ---
+let productionCount = 1;
+function getProductionQuantity() {
+  productionCount = productionCount >= 500 ? 1 : productionCount + 1;
+  return productionCount;
+}
+
+// --- 4. Water Level Data ---
+function generateWaterLevel() {
+  return {
+    tank1: 30 + Math.random() * 70, // 30–100%
+    tank2: 20 + Math.random() * 60,
+  };
+}
+
+// --- Export initial data generators ---
+export {
+  generateProductionData,
+  generateOEEData,
+  getProductionQuantity,
+  generateWaterLevel,
+};

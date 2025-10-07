@@ -13,6 +13,8 @@ import TemperatureCard from "./TemperatureCard";
 import MetricCard from "./MetricCard";
 import GaugeCard from "./GaugeCard";
 import MiniChartCard from "./MiniChartCard";
+import { chartData } from "@/data/demoData";
+import MiniChart from "../custom/MiniChart";
 
 function KV({ k, v, unit = "", val }) {
   return (
@@ -32,72 +34,72 @@ function KV({ k, v, unit = "", val }) {
   );
 }
 
-function MiniChart({
-  data,
-  dataKey,
-  label,
-  axisStateX,
-  axisStateY,
-  domainAdd,
-}) {
-  const config = {
-    [dataKey]: {
-      label,
-      color: "#3b82f6",
-    },
-  };
+// function MiniChart({
+//   data,
+//   dataKey,
+//   label,
+//   axisStateX,
+//   axisStateY,
+//   domainAdd,
+// }) {
+//   const config = {
+//     [dataKey]: {
+//       label,
+//       color: "#3b82f6",
+//     },
+//   };
 
-  // Hybrid Y-axis domain: ignore zeros for scaling
-  const getDomain = () => [
-    () => {
-      const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
-      if (nonZero.length === 0) return 0;
-      return Math.min(...nonZero) - 2;
-    },
-    () => {
-      const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
-      if (nonZero.length === 0) return 10;
-      return Math.max(...nonZero) + 2;
-    },
-  ];
+//   // Hybrid Y-axis domain: ignore zeros for scaling
+//   const getDomain = () => [
+//     () => {
+//       const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
+//       if (nonZero.length === 0) return 0;
+//       return Math.min(...nonZero) - 2;
+//     },
+//     () => {
+//       const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
+//       if (nonZero.length === 0) return 10;
+//       return Math.max(...nonZero) + 2;
+//     },
+//   ];
 
-  return (
-    <ChartContainer config={config} className="aspect-auto rounded-md h-full">
-      <AreaChart data={data}>
-        {axisStateX && (
-          <XAxis
-            dataKey="t"
-            tickMargin={5}
-            tickFormatter={(v) =>
-              new Date(v).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              })
-            }
-          />
-        )}
-        {axisStateY && <YAxis width={38} />} {/* domain={getDomain()} */}
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <defs>
-          <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
-            <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
-          </linearGradient>
-        </defs>
-        <Area
-          type="monotone"
-          dataKey={dataKey}
-          stroke="#3b82f6"
-          fill="url(#fill)"
-          fillOpacity={0.7}
-          strokeWidth={1}
-          dot={false}
-        />
-      </AreaChart>
-    </ChartContainer>
-  );
-}
+//   return (
+//     <ChartContainer config={config} className="aspect-auto rounded-md h-full">
+//       <AreaChart data={data}>
+//         {axisStateX && (
+//           <XAxis
+//             dataKey="t"
+//             tickMargin={5}
+//             tickFormatter={(v) =>
+//               new Date(v).toLocaleTimeString([], {
+//                 hour: "2-digit",
+//                 minute: "2-digit",
+//                 hour12: false,
+//               })
+//             }
+//           />
+//         )}
+//         {axisStateY && <YAxis width={38} />} {/* domain={getDomain()} */}
+//         <ChartTooltip content={<ChartTooltipContent />} />
+//         <defs>
+//           <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+//             <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
+//             <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
+//           </linearGradient>
+//         </defs>
+//         <Area
+//           type="monotone"
+//           dataKey={dataKey}
+//           stroke="#3b82f6"
+//           fill="url(#fill)"
+//           fillOpacity={0.7}
+//           strokeWidth={1}
+//           dot={false}
+//         />
+//       </AreaChart>
+//     </ChartContainer>
+//   );
+// }
 
 function MiniChartArea({ data, dataKey, label }) {
   const config = {
@@ -137,86 +139,6 @@ function MiniChartArea({ data, dataKey, label }) {
 
 export default function EnergyDisplayCard({ conveyor, pump, live }) {
   //Demo data
-  const chartData = [
-    {
-      t: "2025-09-10T02:51:34.965Z",
-      Current1: 0.0281,
-      Current2: 0.0534,
-      Voltage1: 228.903,
-      Voltage2: 228.172,
-      Energy1: 12,
-      Energy2: 46,
-      Power1: 2.073,
-      Power2: 5.413,
-      PF1: 0.328,
-      PF2: 0.437,
-    },
-    {
-      t: "2025-09-10T02:51:34.965Z",
-      Current1: 0.0839,
-      Current2: 0.0587,
-      Voltage1: 230.306,
-      Voltage2: 228.48,
-      Energy1: 13,
-      Energy2: 48,
-      Power1: 3.18,
-      Power2: 6.064,
-      PF1: 0.334,
-      PF2: 0.441,
-    },
-    {
-      t: "2025-09-10T02:51:34.965Z",
-      Current1: 0.0785,
-      Current2: 0.0722,
-      Voltage1: 228.636,
-      Voltage2: 228.903,
-      Energy1: 15,
-      Energy2: 50,
-      Power1: 7.956,
-      Power2: 7.07,
-      PF1: 0.342,
-      PF2: 0.388,
-    },
-    {
-      t: "2025-09-10T02:51:34.965Z",
-      Current1: 0.0525,
-      Current2: 0.078,
-      Voltage1: 228.223,
-      Voltage2: 229.74,
-      Energy1: 16,
-      Energy2: 52,
-      Power1: 5.343,
-      Power2: 7.053,
-      PF1: 0.448,
-      PF2: 0.393,
-    },
-    {
-      t: "2025-09-10T02:51:34.965Z",
-      Current1: 0.0533,
-      Current2: 0.0777,
-      Voltage1: 228.236,
-      Voltage2: 230.056,
-      Energy1: 19,
-      Energy2: 55,
-      Power1: 5.4,
-      Power2: 7.226,
-      PF1: 0.444,
-      PF2: 0.395,
-    },
-    {
-      t: "2025-09-10T02:51:34.965Z",
-      Current1: 0.0558,
-      Current2: 0.0412,
-      Voltage1: 228.2,
-      Voltage2: 229.0,
-      Energy1: 21,
-      Energy2: 57,
-      Power1: 5.58,
-      Power2: 7.4,
-      PF1: 0.44,
-      PF2: 0.39,
-    },
-  ];
 
   return (
     <div className="grid gap-2">
@@ -244,12 +166,15 @@ export default function EnergyDisplayCard({ conveyor, pump, live }) {
               min={0}
               max={12}
             />
-            <MiniChartCard
-              title="Conveyor Current"
-              data={chartData}
-              dataKey="Current1"
-              unit="A"
-            />
+            <div className="col-span-2">
+              <MiniChartCard
+                title="Conveyor Current"
+                data={chartData}
+                dataKey="Current1"
+                unit="A"
+                height="h-[300px]"
+              />
+            </div>
 
             <GaugeCard
               title="Conveyor Power Factor"
@@ -268,10 +193,11 @@ export default function EnergyDisplayCard({ conveyor, pump, live }) {
               value={chartData[5].Voltage1}
               unit="V"
               chart={
-                <MiniChartArea
+                <MiniChart
                   data={chartData}
                   dataKey="Voltage1"
                   label="Voltage"
+                  domainAdd={5}
                 />
               }
             />

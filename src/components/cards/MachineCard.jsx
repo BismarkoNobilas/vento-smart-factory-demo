@@ -6,6 +6,7 @@ import {
   logData3,
   machineStatuses,
   overlays,
+  productionData,
 } from "@/data/demoData";
 import OEECard from "./OEECard";
 import MiniChartCard from "./MiniChartCard";
@@ -18,10 +19,10 @@ export default function MachineCard({ conveyor, pump, live }) {
   return (
     <Card className="p-4 mx-3 my-1 w-auto h-full relative overflow-hidden gap-2">
       <h3 className="font-bold">Overall Equipment Effectiveness</h3>
-      <div className="absolute -left-[60px] top-[10px] w-auto h-auto">
+      <div className="absolute left-[30px] top-[0px] w-auto h-auto">
         {/* w-[971px] ml-[390px] mt-[62px] */}
         <FactoryOverlay
-          videoSrc="/R2-Inside-factory.webm"
+          videoSrc="/R4-Inside-factory.webm"
           overlays={overlays}
         />
       </div>
@@ -111,7 +112,12 @@ export default function MachineCard({ conveyor, pump, live }) {
           />
         </div>
         <div className="col-span-4">
-          <MiniChartCard chartHeight="h-[115px]" height="h-fit" />
+          <MiniChartCard
+            chartHeight="h-[115px]"
+            height="h-fit"
+            data={productionData}
+            dataKey="count"
+          />
         </div>
       </div>
       <div className="h-[1340px]" />

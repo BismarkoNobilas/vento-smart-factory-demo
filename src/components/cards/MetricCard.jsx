@@ -21,7 +21,7 @@ export default function MetricCard({
       <TitleBlock title={title} showValue={false} />
 
       {/* Chart (optional) */}
-      {chart && <div className="relative">{chart}</div>}
+      {chart && <div className="relative h-full">{chart}</div>}
 
       {/* Value + Unit */}
       <div

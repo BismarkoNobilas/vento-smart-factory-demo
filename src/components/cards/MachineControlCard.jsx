@@ -26,7 +26,7 @@ export default function MachineControlCard({
 
       {/* Machine toggle */}
       <div className="grid justify-center gap-3">
-        <img src="mesin.png" alt="Motor" width={150} />
+        <img src="motor.svg" alt="Motor" width={150} />
         <div className="flex justify-center items-center space-x-2">
           <span>OFF</span>
           <label className="switch">

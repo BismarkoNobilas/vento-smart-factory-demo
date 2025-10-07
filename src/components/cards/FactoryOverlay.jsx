@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 function FactoryOverlay({ videoSrc, overlays }) {
   return (
-    <div className="relative w-full aspect-[971/545] max-w-[1080px] h-auto">
+    <div className="relative w-full aspect-auto max-w-[840px] h-auto">
       {" "}
       {/* maintain aspect ratio */}
       {/* background video */}
@@ -68,6 +68,9 @@ function FactoryOverlay({ videoSrc, overlays }) {
                   height: item.height,
                   width: item.width,
                   minHeight: "2px",
+                  position: "absolute",
+                  bottom: 0, // anchor the colored bar to bottom so it grows upward
+                  transition: "height 0.3s ease", // optional smooth change
                 }}
               />
             </div>

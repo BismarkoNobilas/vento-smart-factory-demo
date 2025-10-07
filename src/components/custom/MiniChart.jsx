@@ -68,12 +68,11 @@ export default function MiniChart({
             }}
           />
         )}
-        {axisStateY && (
-          <YAxis
-            width={34}
-            {...(domainAdd ? { domain: getDomain(domainAdd) } : {})}
-          />
-        )}
+        <YAxis
+          width={34}
+          domain={domainAdd ? getDomain(domainAdd) : undefined}
+          hide={!axisStateY} // hides ticks, line, labels
+        />
 
         <ChartTooltip content={<ChartTooltipContent />} />
 

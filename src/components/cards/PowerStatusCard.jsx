@@ -96,7 +96,7 @@ export default function PowerStatusCard({ data, onPublish, role }) {
   );
 
   return (
-    <div className="grid place-items-center w-full p-4 h-fit">
+    <Card className="grid place-items-center w-full p-4 h-fit">
       <Tabs
         defaultValue="machs"
         className="grid place-items-center w-full gap-2"
@@ -155,7 +155,7 @@ export default function PowerStatusCard({ data, onPublish, role }) {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </Card>
   );
 }
 
