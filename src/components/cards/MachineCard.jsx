@@ -14,6 +14,7 @@ import RunTimeCard from "./RunTimeCard";
 import MachineStatusCard from "./MachineStatusCard";
 import FactoryOverlay from "./FactoryOverlay";
 import MetricCard from "./MetricCard";
+import TitleBlock from "../custom/TitleBlock";
 
 export default function MachineCard({ conveyor, pump, live }) {
   return (
@@ -82,6 +83,29 @@ export default function MachineCard({ conveyor, pump, live }) {
         <div className="col-span-5 row-span-2 self-end">
           <OEECard />
         </div>
+        {/* <MetricCard
+            title="Total Bottle"
+            value={223}
+            unit=""
+            textSize="text-[18px]"
+            unitSize="text-[15px]"
+            className="w-full"
+          /> */}
+        <Card className="bg-zinc-50 shadow-sm rounded relative gap-1 h-full p-2">
+          {/* Title */}
+          <TitleBlock title="Total Bottle" showValue={false} />
+          <div className="flex justify-between items-center p-2">
+            <img src="/water-bottle2.svg" className="h-[117px]" />
+            <div className="grid w-fit p-1 h-fit">
+              <div className="h-fit font-bold text-[22px] text-blue-600 flex items-center justify-center">
+                {223}
+              </div>
+              <div className="h-suto font-semibold text-[15px] flex justify-center">
+                bottle
+              </div>
+            </div>
+          </div>
+        </Card>
         <div className="col-start-7 col-end-9">
           <RunTimeCard
             logs={logData2}
