@@ -22,10 +22,10 @@ export default function AppNavbar() {
           <Link href="/monitoring">Monitoring</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/component">Components</Link>
+          <Link href="/machine">Machine</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/machine">Machine</Link>
+          <Link href="/widgets">Widgets</Link>
         </NavbarItem>
       </NavbarContent>
 

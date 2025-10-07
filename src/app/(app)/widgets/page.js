@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export default function Components() {
+export default function Widgets() {
   return (
     <main className="flex-1 p-2 overflow-auto w-auto h-auto">
       <Card className="w-full h-auto p-4 flex justify-center items-center ">
