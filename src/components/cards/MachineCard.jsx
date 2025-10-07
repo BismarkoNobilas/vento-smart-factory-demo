@@ -18,7 +18,7 @@ export default function MachineCard({ conveyor, pump, live }) {
   return (
     <Card className="p-4 mx-3 my-1 w-auto h-full relative overflow-hidden gap-2">
       <h3 className="font-bold">Overall Equipment Effectiveness</h3>
-      <div className="-left-[20px] top-[10px] w-auto h-auto">
+      <div className="absolute -left-[60px] top-[10px] w-auto h-auto">
         {/* w-[971px] ml-[390px] mt-[62px] */}
         <FactoryOverlay
           videoSrc="/R2-Inside-factory.webm"
@@ -114,7 +114,7 @@ export default function MachineCard({ conveyor, pump, live }) {
           <MiniChartCard chartHeight="h-[115px]" height="h-fit" />
         </div>
       </div>
-      <div className="h-[340px]" />
+      <div className="h-[1340px]" />
     </Card>
   );
 }
