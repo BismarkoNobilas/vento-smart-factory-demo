@@ -131,37 +131,21 @@ export const overlays = [
   },
   {
     type: "card",
-    title: "Water Level",
-    value: 20,
-    unit: "%",
-    color: "text-red-500",
+    title: "Water Tank",
+    value: 1,
+    unit: "",
+    color: "text-blue-500",
     pos: { top: "14.5%", left: "62.5%" }, // was 230px / 335px
     width: 110,
   },
   {
     type: "card",
-    title: "Water Level",
-    value: 80,
-    unit: "%",
-    color: "text-green-500",
+    title: "Water Tank",
+    value: 2,
+    unit: "",
+    color: "text-blue-500",
     pos: { top: "24%", left: "73.5%" }, // was 230px / 335px
     width: 110,
-  },
-  {
-    type: "tank",
-    height: "18%",
-    width: "12px",
-    color: "bg-green-500",
-    skew: "-skew-y-22",
-    pos: { top: "-9.4%", left: "76.3%" },
-  },
-  {
-    type: "tank",
-    height: "6%",
-    width: "12px",
-    color: "bg-red-500",
-    skew: "-skew-y-22",
-    pos: { top: "-18.9%", left: "65.5%" },
   },
 ];
 
@@ -200,27 +184,49 @@ export const productionData = [
 
 // lib/demoData.js
 
+// --- Helper: random step within ±percentage ---
+function smoothStep(prev, range = 5, min = 0, max = 100) {
+  const change = (Math.random() * 2 - 1) * range; // -range to +range
+  let next = prev + change;
+  if (next < min) next = min + Math.random() * 2;
+  if (next > max) next = max - Math.random() * 2;
+  return parseFloat(next.toFixed(1));
+}
+
 // --- 1. Production Data (60 points) ---
 function generateProductionData() {
   const data = [];
   const now = Date.now();
+  let prev = 200;
 
   for (let i = 0; i < 60; i++) {
-    const time = new Date(now - (60 - i) * 60000); // 1-min intervals
+    prev = smoothStep(prev, 5, 150, 250);
+    const time = new Date(now - (60 - i) * 60000);
     data.push({
       t: time.toISOString(),
-      count: 150 + Math.floor(Math.random() * 100), // 150–250 range
+      count: prev,
     });
   }
   return data;
 }
 
-// --- 2. OEE Data ---
+// --- 2. OEE Data (gradual randomization) ---
+let prevOEE = {
+  Availability: 90,
+  Performance: 88,
+  Quality: 93,
+};
+
 function generateOEEData() {
-  const Availability = 60 + Math.random() * 40; // 60–100%
-  const Performance = 60 + Math.random() * 40;
-  const Quality = 70 + Math.random() * 30;
+  prevOEE = {
+    Availability: smoothStep(prevOEE.Availability, 3, 60, 100),
+    Performance: smoothStep(prevOEE.Performance, 3, 60, 100),
+    Quality: smoothStep(prevOEE.Quality, 3, 70, 100),
+  };
+
+  const { Availability, Performance, Quality } = prevOEE;
   const Overall = (Availability * Performance * Quality) / 10000;
+
   return {
     Availability: Availability.toFixed(1),
     Performance: Performance.toFixed(1),
@@ -236,15 +242,21 @@ function getProductionQuantity() {
   return productionCount;
 }
 
-// --- 4. Water Level Data ---
+// --- 4. Water Level Data (smooth) ---
+let prevWater = { tank1: 70, tank2: 55 };
+
 function generateWaterLevel() {
+  prevWater = {
+    tank1: smoothStep(prevWater.tank1, 2, 30, 100),
+    tank2: smoothStep(prevWater.tank2, 2, 20, 90),
+  };
   return {
-    tank1: 30 + Math.random() * 70, // 30–100%
-    tank2: 20 + Math.random() * 60,
+    tank1: parseFloat(prevWater.tank1.toFixed(1)),
+    tank2: parseFloat(prevWater.tank2.toFixed(1)),
   };
 }
 
-// --- Export initial data generators ---
+// --- Export all generators ---
 export {
   generateProductionData,
   generateOEEData,

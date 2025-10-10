@@ -34,7 +34,7 @@ export default function MachineControlCard({
               type="checkbox"
               disabled={loading || role === "Operator"}
               checked={isOn}
-              onChange={() => send(id, isOn ? 0 : 1)}
+              // onChange={() => send(id, isOn ? 0 : 1)}
             />
             <span className="slider round"></span>
           </label>

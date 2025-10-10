@@ -10,7 +10,7 @@ export default function MiniChartCard({
 }) {
   return (
     <div
-      className={`"col-span-2 grid bg-zinc-50 shadow-sm rounded min-w-[260px] max-w-[800px] w-full p-2 ${height} "`}
+      className={`"grid bg-zinc-50 shadow-sm rounded min-w-[260px] max-w-[800px] w-full p-2 ${height} "`}
     >
       <TitleBlock
         title="Production Rate"

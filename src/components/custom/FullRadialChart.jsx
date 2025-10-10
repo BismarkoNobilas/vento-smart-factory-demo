@@ -43,8 +43,18 @@ export default function FullRadialChart({
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
             {/* tweak stop colors if you want multi-color gradient */}
-            <stop offset="0%" stopColor={color} stopOpacity="1" />
-            <stop offset="100%" stopColor={color} stopOpacity="1" />
+            <stop
+              offset="0%"
+              stopColor={color}
+              stopOpacity="1"
+              style={{ transition: "stop-color 2s ease" }}
+            />
+            <stop
+              offset="100%"
+              stopColor={color}
+              stopOpacity="1"
+              style={{ transition: "stop-color 2s ease" }}
+            />
           </linearGradient>
         </defs>
 
@@ -110,7 +120,7 @@ export default function FullRadialChart({
             strokeDashoffset={dashoffset}
             style={{
               transition:
-                "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1), stroke 300ms ease",
+                "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1), stroke 2s ease",
               transformOrigin: "50% 50%",
             }}
           />

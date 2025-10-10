@@ -1,12 +1,18 @@
 // hooks/useDemoData.js
 "use client";
-import { useState, useEffect } from "react";
 import {
   generateProductionData,
   generateOEEData,
   getProductionQuantity,
   generateWaterLevel,
-} from "@/lib/demoData";
+} from "@/data/demoData";
+import { useState, useEffect } from "react";
+// import {
+//   generateProductionData,
+//   generateOEEData,
+//   getProductionQuantity,
+//   generateWaterLevel,
+// } from "@/lib/demoData";
 
 export default function useDemoData() {
   const [production, setProduction] = useState(generateProductionData());
@@ -29,7 +35,7 @@ export default function useDemoData() {
         const nextValue = 150 + Math.floor(Math.random() * 100);
 
         newData.push({ t: nextTime.toISOString(), count: nextValue });
-        if (newData.length > 60) newData.shift(); // keep only 60 points
+        if (newData.length > 50) newData.shift(); // keep only 60 points
 
         return newData;
       });
@@ -38,7 +44,7 @@ export default function useDemoData() {
       setOee(generateOEEData());
       setQuantity(getProductionQuantity());
       setWater(generateWaterLevel());
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [index]);

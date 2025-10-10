@@ -7,7 +7,7 @@ import Temperature from "../custom/Temperature";
 
 export default function TemperatureCard({ value }) {
   return (
-    <Card className="grid bg-zinc-50 shadow-sm rounded grid-rows-[fit_auto] p-2">
+    <Card className="grid bg-zinc-50 shadow-sm rounded grid-rows-[fit_auto] min-w-[220px] p-2">
       <TitleBlock title="Temperature" value={value} unit="°C" showValue />
       <Temperature />
     </Card>
