@@ -37,15 +37,21 @@ export default function OEEPageCard({ conveyor, pump, live }) {
         </div>
 
         <Card className="col-start-5 col-end-7 justify-self-end grid relative bg-zinc-50 shadow-sm roundedgap-1 h-full w-[170px] p-2">
-          <TitleBlock title="Water Level" showValue={false} />
+          <TitleBlock title="Water Tank Level" showValue={false} />
           <div className="absolute left-[40px] top-[20px] scale-65">
             <WaterTankImage label="" level={water.tank1.toFixed(1)} />
           </div>
-          <span className="absolute top-[112px] left-[36px] text-[12px] font-medium z-30 from-neutral-700">
+          <span className="absolute top-[112px] left-[36px] text-[12px] font-medium z-30 text-neutral-700">
             {water.tank2.toFixed(1)}%
           </span>
-          <span className="absolute top-[112px] left-[107px] text-[12px] font-medium z-30 from-neutral-700">
+          <span className="absolute top-[42px] left-[35px] text-[12px] font-bold z-30 text-blue-700">
+            Tank 1
+          </span>
+          <span className="absolute top-[112px] left-[107px] text-[12px] font-medium z-30 text-neutral-700">
             {water.tank1.toFixed(1)}%
+          </span>
+          <span className="absolute top-[42px] left-[104px] text-[12px] font-bold z-30 text-blue-700">
+            Tank 2
           </span>
           <div className="absolute -left-[30px] top-[20px] scale-65">
             <WaterTankImage label="" level={water.tank2.toFixed(1)} />
