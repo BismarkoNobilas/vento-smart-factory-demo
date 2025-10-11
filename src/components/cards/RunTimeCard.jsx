@@ -10,7 +10,7 @@ function RunTimeCard({
   timelineLabels = ["07:00", "15:00", "23:00", "07:00"],
 }) {
   return (
-    <div className="grid bg-zinc-50 shadow-sm rounded w-auto h-full">
+    <div className="grid bg-zinc-50 shadow-sm rounded w-full h-full">
       <div className="p-3 grid">
         {/* Title */}
         <h2 className="font-bold">{title}</h2>

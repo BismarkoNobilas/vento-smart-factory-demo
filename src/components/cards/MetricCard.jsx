@@ -15,7 +15,7 @@ export default function MetricCard({
 }) {
   return (
     <Card
-      className={`bg-zinc-50 shadow-sm rounded relative gap-1 h-full p-2 ${className}`}
+      className={`bg-zinc-50 shadow-sm rounded relative gap-1 h-full w-full p-2 ${className}`}
     >
       {/* Title */}
       <TitleBlock title={title} showValue={false} />

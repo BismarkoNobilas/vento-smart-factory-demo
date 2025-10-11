@@ -1,3 +1,4 @@
+//Gaugecard.jsx
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -18,7 +19,7 @@ export default function GaugeCard({
 }) {
   return (
     <Card
-      className={`grid w-auto p-2 h-full place-items-center gap-2 bg-zinc-50 shadow-sm rounded ${className}`}
+      className={`grid w-full p-2 h-full place-items-center gap-2 bg-zinc-50 shadow-sm rounded ${className}`}
     >
       <TitleBlock title={title} showValue={false} />
       <AnalogGaugeWrapper

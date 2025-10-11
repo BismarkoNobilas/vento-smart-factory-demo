@@ -263,3 +263,17 @@ export {
   getProductionQuantity,
   generateWaterLevel,
 };
+
+export const motorData = [
+  { current: 5, temp: 50, vibration: 20 },
+  { current: 3, temp: 43, vibration: 14 },
+  { current: 6, temp: 52, vibration: 13 },
+  { current: 2, temp: 46, vibration: 16 },
+];
+
+export const motorStatuses = [
+  { name: "Motor 1", status: "RUNNING" },
+  { name: "Motor 2", status: "RUNNING" },
+  { name: "Motor 3", status: "RUNNING" },
+  { name: "Motor 4", status: "RUNNING" },
+];

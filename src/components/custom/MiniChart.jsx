@@ -38,61 +38,67 @@ export default function MiniChart({
   ];
 
   return (
-    <ChartContainer
-      config={config}
-      className={`"aspect-auto rounded-md w-full ${height} "`}
-    >
-      <AreaChart data={data}>
-        {axisStateX && (
-          <XAxis
-            ddataKey={dataKey} // can be "t" or "day"
-            tickMargin={5}
-            tickFormatter={(v) => {
-              if (dataKey === "t") {
-                // 🕒 Format as time
-                return new Date(v).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                });
-              } else if (dataKey === "day") {
-                // 📅 Format as date
-                return new Date(v).toLocaleDateString([], {
-                  day: "2-digit",
-                  month: "short",
-                });
-              } else {
-                // default fallback
-                return v;
-              }
-            }}
+    <div className={`w-full ${height} flex flex-col`}>
+      <ChartContainer
+        config={config}
+        className="aspect-auto rounded-md w-full min-h-[120px]"
+        style={{
+          height: axisStateX ? "calc(100% - 27px)" : "100%", // tweak 22px for your tick size
+        }}
+      >
+        <AreaChart data={data}>
+          {axisStateX && (
+            <XAxis
+              ddataKey={dataKey} // can be "t" or "day"
+              tickMargin={5}
+              height={20} // explicitly control axis height
+              tickFormatter={(v) => {
+                if (dataKey === "t") {
+                  // 🕒 Format as time
+                  return new Date(v).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  });
+                } else if (dataKey === "day") {
+                  // 📅 Format as date
+                  return new Date(v).toLocaleDateString([], {
+                    day: "2-digit",
+                    month: "short",
+                  });
+                } else {
+                  // default fallback
+                  return v;
+                }
+              }}
+            />
+          )}
+          <YAxis
+            width={34}
+            domain={domainAdd ? getDomain(domainAdd) : undefined}
+            hide={!axisStateY} // hides ticks, line, labels
           />
-        )}
-        <YAxis
-          width={34}
-          domain={domainAdd ? getDomain(domainAdd) : undefined}
-          hide={!axisStateY} // hides ticks, line, labels
-        />
 
-        <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartTooltip content={<ChartTooltipContent />} />
 
-        <defs>
-          <linearGradient id={`fill-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
-            <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
-          </linearGradient>
-        </defs>
+          <defs>
+            <linearGradient id={`fill-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
+              <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
+            </linearGradient>
+          </defs>
 
-        <Area
-          type="monotone"
-          dataKey={dataKey}
-          stroke="#3b82f6"
-          fill={`url(#fill-${dataKey})`}
-          fillOpacity={0.7}
-          strokeWidth={1}
-          dot={false}
-        />
-      </AreaChart>
-    </ChartContainer>
+          <Area
+            type="monotone"
+            dataKey={dataKey}
+            stroke="#3b82f6"
+            fill={`url(#fill-${dataKey})`}
+            fillOpacity={0.7}
+            strokeWidth={1}
+            dot={false}
+          />
+        </AreaChart>
+      </ChartContainer>
+    </div>
   );
 }

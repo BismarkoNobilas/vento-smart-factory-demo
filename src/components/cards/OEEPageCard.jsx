@@ -168,10 +168,12 @@ export default function OEEPageCard({ conveyor, pump, live }) {
         </div>
         <div className="col-span-4">
           <MiniChartCard
-            chartHeight="h-[115px]"
+            chartHeight="h-[118px]"
             height="h-fit"
             data={production}
             dataKey="count"
+            axisStateY={false}
+            domainAdd={25}
           />
         </div>
       </div>
