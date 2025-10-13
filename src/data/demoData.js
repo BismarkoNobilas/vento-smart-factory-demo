@@ -1,5 +1,7 @@
 // src/data/demoData.js
 
+import MiniChart from "@/components/custom/MiniChart";
+
 export const chartData = [
   {
     t: "2025-09-10T02:51:34.965Z",
@@ -264,16 +266,592 @@ export {
   generateWaterLevel,
 };
 
-export const motorData = [
-  { current: 5, temp: 50, vibration: 20 },
-  { current: 3, temp: 43, vibration: 14 },
-  { current: 6, temp: 52, vibration: 13 },
-  { current: 2, temp: 46, vibration: 16 },
+// === RUNTIME DATA DEMO ===
+export const runtimeData = [
+  {
+    id: "Machine 1",
+    title: "Packaging Machine",
+    type: "runtime",
+    logs: logData,
+    status: "RUNNING",
+    statusColor: "bg-green-500",
+    warning: "OK",
+    warningColor: "bg-green-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: "Machine 2",
+    title: "Water Filling Machine",
+    type: "runtime",
+    logs: logData3,
+    status: "RUNNING",
+    statusColor: "bg-green-500",
+    warning: "WARNING",
+    warningColor: "bg-orange-500",
+  },
+  {
+    id: "Machine 3",
+    title: "Water Tank Pump",
+    type: "runtime",
+    logs: logData2,
+    status: "STOP",
+    statusColor: "bg-red-500",
+    warning: "OK",
+    warningColor: "bg-green-500",
+    className: "col-span-2",
+  },
 ];
 
-export const motorStatuses = [
-  { name: "Motor 1", status: "RUNNING" },
-  { name: "Motor 2", status: "RUNNING" },
-  { name: "Motor 3", status: "RUNNING" },
-  { name: "Motor 4", status: "RUNNING" },
+export const machine1Data = [
+  {
+    id: "Motor 1",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData,
+        title: "Motor 1",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      {
+        type: "temperature",
+        value: 62,
+      },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 10,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current1",
+        unit: "A",
+        colSpan: 2,
+      },
+
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 220,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage1"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+
+      { type: "metric", title: "Vibration", value: 20, unit: "mm/s" },
+    ],
+  },
+
+  {
+    id: "Motor 2",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData,
+        title: "Motor 2",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 55 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 8,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current1",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 215,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage1"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      {
+        type: "metric",
+        title: "Vibration",
+        value: 14,
+        unit: "mm/s",
+      },
+    ],
+  },
+
+  {
+    id: "Motor 3",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData,
+        title: "Motor 3",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 68 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 9,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current1",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 222,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage1"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      {
+        type: "metric",
+        title: "Vibration",
+        value: 13,
+        unit: "mm/s",
+      },
+    ],
+  },
+  {
+    id: "Motor 4",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData,
+        title: "Motor 4",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 58 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 11,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current1",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 230,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage1"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      {
+        type: "metric",
+        title: "Vibration",
+        value: 16,
+        unit: "mm/s",
+      },
+    ],
+  },
+];
+// === MACHINE 2 (2 Motors) ===
+export const machine2Data = [
+  {
+    id: "Motor 1",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData3,
+        title: "Motor 1",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 61 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 9.5,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current2",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 218,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage2"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 15, unit: "mm/s" },
+    ],
+  },
+  {
+    id: "Motor 2",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData3,
+        title: "Motor 2",
+        status: "STOP",
+        statusColor: "bg-red-500",
+        warning: "No Signal",
+        warningColor: "bg-red-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 49 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 6.5,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current2",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 210,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage2"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 10, unit: "mm/s" },
+    ],
+  },
+];
+
+// === MACHINE 3 (2 Motors) ===
+export const machine3Data = [
+  {
+    id: "Motor 1",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData2,
+        title: "Motor 1",
+        status: "WARNING",
+        statusColor: "bg-yellow-400",
+        warning: "High Temp",
+        warningColor: "bg-yellow-400",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 70 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 10.2,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current3",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 223,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage3"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 17, unit: "mm/s" },
+    ],
+  },
+  {
+    id: "Motor 2",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData2,
+        title: "Motor 2",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 59 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 8.3,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current3",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 216,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage3"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 12, unit: "mm/s" },
+    ],
+  },
+];
+
+// === MACHINE 4 (3 Motors) ===
+export const machine4Data = [
+  {
+    id: "Motor 1",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData2,
+        title: "Motor 1",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 60 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 9,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current4",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 219,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage4"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 15, unit: "mm/s" },
+    ],
+  },
+  {
+    id: "Motor 2",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData3,
+        title: "Motor 2",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 65 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 9.8,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current4",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 221,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage4"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 18, unit: "mm/s" },
+    ],
+  },
+  {
+    id: "Motor 3",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData,
+        title: "Motor 3",
+        status: "STOP",
+        statusColor: "bg-red-500",
+        warning: "Disconnected",
+        warningColor: "bg-red-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 52 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 7.5,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current4",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 210,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage4"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 11, unit: "mm/s" },
+    ],
+  },
 ];

@@ -1,29 +1,24 @@
 "use client";
-import MachineControlCard from "./MachineControlCard";
-import PumpCard from "./PumpCard";
+import React from "react";
+import { Card } from "../ui/card";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+} from "@/components/ui/drawer";
 import RunTimeCard from "./RunTimeCard";
 import GaugeCard from "./GaugeCard";
 import MiniChartCard from "./MiniChartCard";
 import MetricCard from "./MetricCard";
-import MiniChart from "../custom/MiniChart";
 import TemperatureCard from "./TemperatureCard";
-import { machineStatuses, motorStatuses } from "@/data/demoData";
-import MachineStatusCard from "./MachineStatusCard";
+import { logData, runtimeData } from "@/data/demoData";
 
-import React from "react";
-
-export default function MachineCard({
-  type = "machine", // "machine" or "pump"
-  monitoring = "Machine1",
-  title,
-  data = [],
-  motors = [], // array of card objects to render below the top
-}) {
-  // choose top card
-  const TopCard =
-    type === "machine" ? MachineControlCard : type === "pump" ? PumpCard : null;
-
-  // helper to render card by type
+export default function MachineCard({ title, data = [], index }) {
   const renderCard = (item, idx) => {
     switch (item.type) {
       case "runtime":
@@ -79,75 +74,105 @@ export default function MachineCard({
   };
 
   return (
-    <div className="grid grid-cols-[max-content_1fr] gap-3 w-full p-4 h-full">
-      {/* --- top section --- */}
+    <Card className="grid gap-3 w-fit p-4 h-fit bg-zinc-50 shadow-md">
       <div className="grid w-full h-fit gap-4">
-        {TopCard && (
-          <TopCard
-            id={monitoring}
-            title={title || `${monitoring}`}
-            data={data}
-          />
-        )}
-        <div className="flex justify-center">
-          <MachineStatusCard machines={motorStatuses} />
-        </div>
+        <RunTimeCard
+          logs={runtimeData[index].logs}
+          title={runtimeData[index].title}
+          status={runtimeData[index].status}
+          statusColor={runtimeData[index].statusColor}
+          warning={runtimeData[index].warning}
+          warningColor={runtimeData[index].warningColor}
+          bgColor={runtimeData[index].bgColor}
+          className={runtimeData[index].className}
+        />
+
         <div className="grid gap-2">
-          {motors.map((motor, idx) => (
-            <div
-              key={idx}
-              className="grid grid-cols-[100px_1fr] border border-black rounded-sm p-2"
-            >
-              {/* Left side: Motor label */}
-              <div className="flex items-center justify-center font-bold text-sm">
-                MOTOR {idx + 1}
-              </div>
+          {data.map((motor, idx) => {
+            const runtimeCard = motor.cards.find((c) => c.type === "runtime");
+            const tempCard = motor.cards.find((c) => c.type === "temperature");
+            const currentCard = motor.cards.find(
+              (c) => c.type === "chart" && c.title === "Current"
+            );
+            const vibrationCard = motor.cards.find(
+              (c) => c.title === "Vibration"
+            );
 
-              {/* Right side: Metrics */}
-              <div className="grid grid-rows-3 border-l border-dotted border-black pl-3">
-                {/* Power */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[13px]">Power/Ampere Meter</span>
-                  <span className="font-bold text-green-500 text-[13px]">
-                    {motor.current ?? "--"}{" "}
-                    <span className="text-black">A</span>
-                  </span>
-                </div>
+            return (
+              <Drawer key={idx}>
+                <DrawerTrigger asChild>
+                  <div className="grid grid-cols-[120px_1fr] h-fit border border-black rounded-sm p-2 cursor-pointer bg-white hover:bg-zinc-100 transition">
+                    {/* Left side */}
+                    <div className="grid place-items-center font-bold">
+                      {motor.id}
+                      <span
+                        className={`${
+                          runtimeCard?.statusColor || "bg-gray-400"
+                        } text-white text-[13px] h-fit w-[80px] text-center`}
+                      >
+                        {runtimeCard?.status ?? "STOP"}
+                      </span>
+                    </div>
 
-                {/* Temperature */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[13px]">Temperature</span>
-                  <span className="font-bold text-green-500 text-[13px]">
-                    {motor.temp ?? "--"} <span className="text-black">°C</span>
-                  </span>
-                </div>
+                    {/* Right side */}
+                    <div className="grid grid-cols-[1fr_90px] border-l border-dotted border-black pl-3">
+                      <div className="grid grid-rows-3">
+                        <span>Power/Ampere Meter</span>
+                        <span>Temperature</span>
+                        <span>Vibration</span>
+                      </div>
 
-                {/* Vibration */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[13px]">Vibration</span>
-                  <span className="font-bold text-green-500 text-[13px]">
-                    {motor.vibration ?? "--"}{" "}
-                    <span className="text-black">mm/s</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+                      <div className="grid grid-rows-3">
+                        <div className="grid grid-cols-2">
+                          <span className="font-bold text-green-500 flex justify-center">
+                            {currentCard?.data
+                              ? currentCard.data
+                                  .at(-1)
+                                  ?.[currentCard.dataKey]?.toFixed(2)
+                              : "--"}
+                          </span>
+                          <span className="text-black font-bold">A</span>
+                        </div>
+
+                        <div className="grid grid-cols-2">
+                          <span className="font-bold text-green-500 flex justify-center">
+                            {tempCard?.value ?? "--"}
+                          </span>
+                          <span className="text-black font-bold">°C</span>
+                        </div>
+
+                        <div className="grid grid-cols-2">
+                          <span className="font-bold text-green-500 flex justify-center">
+                            {vibrationCard?.value ?? "--"}
+                          </span>
+                          <span className="text-black font-bold">mm/s</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </DrawerTrigger>
+
+                {/* Drawer content */}
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>{motor.id} Details</DrawerTitle>
+                  </DrawerHeader>
+
+                  <div className="flex justify-center">
+                    <div className="grid grid-cols-3 gap-3 p-4 w-[900px] max-h-[80vh] overflow-y-auto">
+                      {motor.cards.map((item, i) => renderCard(item, i))}
+                    </div>
+                  </div>
+
+                  <DrawerFooter>
+                    <DrawerClose>Close</DrawerClose>
+                  </DrawerFooter>
+                </DrawerContent>
+              </Drawer>
+            );
+          })}
         </div>
       </div>
-      <div className="grid-cols-3 gap-3 hidden">
-        {/* --- dynamic content --- */}
-        {data.map((item, idx) => (
-          <div
-            key={idx}
-            className={`col-span-${
-              item.colSpan || 1
-            } w-full h-full flex justify-center items-center`}
-          >
-            {renderCard(item, idx)}
-          </div>
-        ))}
-      </div>
-    </div>
+    </Card>
   );
 }

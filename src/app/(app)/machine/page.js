@@ -1,69 +1,72 @@
-import EnergyDisplayCard from "@/components/cards/EnergyDisplayCard";
 import MachineCard from "@/components/cards/MachineCard";
-import PowerStatusCard from "@/components/cards/PowerStatusCard";
-import MiniChart from "@/components/custom/MiniChart";
 import { Card } from "@/components/ui/card";
-import { chartData, logData, motorData } from "@/data/demoData";
-import { getInitialData } from "@/lib/getInitialData";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
+  machine1Data,
+  machine2Data,
+  machine3Data,
+  machine4Data,
+} from "@/data/demoData";
 
 export default async function MachinesPage() {
-  const initialData = await getInitialData();
-
   return (
-    <main className="flex-1 p-6 overflow-auto">
+    <main className="flex-1 p-1 overflow-auto">
       {/* <MachineCard type="machine" subType="conveyor" subCount={4} monitoring="machine1" /> */}
 
-      <Card className="p-4 mx-3 my-1 w-auto h-full relative overflow-hidden gap-2">
+      <Card className="p-4 mx-3 my-1 w-auto h-full relative overflow-hidden gap-2 flex justify-center items-center">
         <h3 className="font-bold text-2xl">Machine Electrical Monitoring</h3>
-        <MachineCard
-          type="machine"
-          monitoring="Machine1"
-          title="Conveyor Packing"
-          motors={motorData}
-          data={[
-            {
-              type: "runtime",
-              logs: logData,
-              title: "Motor 1",
-              status: "RUNNING",
-              statusColor: "bg-green-500",
-              warning: "OKE",
-              warningColor: "bg-green-500",
-              className: "col-span-2",
-            },
-            { type: "temperature", value: 62 },
-            {
-              type: "gauge",
-              title: "Power",
-              value: 10,
-              unit: "Watt",
-              min: 0,
-              max: 12,
-            },
-            {
-              type: "chart",
-              title: "Current",
-              data: chartData,
-              dataKey: "Current1",
-              unit: "A",
-              colSpan: 2,
-            },
-            {
-              type: "metric",
-              title: "Voltage",
-              value: 220,
-              unit: "V",
-              chart: (
-                <MiniChart
-                  data={chartData}
-                  dataKey="Voltage1"
-                  label="Voltage"
-                  domainAdd={5}
+        <div className="flex justify-center"></div>
+        <Carousel
+          opts={{
+            align: "start",
+            slidesToScroll: 1,
+            loop: false,
+          }}
+          className="w-full max-w-[1230px]"
+        >
+          <CarouselContent className="-ml-0 w-[1200px]">
+            <CarouselItem key={1} className="pl-1 basis-[37%]">
+              <div className="p-1">
+                <MachineCard
+                  title="Packaging Machine"
+                  data={machine1Data}
+                  index={0}
                 />
-              ),
-            },
-          ]}
-        />
+              </div>
+            </CarouselItem>
+            <CarouselItem key={2} className="pl-1 basis-[37%]">
+              <div className="p-1">
+                <MachineCard
+                  title="Water Filling Machine"
+                  data={machine2Data}
+                  index={1}
+                />
+              </div>
+            </CarouselItem>
+            <CarouselItem key={3} className="pl-1 basis-[37%]">
+              <div className="p-1">
+                <MachineCard
+                  title="Water Tank Pump"
+                  data={machine3Data}
+                  index={2}
+                />
+              </div>
+            </CarouselItem>
+            <CarouselItem key={4} className="pl-1 basis-[37%]">
+              <div className="p-1">
+                <MachineCard title="Conveyors" data={machine4Data} index={0} />
+              </div>
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </Card>
 
       {/* ) : (
