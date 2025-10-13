@@ -522,7 +522,7 @@ export const machine2Data = [
     cards: [
       {
         type: "runtime",
-        logs: logData3,
+        logs: logData2,
         title: "Motor 1",
         status: "RUNNING",
         statusColor: "bg-green-500",
@@ -569,7 +569,7 @@ export const machine2Data = [
     cards: [
       {
         type: "runtime",
-        logs: logData3,
+        logs: logData2,
         title: "Motor 2",
         status: "STOP",
         statusColor: "bg-red-500",
@@ -620,7 +620,7 @@ export const machine3Data = [
     cards: [
       {
         type: "runtime",
-        logs: logData2,
+        logs: logData3,
         title: "Motor 1",
         status: "WARNING",
         statusColor: "bg-yellow-400",
@@ -667,7 +667,7 @@ export const machine3Data = [
     cards: [
       {
         type: "runtime",
-        logs: logData2,
+        logs: logData3,
         title: "Motor 2",
         status: "RUNNING",
         statusColor: "bg-green-500",
