@@ -3,12 +3,12 @@ import MiniChart from "../custom/MiniChart";
 import TitleBlock from "../custom/TitleBlock";
 
 export default function MiniChartCard({
-  title = "NaN",
-  unit,
+  title = "Current1",
+  unit = "A",
   height = "h-[260px]",
   chartHeight,
   data = chartData,
-  dataKey,
+  dataKey = "Current1",
   axisStateX = true,
   axisStateY = true,
   domainAdd,

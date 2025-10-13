@@ -44,7 +44,7 @@ export default async function MachinesPage() {
               <div className="p-1">
                 <MachineCard
                   title="Water Filling Machine"
-                  data={machine2Data}
+                  data={machine3Data}
                   index={1}
                 />
               </div>
@@ -53,7 +53,7 @@ export default async function MachinesPage() {
               <div className="p-1">
                 <MachineCard
                   title="Water Tank Pump"
-                  data={machine3Data}
+                  data={machine2Data}
                   index={2}
                 />
               </div>

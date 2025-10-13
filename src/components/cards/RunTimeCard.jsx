@@ -1,3 +1,4 @@
+import { logData } from "@/data/demoData";
 import MachineTimeline from "../custom/MachineTimeline";
 
 function RunTimeCard({

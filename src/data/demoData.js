@@ -641,7 +641,7 @@ export const machine3Data = [
         type: "chart",
         title: "Current",
         data: chartData,
-        dataKey: "Current3",
+        dataKey: "Current2",
         unit: "A",
         colSpan: 2,
       },
@@ -653,7 +653,7 @@ export const machine3Data = [
         chart: (
           <MiniChart
             data={chartData}
-            dataKey="Voltage3"
+            dataKey="Voltage2"
             label="Voltage"
             domainAdd={5}
           />
@@ -688,7 +688,7 @@ export const machine3Data = [
         type: "chart",
         title: "Current",
         data: chartData,
-        dataKey: "Current3",
+        dataKey: "Current2",
         unit: "A",
         colSpan: 2,
       },
@@ -700,7 +700,7 @@ export const machine3Data = [
         chart: (
           <MiniChart
             data={chartData}
-            dataKey="Voltage3"
+            dataKey="Voltage2"
             label="Voltage"
             domainAdd={5}
           />
