@@ -97,6 +97,40 @@ export default function MachineCard({ title, data = [], index }) {
             const vibrationCard = motor.cards.find(
               (c) => c.title === "Vibration"
             );
+            // Example thresholds — you can change these freely
+            const thresholds = {
+              current: { low: 1, medium: 2 }, // A
+              temp: { low: 69, medium: 77 }, // °C
+              vibration: { low: 16, medium: 22 }, // mm/s
+            };
+
+            // Helper function to choose color class
+            const getColor = (value, { low, medium }) => {
+              if (value <= low) return "text-green-500"; // low
+              if (value <= medium) return "text-orange-500"; // medium
+              return "text-red-500"; // high
+            };
+
+            // Get values
+            const currentValue = currentCard?.data
+              ? currentCard.data.at(-1)?.[currentCard.dataKey]?.toFixed(2)
+              : "--";
+            const tempValue = tempCard?.value ?? "--";
+            const vibrationValue = vibrationCard?.value ?? "--";
+
+            // Get colors
+            const currentColor =
+              typeof currentValue === "number"
+                ? getColor(currentValue, thresholds.current)
+                : "text-green-400";
+            const tempColor =
+              typeof tempValue === "number"
+                ? getColor(tempValue, thresholds.temp)
+                : "text-green-400";
+            const vibrationColor =
+              typeof vibrationValue === "number"
+                ? getColor(vibrationValue, thresholds.vibration)
+                : "text-green-400";
 
             return (
               <Drawer key={idx}>
@@ -122,28 +156,33 @@ export default function MachineCard({ title, data = [], index }) {
                         <span>Vibration</span>
                       </div>
 
-                      <div className="grid grid-rows-3">
+                      <div className="grid grid-rows-3 gap-1">
+                        {/* --- Current --- */}
                         <div className="grid grid-cols-2">
-                          <span className="font-bold text-green-500 flex justify-center">
-                            {currentCard?.data
-                              ? currentCard.data
-                                  .at(-1)
-                                  ?.[currentCard.dataKey]?.toFixed(2)
-                              : "--"}
+                          <span
+                            className={`font-bold flex justify-center ${currentColor}`}
+                          >
+                            {currentValue}
                           </span>
                           <span className="text-black font-bold">A</span>
                         </div>
 
+                        {/* --- Temperature --- */}
                         <div className="grid grid-cols-2">
-                          <span className="font-bold text-green-500 flex justify-center">
-                            {tempCard?.value ?? "--"}
+                          <span
+                            className={`font-bold flex justify-center ${tempColor}`}
+                          >
+                            {tempValue}
                           </span>
                           <span className="text-black font-bold">°C</span>
                         </div>
 
+                        {/* --- Vibration --- */}
                         <div className="grid grid-cols-2">
-                          <span className="font-bold text-green-500 flex justify-center">
-                            {vibrationCard?.value ?? "--"}
+                          <span
+                            className={`font-bold flex justify-center ${vibrationColor}`}
+                          >
+                            {vibrationValue}
                           </span>
                           <span className="text-black font-bold">mm/s</span>
                         </div>

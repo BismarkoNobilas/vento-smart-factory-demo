@@ -577,7 +577,7 @@ export const machine2Data = [
         warningColor: "bg-red-500",
         className: "col-span-2",
       },
-      { type: "temperature", value: 80 },
+      { type: "temperature", value: 84 },
       {
         type: "gauge",
         title: "Power",
@@ -628,7 +628,7 @@ export const machine3Data = [
         warningColor: "bg-yellow-400",
         className: "col-span-2",
       },
-      { type: "temperature", value: 60 },
+      { type: "temperature", value: 72 },
       {
         type: "gauge",
         title: "Power",
