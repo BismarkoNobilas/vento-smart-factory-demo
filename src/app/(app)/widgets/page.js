@@ -123,7 +123,7 @@ export default function Widgets() {
               <div className="h-[200px] w-[400px]">
                 <RunTimeCard logs={logData} />
               </div>
-              <Card className="p-4 gap-1 text-sm leading-relaxed space-y-3 text-gray-800">
+              <Card className="p-4 gap-1 text-sm leading-relaxed space-y-3 text-gray-800 gap-1">
                 <h2 className="font-bold text-lg">
                   Machine Running Time Display
                 </h2>
@@ -191,22 +191,6 @@ export default function Widgets() {
                   </span>
                 </div>
 
-                <h3 className="font-semibold text-base">Value Definitions</h3>
-                <p>
-                  The timeline data is derived from <b>runtime logs</b> that
-                  store the start and end times for each state period. Example
-                  structure:
-                </p>
-
-                <pre className="bg-gray-100 rounded p-2 text-xs overflow-x-auto">
-                  {`[
-  { start: "07:00", end: "14:00", status: "RUNNING" },
-  { start: "14:00", end: "15:00", status: "STOP" },
-  { start: "15:00", end: "20:00", status: "RUNNING" },
-  { start: "20:00", end: "21:00", status: "WARNING" }
-]`}
-                </pre>
-
                 <h3 className="font-semibold text-base">Example</h3>
                 <p>
                   <b>Status:</b> RUNNING &nbsp; | &nbsp; <b>Caution:</b> OK
@@ -228,9 +212,65 @@ export default function Widgets() {
               className="grid grid-cols-1 place-items-center h-fit gap-2"
             >
               <span className="text-xl font-semibold">Chart Display</span>
-              <div className="h-[200px] w-[400px]">
+              <div className="h-fit w-[400px]">
                 <MiniChartCard />
               </div>
+              <Card className="text-sm text-gray-700 leading-relaxed p-2 gap-1">
+                <p className="font-semibold text-lg mb-1">
+                  Chart Display Description
+                </p>
+                <p>
+                  The <span className="font-semibold">Chart Display</span>{" "}
+                  visualizes data trends over time or specific measurements,
+                  such as current, temperature, or voltage. It uses a smooth
+                  area chart to represent changes clearly and effectively.
+                </p>
+
+                <ul className="list-disc list-inside mt-2 space-y-1">
+                  <li>
+                    <span className="font-medium">Title:</span> Displayed at the
+                    top, showing the metric name (e.g.,{" "}
+                    <span className="italic">Current1</span>).
+                  </li>
+                  <li>
+                    <span className="font-medium">Value Label:</span> The latest
+                    value can be displayed on the top-right corner (e.g.,{" "}
+                    <span className="text-blue-600 font-semibold">
+                      0.0558 A
+                    </span>
+                    ). This is optional.
+                  </li>
+                  <li>
+                    <span className="font-medium">Axes:</span> Both{" "}
+                    <span className="italic">X-axis</span> and{" "}
+                    <span className="italic">Y-axis</span> can be shown or
+                    hidden. The X-axis typically represents time or index, while
+                    the Y-axis shows the measurement value.
+                  </li>
+                  <li>
+                    <span className="font-medium">Color Customization:</span>{" "}
+                    The chart fill and line color are fully customizable. For
+                    example, green can represent safe or normal values, while
+                    orange or red can represent warning or high levels.
+                  </li>
+                  <li>
+                    <span className="font-medium">Dynamic Data:</span> The chart
+                    updates in real-time or periodically based on the provided
+                    dataset.
+                  </li>
+                  <li>
+                    <span className="font-medium">Responsive Design:</span> The
+                    chart adjusts automatically to fit various screen sizes and
+                    container widths.
+                  </li>
+                </ul>
+
+                <p className="mt-3">
+                  This chart can be used to monitor any process or machine
+                  parameter that changes over time, helping users quickly detect
+                  patterns, spikes, or anomalies in performance.
+                </p>
+              </Card>
             </CarouselItem>
           </CarouselContent>
           <CarouselNext />
