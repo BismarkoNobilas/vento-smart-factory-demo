@@ -123,7 +123,7 @@ export default function Widgets() {
               <div className="h-[200px] w-[400px]">
                 <RunTimeCard logs={logData} />
               </div>
-              <Card className="p-4 gap-1 text-sm leading-relaxed space-y-3 text-gray-800 gap-1">
+              <Card className="p-4 gap-1 text-sm leading-relaxed space-y-3 text-gray-800">
                 <h2 className="font-bold text-lg">
                   Machine Running Time Display
                 </h2>

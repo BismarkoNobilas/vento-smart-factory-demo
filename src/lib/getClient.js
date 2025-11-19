@@ -1,3 +1,4 @@
+// getClient.js
 // Ensures exactly one MQTT client + one subscription
 import mqtt from "mqtt";
 

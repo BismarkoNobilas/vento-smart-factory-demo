@@ -1,3 +1,4 @@
+// api/auto/route.js
 import { NextResponse } from "next/server";
 import { setAutoControl, state } from "@/lib/state";
 

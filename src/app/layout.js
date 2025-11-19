@@ -1,21 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
 import { AppProvider } from "@/context/AppContext";
-import Link from "next/link";
-import Clock from "@/components/custom/Clock";
-import RoleSwitcher from "@/components/custom/RoleSwitcher";
 import AppNavbar from "@/components/layout/AppNavbar";
 
 const geistSans = Geist({

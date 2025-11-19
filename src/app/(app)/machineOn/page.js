@@ -16,7 +16,7 @@ import {
   machine4Data,
 } from "@/data/demoData";
 
-export default async function MachinesPage() {
+export default async function MachinesOnPage() {
   return (
     <main className="flex-1 p-1 overflow-auto">
       {/* <MachineCard type="machine" subType="conveyor" subCount={4} monitoring="machine1" /> */}

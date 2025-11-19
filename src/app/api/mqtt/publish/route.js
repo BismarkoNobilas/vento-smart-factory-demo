@@ -1,3 +1,5 @@
+// api/mqtt/publish/route.js
+
 // import { NextResponse } from "next/server";
 // import { getClient } from "@/lib/getClient";
 

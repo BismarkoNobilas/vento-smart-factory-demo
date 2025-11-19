@@ -1,3 +1,4 @@
+// lib/state.js
 // Central state + sampling + CSV writing
 import fs from "node:fs";
 import path from "node:path";

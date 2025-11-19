@@ -1,3 +1,4 @@
+// api/history/route.js
 import { NextResponse } from "next/server";
 import { buffers } from "@/lib/state";
 
