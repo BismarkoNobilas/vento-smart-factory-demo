@@ -15,6 +15,7 @@ export function AppProvider({ children, initialData }) {
     try {
       const r = await fetch("/api/mqtt");
       const j = await r.json();
+
       if (j.success) setLive(j.data);
     } catch (e) {
       console.error("fetchLive error:", e);
@@ -53,8 +54,8 @@ export function AppProvider({ children, initialData }) {
     }
 
     // live polling every 5s
-    // const interval = setInterval(fetchLive, 5000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(fetchLive, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

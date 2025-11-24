@@ -5,6 +5,18 @@ import { getClient } from "@/lib/getClient";
 import { state, onIncoming } from "@/lib/state";
 
 const client = getClient();
+// local-server/pushToVercel.js
+
+async function pushToCloud(data) {
+  await fetch("https://your-vercel-app.vercel.app/api/push", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((out) => console.log("Pushed:", out))
+    .catch((err) => console.error("Failed:", err));
+}
 
 // Attach the message listener once
 if (!client.listenerCount("message")) {
@@ -14,174 +26,176 @@ if (!client.listenerCount("message")) {
     try {
       if (topic !== "/UploadTopic") return;
       const msg = JSON.parse(payload.toString());
+      // console.log("📥 MQTT RECEIVED:", msg);
+      // pushToCloud(msg);
       onIncoming(msg);
       // console.log("📥 /UploadTopic:", msg);
       // 🔍 Time-based auto Lamp control
       const now = new Date();
       const minute = now.getMinutes();
-      // if (state.autoPumpControl) {
-      //   if (msg.Pump1_High === 1) {
-      //     console.log("⚡ Auto control: Pump1 HIGH → Turn Pump1 OFF, Pump2 ON");
-      //     setTimeout(() => {
-      //       client.publish(
-      //         "/DownloadTopic",
-      //         JSON.stringify({
-      //           rw_prot: {
-      //             Ver: "1.0.1",
-      //             dir: "down",
-      //             id: "USR-M100",
-      //             w_data: [
-      //               { name: "DO2", value: "1" }, // Pump2 ON
-      //             ],
-      //           },
-      //         })
-      //       );
-      //     }, 2000);
-      //   }
+      if (state.autoPumpControl) {
+        if (msg.Pump1_High === 1) {
+          console.log("⚡ Auto control: Pump1 HIGH → Turn Pump1 OFF, Pump2 ON");
+          setTimeout(() => {
+            client.publish(
+              "/DownloadTopic",
+              JSON.stringify({
+                rw_prot: {
+                  Ver: "1.0.1",
+                  dir: "down",
+                  id: "USR-M100",
+                  w_data: [
+                    { name: "DO2", value: "1" }, // Pump2 ON
+                  ],
+                },
+              })
+            );
+          }, 2000);
+        }
 
-      //   // Auto logic: if Pump2 high → turn Pump2 OFF, Pump1 ON
-      //   if (msg.Pump2_High === 1) {
-      //     console.log("⚡ Auto control: Pump2 HIGH → Turn Pump2 OFF, Pump1 ON");
-      //     setTimeout(() => {
-      //       client.publish(
-      //         "/DownloadTopic",
-      //         JSON.stringify({
-      //           rw_prot: {
-      //             Ver: "1.0.1",
-      //             dir: "down",
-      //             id: "USR-M100",
-      //             w_data: [
-      //               { name: "DO1", value: "1" }, // Pump1 ON
-      //             ],
-      //           },
-      //         })
-      //       );
-      //     }, 2000);
-      //   }
-      // }
+        // Auto logic: if Pump2 high → turn Pump2 OFF, Pump1 ON
+        if (msg.Pump2_High === 1) {
+          console.log("⚡ Auto control: Pump2 HIGH → Turn Pump2 OFF, Pump1 ON");
+          setTimeout(() => {
+            client.publish(
+              "/DownloadTopic",
+              JSON.stringify({
+                rw_prot: {
+                  Ver: "1.0.1",
+                  dir: "down",
+                  id: "USR-M100",
+                  w_data: [
+                    { name: "DO1", value: "1" }, // Pump1 ON
+                  ],
+                },
+              })
+            );
+          }, 2000);
+        }
+      }
 
-      // if (msg.Pump1_High === 1 && msg.Pump1 === 1) {
-      //   console.log("⚡ Auto control: Pump1 HIGH → Turn Pump1 OFF, Pump2 ON");
-      //   setTimeout(() => {
-      //     client.publish(
-      //       "/DownloadTopic",
-      //       JSON.stringify({
-      //         rw_prot: {
-      //           Ver: "1.0.1",
-      //           dir: "down",
-      //           id: "USR-M100",
-      //           w_data: [
-      //             { name: "DO1", value: "0" }, // Pump1 OFF
-      //           ],
-      //         },
-      //       })
-      //     );
-      //   }, 2000);
-      // }
+      if (msg.Pump1_High === 1 && msg.Pump1 === 1) {
+        console.log("⚡ Auto control: Pump1 HIGH → Turn Pump1 OFF, Pump2 ON");
+        setTimeout(() => {
+          client.publish(
+            "/DownloadTopic",
+            JSON.stringify({
+              rw_prot: {
+                Ver: "1.0.1",
+                dir: "down",
+                id: "USR-M100",
+                w_data: [
+                  { name: "DO1", value: "0" }, // Pump1 OFF
+                ],
+              },
+            })
+          );
+        }, 2000);
+      }
 
-      // if (msg.Pump2_High === 1 && msg.Pump2 === 1) {
-      //   console.log("⚡ Auto control: Pump2 HIGH → Turn Pump2 OFF, Pump1 ON");
-      //   setTimeout(() => {
-      //     client.publish(
-      //       "/DownloadTopic",
-      //       JSON.stringify({
-      //         rw_prot: {
-      //           Ver: "1.0.1",
-      //           dir: "down",
-      //           id: "USR-M100",
-      //           w_data: [
-      //             { name: "DO2", value: "0" }, // Pump2 OFF
-      //           ],
-      //         },
-      //       })
-      //     );
-      //   }, 2000);
-      // }
+      if (msg.Pump2_High === 1 && msg.Pump2 === 1) {
+        console.log("⚡ Auto control: Pump2 HIGH → Turn Pump2 OFF, Pump1 ON");
+        setTimeout(() => {
+          client.publish(
+            "/DownloadTopic",
+            JSON.stringify({
+              rw_prot: {
+                Ver: "1.0.1",
+                dir: "down",
+                id: "USR-M100",
+                w_data: [
+                  { name: "DO2", value: "0" }, // Pump2 OFF
+                ],
+              },
+            })
+          );
+        }, 2000);
+      }
 
-      // if (state.autoLampControl) {
-      //   if (minute !== lastTriggeredMinute) {
-      //     if (minute === 1) {
-      //       client.publish(
-      //         "/DownloadTopic",
-      //         JSON.stringify({
-      //           rw_prot: {
-      //             Ver: "1.0.1",
-      //             dir: "down",
-      //             id: "USR-M100",
-      //             w_data: [
-      //               {
-      //                 name: "DO5",
-      //                 value: "0",
-      //               },
-      //             ],
-      //           },
-      //         })
-      //       );
-      //       console.log("⏰ Auto Lamp OFF (minute 1)");
-      //       lastTriggeredMinute = minute;
-      //     }
-      //     if (minute === 2) {
-      //       client.publish(
-      //         "/DownloadTopic",
-      //         JSON.stringify({
-      //           rw_prot: {
-      //             Ver: "1.0.1",
-      //             dir: "down",
-      //             id: "USR-M100",
-      //             w_data: [
-      //               {
-      //                 name: "DO5",
-      //                 value: "1",
-      //               },
-      //             ],
-      //           },
-      //         })
-      //       );
-      //       console.log("⏰ Auto Lamp ON (minute 2)");
-      //       lastTriggeredMinute = minute;
-      //     }
-      //     if (minute === 31) {
-      //       client.publish(
-      //         "/DownloadTopic",
-      //         JSON.stringify({
-      //           rw_prot: {
-      //             Ver: "1.0.1",
-      //             dir: "down",
-      //             id: "USR-M100",
-      //             w_data: [
-      //               {
-      //                 name: "DO5",
-      //                 value: "0",
-      //               },
-      //             ],
-      //           },
-      //         })
-      //       );
-      //       console.log("⏰ Auto Lamp OFF (minute 31)");
-      //       lastTriggeredMinute = minute;
-      //     }
-      //     if (minute === 32) {
-      //       client.publish(
-      //         "/DownloadTopic",
-      //         JSON.stringify({
-      //           rw_prot: {
-      //             Ver: "1.0.1",
-      //             dir: "down",
-      //             id: "USR-M100",
-      //             w_data: [
-      //               {
-      //                 name: "DO5",
-      //                 value: "1",
-      //               },
-      //             ],
-      //           },
-      //         })
-      //       );
-      //       console.log("⏰ Auto Lamp ON (minute 32)");
-      //       lastTriggeredMinute = minute;
-      //     }
-      //   }
-      // }
+      if (state.autoLampControl) {
+        if (minute !== lastTriggeredMinute) {
+          if (minute === 1) {
+            client.publish(
+              "/DownloadTopic",
+              JSON.stringify({
+                rw_prot: {
+                  Ver: "1.0.1",
+                  dir: "down",
+                  id: "USR-M100",
+                  w_data: [
+                    {
+                      name: "DO5",
+                      value: "0",
+                    },
+                  ],
+                },
+              })
+            );
+            console.log("⏰ Auto Lamp OFF (minute 1)");
+            lastTriggeredMinute = minute;
+          }
+          if (minute === 2) {
+            client.publish(
+              "/DownloadTopic",
+              JSON.stringify({
+                rw_prot: {
+                  Ver: "1.0.1",
+                  dir: "down",
+                  id: "USR-M100",
+                  w_data: [
+                    {
+                      name: "DO5",
+                      value: "1",
+                    },
+                  ],
+                },
+              })
+            );
+            console.log("⏰ Auto Lamp ON (minute 2)");
+            lastTriggeredMinute = minute;
+          }
+          if (minute === 31) {
+            client.publish(
+              "/DownloadTopic",
+              JSON.stringify({
+                rw_prot: {
+                  Ver: "1.0.1",
+                  dir: "down",
+                  id: "USR-M100",
+                  w_data: [
+                    {
+                      name: "DO5",
+                      value: "0",
+                    },
+                  ],
+                },
+              })
+            );
+            console.log("⏰ Auto Lamp OFF (minute 31)");
+            lastTriggeredMinute = minute;
+          }
+          if (minute === 32) {
+            client.publish(
+              "/DownloadTopic",
+              JSON.stringify({
+                rw_prot: {
+                  Ver: "1.0.1",
+                  dir: "down",
+                  id: "USR-M100",
+                  w_data: [
+                    {
+                      name: "DO5",
+                      value: "1",
+                    },
+                  ],
+                },
+              })
+            );
+            console.log("⏰ Auto Lamp ON (minute 32)");
+            lastTriggeredMinute = minute;
+          }
+        }
+      }
     } catch (e) {
       console.error("❌ invalid JSON from MQTT3:", e.message);
     }

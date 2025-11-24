@@ -6,7 +6,7 @@ let client = null;
 
 export function getClient() {
   if (!client) {
-    const url = process.env.MQTT_URL || "mqtt://172.24.82.40:1883";
+    const url = process.env.MQTT_URL || "mqtt://192.168.0.150:1883";
     client = mqtt.connect(url);
 
     client.on("connect", () => {

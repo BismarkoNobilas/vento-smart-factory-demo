@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  // redirect("/monitoring");
+  redirect("/monitoring");
   const [data, setData] = useState("No data yet");
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+// api/stream/route.js
 export const runtime = "nodejs"; // Required for SSE on Vercel
 export const dynamic = "force-dynamic"; // Prevent caching
 
