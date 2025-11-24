@@ -3,12 +3,12 @@ import { getInitialData } from "@/lib/getInitialData";
 
 export default async function MonitoringPage() {
   return (
-    <div className="flex-1 px-2 justify-center items-center w-full min-h-screen container">
+    <main className="flex-1 px-2 justify-center items-center w-auto min-h-screen overflow-auto">
       {/* {live ? ( */}
       <OEEPageCard />
       {/* ) : (
          <Card className="p-6 text-center text-gray-500">Loading data…</Card>
        )} */}
-    </div>
+    </main>
   );
 }
