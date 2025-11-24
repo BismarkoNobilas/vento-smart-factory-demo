@@ -1,9 +1,7 @@
 import MiniChartCard from "@/components/cards/MiniChartCard";
 import OEECard from "@/components/cards/OEECard";
 import RunTimeCard from "@/components/cards/RunTimeCard";
-import MiniChart from "@/components/custom/MiniChart";
-import TitleBlock from "@/components/custom/TitleBlock";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,

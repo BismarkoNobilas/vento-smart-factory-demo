@@ -1,13 +1,11 @@
 "use client";
 import { Card } from "@/components/ui/card";
 import {
-  chartData,
   logData,
   logData2,
   logData3,
   machineStatuses,
   overlays,
-  productionData,
 } from "@/data/demoData";
 import OEECard from "./OEECard";
 import MiniChartCard from "./MiniChartCard";
@@ -31,7 +29,7 @@ export default function OEEPageCard({ conveyor, pump, live }) {
           overlays={overlays}
         />
       </div>
-      <div className="absolute grid grid-cols-9 gap-2 top-[25px] w-auto left-0 right-0 m-4">
+      <div className="absolute grid grid-cols-1 md:grid-cols-9 gap-2 top-[25px] w-auto left-0 right-0 m-4">
         <div className="col-span-2 scale-125 justify-self-end self-end">
           <MachineStatusCard machines={machineStatuses} />
         </div>
@@ -114,14 +112,6 @@ export default function OEEPageCard({ conveyor, pump, live }) {
             availability={oee.Availability}
           />
         </div>
-        {/* <MetricCard
-            title="Total Bottle"
-            value={223}
-            unit=""
-            textSize="text-[18px]"
-            unitSize="text-[15px]"
-            className="w-full"
-          /> */}
         <Card className="bg-zinc-50 shadow-sm rounded relative gap-1 h-full p-2">
           {/* Title */}
           <TitleBlock title="Total Bottle" showValue={false} />

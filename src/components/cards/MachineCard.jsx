@@ -7,7 +7,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription,
   DrawerFooter,
   DrawerClose,
 } from "@/components/ui/drawer";
@@ -16,7 +15,7 @@ import GaugeCard from "./GaugeCard";
 import MiniChartCard from "./MiniChartCard";
 import MetricCard from "./MetricCard";
 import TemperatureCard from "./TemperatureCard";
-import { logData, runtimeData } from "@/data/demoData";
+import { runtimeData } from "@/data/demoData";
 
 export default function MachineCard({ title, data = [], index }) {
   const renderCard = (item, idx) => {

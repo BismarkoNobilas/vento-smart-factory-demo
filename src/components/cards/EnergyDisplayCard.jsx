@@ -5,10 +5,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
+import { AreaChart, Area,YAxis} from "recharts";
 import AnalogGaugeWrapper from "@/components/layout/AnalogGaugeWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import Temperature from "../custom/Temperature";
 import TemperatureCard from "./TemperatureCard";
 import MetricCard from "./MetricCard";
 import GaugeCard from "./GaugeCard";
@@ -33,73 +32,6 @@ function KV({ k, v, unit = "", val }) {
     </div>
   );
 }
-
-// function MiniChart({
-//   data,
-//   dataKey,
-//   label,
-//   axisStateX,
-//   axisStateY,
-//   domainAdd,
-// }) {
-//   const config = {
-//     [dataKey]: {
-//       label,
-//       color: "#3b82f6",
-//     },
-//   };
-
-//   // Hybrid Y-axis domain: ignore zeros for scaling
-//   const getDomain = () => [
-//     () => {
-//       const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
-//       if (nonZero.length === 0) return 0;
-//       return Math.min(...nonZero) - 2;
-//     },
-//     () => {
-//       const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
-//       if (nonZero.length === 0) return 10;
-//       return Math.max(...nonZero) + 2;
-//     },
-//   ];
-
-//   return (
-//     <ChartContainer config={config} className="aspect-auto rounded-md h-full">
-//       <AreaChart data={data}>
-//         {axisStateX && (
-//           <XAxis
-//             dataKey="t"
-//             tickMargin={5}
-//             tickFormatter={(v) =>
-//               new Date(v).toLocaleTimeString([], {
-//                 hour: "2-digit",
-//                 minute: "2-digit",
-//                 hour12: false,
-//               })
-//             }
-//           />
-//         )}
-//         {axisStateY && <YAxis width={38} />} {/* domain={getDomain()} */}
-//         <ChartTooltip content={<ChartTooltipContent />} />
-//         <defs>
-//           <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-//             <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
-//             <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
-//           </linearGradient>
-//         </defs>
-//         <Area
-//           type="monotone"
-//           dataKey={dataKey}
-//           stroke="#3b82f6"
-//           fill="url(#fill)"
-//           fillOpacity={0.7}
-//           strokeWidth={1}
-//           dot={false}
-//         />
-//       </AreaChart>
-//     </ChartContainer>
-//   );
-// }
 
 function MiniChartArea({ data, dataKey, label }) {
   const config = {
@@ -139,7 +71,6 @@ function MiniChartArea({ data, dataKey, label }) {
 
 export default function EnergyDisplayCard({ conveyor, pump, live }) {
   //Demo data
-
   return (
     <div className="grid gap-2">
       <Card className="p-4 w-fit h-fit">

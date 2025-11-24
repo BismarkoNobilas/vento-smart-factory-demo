@@ -70,10 +70,6 @@ export default async function MachinesOnPage() {
           <CarouselNext />
         </Carousel>
       </Card>
-
-      {/* ) : (
-        <Card className="p-6 text-center text-gray-500">Loading data…</Card>
-      )} */}
     </main>
   );
 }

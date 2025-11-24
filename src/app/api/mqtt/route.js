@@ -8,7 +8,7 @@ const client = getClient();
 // local-server/pushToVercel.js
 
 async function pushToCloud(data) {
-  await fetch("https://your-vercel-app.vercel.app/api/push", {
+  await fetch("https://vento-smart-factory.vercel.app/api/push", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -17,7 +17,29 @@ async function pushToCloud(data) {
     .then((out) => console.log("Pushed:", out))
     .catch((err) => console.error("Failed:", err));
 }
-
+const msgt = {
+  Voltage1: 243,
+  Current1: 0,
+  Power1: 0.5,
+  Energy1: 2689,
+  Freq1: 50,
+  PF1: 1,
+  Voltage2: 243,
+  Current2: 0.027,
+  Power2: 2.1,
+  Energy2: 218,
+  Freq2: 50,
+  PF2: 0.32,
+  Pump1_Low: 0,
+  Pump1_High: 0,
+  Pump2_Low: 0,
+  Pump2_High: 0,
+  Machine1: 0,
+  Machine2: 0,
+  Lamp: 0,
+  Pump1: 0,
+  Pump2: 0,
+};
 // Attach the message listener once
 if (!client.listenerCount("message")) {
   let lastTriggeredMinute = null; // keep track of last action minute
@@ -26,7 +48,7 @@ if (!client.listenerCount("message")) {
     try {
       if (topic !== "/UploadTopic") return;
       const msg = JSON.parse(payload.toString());
-      // console.log("📥 MQTT RECEIVED:", msg);
+      console.log("📥 MQTT RECEIVED:", msg);
       // pushToCloud(msg);
       onIncoming(msg);
       // console.log("📥 /UploadTopic:", msg);
@@ -204,6 +226,7 @@ if (!client.listenerCount("message")) {
 
 // GET -> current state for UI cards
 export async function GET() {
+  // pushToCloud(msgt);
   return NextResponse.json({ success: true, data: state });
 }
 
