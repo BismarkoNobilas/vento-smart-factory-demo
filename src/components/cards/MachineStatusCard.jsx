@@ -16,18 +16,21 @@ export default function MachineStatusCard({ machines = [] }) {
   };
 
   return (
-    <div className="grid bg-zinc-50 shadow-sm rounded w-fit place-content-center p-2 h-fit pb-3">
+    <div className="grid bg-zinc-50 shadow-sm rounded w-fit place-content-center p-2 h-auto pb-3">
       <TitleBlock title="Status" showValue={false} />
 
       {machines.map((machine, index) => (
-        <div key={index} className="flex gap-4 mt-2 px-3 w-auto">
-          <span className="font-semibold text-[13px] w-auto">
+        <div
+          key={index}
+          className="grid grid-cols-[auto_fit-content(100%)] gap-2 mt-2 w-full"
+        >
+          <span className="font-semibold text-[13px] px-2">
             {machine.name}:
           </span>
           <span
             className={`${getStatusColor(
               machine.status
-            )} text-white text-[13px] h-fit w-[80px] text-center`}
+            )} text-white text-[13px] h-fit p-0.5 w-[85px] text-center`}
           >
             {machine.status}
           </span>
