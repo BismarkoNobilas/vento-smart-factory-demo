@@ -17,7 +17,7 @@ export default function TitleBlock({
       } font-semibold text-[11px] h-fit w-full ${cosClass} text-[13px] min-w-fit place-content-start`}
       style={widthStyle}
     >
-      <span>{title}</span>
+      <span className="whitespace-nowrap">{title}</span>
       {showValue && (
         <span className="font-mono flex justify-between gap-0.5">
           <span>{value}</span>

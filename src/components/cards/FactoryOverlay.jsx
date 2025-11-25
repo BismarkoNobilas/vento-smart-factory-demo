@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 function FactoryOverlay({ videoSrc, overlays }) {
   return (
-    <div className="relative w-full aspect-auto lg:max-w-[840px] h-auto">
+    <div className="relative w-full aspect-auto max-w-[1040px] h-auto">
       {/* maintain aspect ratio */}
       {/* background video */}
       <video

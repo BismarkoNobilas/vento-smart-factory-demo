@@ -17,14 +17,14 @@ import TitleBlock from "../custom/TitleBlock";
 import WaterTankImage from "../custom/WaterTankImage";
 import useDemoData from "@/hooks/useDemoData";
 
-export default function OEEPageCard2XL({ conveyor, pump, live }) {
+export default function OEEPageCardXL({ conveyor, pump, live }) {
   const { production, oee, quantity, water } = useDemoData();
 
   return (
-    <Card className="p-4 mx-3 my-1 w-auto max-w-[2180px] h-full relative overflow-hidden gap-0">
+    <Card className="p-4 mx-3 my-1 w-auto h-full relative overflow-hidden gap-0">
       <h3 className="font-bold text-2xl">Overall Equipment Effectiveness</h3>
       {/* Desktop absolute overlay */}
-      <div className="absolute left-[0px] top-[140px] w-[65%]">
+      <div className="absolute left-[0px] top-[180px] w-[65%]">
         <FactoryOverlay
           videoSrc="/R6-Inside-factory.webm"
           overlays={overlays}
@@ -130,7 +130,7 @@ export default function OEEPageCard2XL({ conveyor, pump, live }) {
 
         {/* OEE card */}
         <div className="col-span-5 row-span-2 relative min-h-[190px] self-center">
-          <div className="scale-100 absolute origin-top-left">
+          <div className="scale-90 absolute origin-top-left">
             <OEECard
               overall={oee.Overall}
               quality={oee.Quality}

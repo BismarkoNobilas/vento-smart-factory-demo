@@ -22,7 +22,7 @@ export default function MachineStatusCard({ machines = [] }) {
       {machines.map((machine, index) => (
         <div
           key={index}
-          className="grid grid-cols-[auto_fit-content(100%)] gap-2 mt-2 w-full"
+          className="grid grid-cols-[auto_fit-content(100%)] mt-2 w-full"
         >
           <span className="font-semibold text-[13px] px-2">
             {machine.name}:
@@ -30,7 +30,7 @@ export default function MachineStatusCard({ machines = [] }) {
           <span
             className={`${getStatusColor(
               machine.status
-            )} text-white text-[13px] h-fit p-0.5 w-[85px] text-center`}
+            )} text-white text-[13px] h-fit p-[1px] w-[84px] text-center place-self-center`}
           >
             {machine.status}
           </span>
