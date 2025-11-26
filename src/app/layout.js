@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import AppNavbar from "@/components/layout/AppNavbar";
+import "@heroui/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
