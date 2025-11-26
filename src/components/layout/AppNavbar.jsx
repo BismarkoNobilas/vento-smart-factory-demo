@@ -83,7 +83,7 @@ export default function AppNavbar() {
           </nav>
 
           {/* right: widgets */}
-          <div className="items-center gap-1 hidden md:flex">
+          <div className="items-center gap-1 hidden md:flex text-sm">
             <div>
               <Clock />
             </div>

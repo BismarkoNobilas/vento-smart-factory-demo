@@ -10,7 +10,7 @@ export default function Clock() {
     hour12: false,
   });
 
-  const weekday = now.toLocaleDateString("en-US", {
+  const weekday = now.toLocaleDateString("id-ID", {
     weekday: "short",
   }); // Wed
 
