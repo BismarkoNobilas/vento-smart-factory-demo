@@ -83,8 +83,8 @@ export default function AppNavbar() {
           </nav>
 
           {/* right: widgets */}
-          <div className="items-center gap-1 hidden md:flex text-sm">
-            <div>
+          <div className="items-center gap-1 flex text-sm">
+            <div className="hidden md:flex">
               <Clock />
             </div>
             <div>
@@ -115,12 +115,9 @@ export default function AppNavbar() {
             </div>
             {/* optional quick items under menu on mobile */}
             <div className="mt-3 px-3">
-              <div className="flex items-center gap-3">
+              <div className="block items-center gap-1">
                 <div className="block lg:hidden">
                   <Clock />
-                </div>
-                <div>
-                  <RoleSwitcher />
                 </div>
               </div>
             </div>
