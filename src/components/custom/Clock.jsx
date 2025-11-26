@@ -6,11 +6,15 @@ export default function Clock() {
   const { now } = useApp();
   return (
     <div>
-      {now.toLocaleDateString()}{" "}
       {now.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
+      })}
+      {now.toLocaleDateString("en-US", {
+        weekday: "short",
+        day: "2-digit",
+        month: "2-digit",
       })}
     </div>
   );
