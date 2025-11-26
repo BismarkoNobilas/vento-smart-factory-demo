@@ -19,14 +19,21 @@ export default function MonitoringPage() {
 
   let Component;
 
-  if (width < 1024) Component = OEEPageCardMob;
+  if (width < 1024) Component = "mob";
   else if (width < 1280) Component = OEEPageCardLG;
   else if (width < 1536) Component = OEEPageCardXL;
-  else Component = OEEPageCard;
+  else Component = OEEPageCard2XL;
 
   return (
     <main className="flex-1 px-2 justify-center items-center w-auto max-w-[1536px] h-fit overflow-auto place-self-center">
-      <Component />
+      {Component === "mob" ? (
+        // ⬇️ Dynamic scale wrapper ONLY for mobile version
+        <div className="origin-top scale-[clamp(0.7,calc(100vw/580),1)]">
+          <OEEPageCardMob />
+        </div>
+      ) : (
+        <Component />
+      )}
     </main>
   );
 }
