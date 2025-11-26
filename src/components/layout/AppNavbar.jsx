@@ -15,10 +15,10 @@ export default function AppNavbar() {
 
   return (
     <header className="w-full bg-white border-b">
-      <div className="max-w-[1536px] mx-auto px-4">
+      <div className="max-w-[1536px] mx-auto px-3">
         <div className="flex items-center justify-between h-14">
           {/* left: brand + mobile toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-[10px]">
             {/* Mobile hamburger */}
             <button
               onClick={() => setIsMenuOpen((s) => !s)}
@@ -60,7 +60,7 @@ export default function AppNavbar() {
             </button>
 
             {/* Brand */}
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-[10px]">
               <img
                 src="/VE_Logo.png"
                 alt="Logo"
@@ -83,7 +83,7 @@ export default function AppNavbar() {
           </nav>
 
           {/* right: widgets */}
-          <div className="items-center gap-2 hidden md:flex">
+          <div className="items-center gap-1 hidden md:flex">
             <div>
               <Clock />
             </div>

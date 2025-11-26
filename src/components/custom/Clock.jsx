@@ -5,7 +5,7 @@ import { useApp } from "@/context/AppContext";
 export default function Clock() {
   const { now } = useApp();
   return (
-    <div>
+    <div className="gap-[2px]">
       {now.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
