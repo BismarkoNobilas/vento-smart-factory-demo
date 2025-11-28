@@ -855,3 +855,101 @@ export const machine4Data = [
     ],
   },
 ];
+
+// === MACHINE 5 (2 Motors) ===
+export const machine5Data = [
+  {
+    id: "Motor 1",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData3,
+        title: "Motor 1",
+        status: "WARNING",
+        statusColor: "bg-yellow-400",
+        warning: "WARNING",
+        warningColor: "bg-yellow-400",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 72 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 10.2,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current2",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 223,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage2"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 17, unit: "mm/s" },
+    ],
+  },
+  {
+    id: "Motor 2",
+    cards: [
+      {
+        type: "runtime",
+        logs: logData3,
+        title: "Motor 2",
+        status: "RUNNING",
+        statusColor: "bg-green-500",
+        warning: "OK",
+        warningColor: "bg-green-500",
+        className: "col-span-2",
+      },
+      { type: "temperature", value: 59 },
+      {
+        type: "gauge",
+        title: "Power",
+        value: 8.3,
+        unit: "Watt",
+        min: 0,
+        max: 12,
+      },
+      {
+        type: "chart",
+        title: "Current",
+        data: chartData,
+        dataKey: "Current2",
+        unit: "A",
+        colSpan: 2,
+      },
+      {
+        type: "metric",
+        title: "Voltage",
+        value: 216,
+        unit: "V",
+        chart: (
+          <MiniChart
+            data={chartData}
+            dataKey="Voltage2"
+            label="Voltage"
+            domainAdd={5}
+          />
+        ),
+      },
+      { type: "metric", title: "Vibration", value: 12, unit: "mm/s" },
+    ],
+  },
+];
