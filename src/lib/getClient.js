@@ -16,6 +16,14 @@ export function getClient() {
         if (!err) console.log("📡 Subscribed to /UploadTopic");
       });
     });
+
+    client.on("error", (err) => {
+      console.error("❌ MQTT error:", err);
+    });
+
+    client.on("close", () => {
+      console.log("🔌 MQTT disconnected");
+    });
   }
   return client;
 }
