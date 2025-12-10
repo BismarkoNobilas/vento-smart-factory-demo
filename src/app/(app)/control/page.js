@@ -13,7 +13,7 @@ import MiniChart from "@/components/custom/MiniChart";
 
 import { logData3 } from "@/data/demoData";
 
-export default function controlPage() {
+export default function ControlPage() {
   const { live, pump, conv, tv } = useApp();
 
   // Render individual cards
