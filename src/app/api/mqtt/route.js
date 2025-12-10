@@ -48,7 +48,7 @@ if (!client.listenerCount("message")) {
     try {
       if (topic !== "/UploadTopic") return;
       const msg = JSON.parse(payload.toString());
-      console.log("📥 MQTT RECEIVED:", msg);
+      // console.log("📥 MQTT RECEIVED:", msg);
       // pushToCloud(msg);
       onIncoming(msg);
       // console.log("📥 /UploadTopic:", msg);

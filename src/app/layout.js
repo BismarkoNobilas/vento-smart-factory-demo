@@ -3,6 +3,7 @@ import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import AppNavbar from "@/components/layout/AppNavbar";
 import "@heroui/theme";
+import { getInitialData } from "@/lib/getInitialData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +20,8 @@ export const metadata = {
   description: "Smart Factory Monitoring",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const initialData = await getInitialData(); // ← IMPORTANT
   return (
     <html lang="en">
       <head>
@@ -34,7 +36,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen overflow-x-hidden`}
       >
-        <AppProvider>
+        <AppProvider initialData={initialData}>
           <AppNavbar />
           <main>{children}</main>
         </AppProvider>

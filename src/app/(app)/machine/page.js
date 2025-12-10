@@ -36,7 +36,7 @@ export default async function MachinesPage() {
             <CarouselItem key={1} className="pl-1 basis-[37%]">
               <div className="p-1">
                 <MachineCard
-                  title="Packaging Machine"
+                  title="Packagings Machine"
                   data={machine1Data}
                   index={0}
                 />

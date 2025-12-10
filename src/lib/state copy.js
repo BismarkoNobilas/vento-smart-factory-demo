@@ -47,11 +47,6 @@ export const state = {
 
   autoPumpControl: false, // 🔹 auto pump logic
   autoLampControl: false,
-
-  Temperature: 0,
-  X_RMS_VEL: 0,
-  Y_RMS_VEL: 0,
-  Z_RMS_VEL: 0,
 };
 
 // ---- 2h ring-buffers in memory (points every 5s) ----
@@ -59,7 +54,6 @@ const TWO_HOURS = 2 * 60 * 60 * 1000;
 export const buffers = {
   conveyor: [], // {t, voltage, current, power, energy, frequency, pf}
   pump: [], // {t, voltage, current, power, energy, frequency, pf, lvl1, lvl2}
-  tv: [],
 };
 
 // function pushBuffer(name, point) {
@@ -146,7 +140,6 @@ function ensureHeader(file, header) {
 const accum = {
   conveyor: [], // array of {voltage,...}
   pump: [],
-  tv: [],
 };
 
 const MAX_POINTS = 1440; // keep ~2h if 1 point = 5s
@@ -199,15 +192,6 @@ export function onIncoming(msg) {
     lvl2: Number(state.Pump2_Low + state.Pump2_Mid + state.Pump2_High) || 0,
   };
   pushBuffer("pump", pPoint);
-
-  const tvPoint = {
-    t: now,
-    temperature: Number(state.Temperature) || 0,
-    vibrationx: Number(state.X_RMS_VEL) || 0,
-    vibrationy: Number(state.Y_RMS_VEL) || 0,
-    vibrationz: Number(state.Z_RMS_VEL) || 0,
-  };
-  pushBuffer("tv", tvPoint);
 }
 
 // Once/min write one row per group (avg of 5s samples)
@@ -215,7 +199,6 @@ function avg(arr, key) {
   if (!arr.length) return 0;
   return arr.reduce((s, x) => s + (Number(x[key]) || 0), 0) / arr.length;
 }
-
 function flushGroup(group, columns, header) {
   const samples = accum[group];
   if (!samples.length) return;
@@ -250,11 +233,6 @@ if (!globalThis.__csv_timer__) {
         "lvl2",
       ],
       "time,voltage,current,power,energy,frequency,pf,lvl1,lvl2"
-    );
-    flushGroup(
-      "tv",
-      ["time", "temperature", "vibrationX", "vibrationY", "vibrationZ"],
-      "time,temperature, vibrationX, vibrationY, vibrationZ"
     );
   }, 60_000);
 }

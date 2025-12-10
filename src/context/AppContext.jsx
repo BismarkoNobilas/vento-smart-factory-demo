@@ -8,6 +8,7 @@ export function AppProvider({ children, initialData }) {
   const [live, setLive] = useState(initialData?.live ?? null);
   const [conv, setConv] = useState(initialData?.conv ?? []);
   const [pump, setPump] = useState(initialData?.pump ?? []);
+  const [tv, setTv] = useState(initialData?.tv ?? []);
   const [now, setNow] = useState(new Date());
   const [role, setRole] = useState("Manager");
 
@@ -24,12 +25,14 @@ export function AppProvider({ children, initialData }) {
 
   async function fetchHistory() {
     try {
-      const [c, p] = await Promise.all([
+      const [c, p, t] = await Promise.all([
         fetch("/api/history?group=conveyor").then((r) => r.json()),
         fetch("/api/history?group=pump").then((r) => r.json()),
+        fetch("/api/history?group=tv").then((r) => r.json()),
       ]);
       if (c.success) setConv(c.data);
       if (p.success) setPump(p.data);
+      if (t.success) setTv(t.data);
     } catch (e) {
       console.error("fetchHistory error:", e);
     }
@@ -54,13 +57,13 @@ export function AppProvider({ children, initialData }) {
     }
 
     // live polling every 5s
-    // const interval = setInterval(fetchLive, 5000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(fetchLive, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <AppContext.Provider
-      value={{ live, conv, pump, now, role, setRole, publish }}
+      value={{ live, conv, pump, tv, now, role, setRole, publish }}
     >
       {children}
     </AppContext.Provider>

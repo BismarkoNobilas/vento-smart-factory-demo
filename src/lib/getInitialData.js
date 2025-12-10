@@ -6,5 +6,6 @@ export async function getInitialData() {
     live: { ...state }, // snapshot of latest machine state
     conv: [...buffers.conveyor], // recent conveyor samples
     pump: [...buffers.pump], // recent pump samples
+    tv: [...buffers.tv], // recent pump samples
   };
 }

@@ -77,7 +77,7 @@ export default function MachineCard({ title, data = [], index }) {
       <div className="grid w-full h-fit gap-4">
         <RunTimeCard
           logs={runtimeData[index].logs}
-          title={runtimeData[index].title}
+          title={title ?? runtimeData[index].title}
           status={runtimeData[index].status}
           statusColor={runtimeData[index].statusColor}
           warning={runtimeData[index].warning}

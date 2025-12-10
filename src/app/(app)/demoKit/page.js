@@ -13,8 +13,8 @@ import MiniChart from "@/components/custom/MiniChart";
 
 import { logData3 } from "@/data/demoData";
 
-export default function controlPage() {
-  const { live, pump, conv, tv } = useApp();
+export default function DemoKitPage() {
+  const { live, pump, conv } = useApp();
 
   // Render individual cards
   const renderCard = (item, idx) => {
@@ -90,41 +90,84 @@ export default function controlPage() {
           warningColor: "bg-yellow-400",
           className: "col-span-2",
         },
-        { type: "temperature", value: live?.Temperature ?? 0 },
+        { type: "temperature", value: 72 },
+        {
+          type: "gauge",
+          title: "Power",
+          value: live?.Power1 ?? 0,
+          unit: "Watt",
+          min: 0,
+          max: 12,
+        },
+        {
+          type: "chart",
+          title: "Current",
+          data: conv,
+          dataKey: "current",
+          unit: "A",
+        },
         {
           type: "metric",
-          title: "Vibration",
-          value: live?.X_RMS_VEL ?? 0,
-          unit: "mm/s",
+          title: "Voltage",
+          value: live?.Voltage1 ?? 0,
+          unit: "V",
+          chart: (
+            <MiniChart
+              data={conv}
+              dataKey="voltage"
+              label="Voltage"
+              domainAdd={5}
+            />
+          ),
+        },
+        { type: "metric", title: "Vibration", value: 17, unit: "mm/s" },
+      ],
+    },
+
+    {
+      id: "Motor 2",
+      cards: [
+        {
+          type: "runtime",
+          logs: logData3,
+          title: "Motor 2",
+          status: "RUNNING",
+          statusColor: "bg-green-500",
+          warning: "OK",
+          warningColor: "bg-green-500",
+          className: "col-span-2",
+        },
+        { type: "temperature", value: 59 },
+        {
+          type: "gauge",
+          title: "Power",
+          value: live?.Power2 ?? 0,
+          unit: "Watt",
+          min: 0,
+          max: 12,
         },
         {
           type: "chart",
-          title: "Temperature",
-          data: tv,
-          dataKey: "temperature",
-          unit: "C",
+          title: "Current",
+          data: pump,
+          dataKey: "current",
+          unit: "A",
         },
         {
-          type: "chart",
-          title: "VX",
-          data: tv,
-          dataKey: "vibrationX",
-          unit: "mm/s",
+          type: "metric",
+          title: "Voltage",
+          value: live?.Voltage2 ?? 0,
+          unit: "V",
+          chart: (
+            <MiniChart
+              data={pump}
+              dataKey="voltage"
+              label="Voltage"
+              domainAdd={5}
+            />
+          ),
         },
-        {
-          type: "chart",
-          title: "VY",
-          data: tv,
-          dataKey: "vibrationY",
-          unit: "mm/s",
-        },
-        {
-          type: "chart",
-          title: "VZ",
-          data: tv,
-          dataKey: "vibrationZ",
-          unit: "mm/s",
-        },
+        { type: "metric", title: "Vibration", value: 12, unit: "mm/s" },
       ],
     },
   ];
