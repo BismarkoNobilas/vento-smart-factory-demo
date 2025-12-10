@@ -7,9 +7,9 @@ let client = null;
 export function getClient() {
   if (!client) {
     const url = process.env.MQTT_URL || "wss://192.168.0.123:8084/mqtt";
-    client = mqtt.connect(url, {
-      reconnectPeriod: 2000, // auto reconnect every 2s
-    });
+    // client = mqtt.connect(url, {
+    //   reconnectPeriod: 2000, // auto reconnect every 2s
+    // });
     client.on("connect", () => {
       console.log("✅ MQTT connected:", url);
       client.subscribe("/UploadTopic", (err) => {

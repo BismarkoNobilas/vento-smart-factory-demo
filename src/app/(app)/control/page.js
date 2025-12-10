@@ -12,18 +12,18 @@ import MetricCard from "@/components/cards/MetricCard";
 import MiniChart from "@/components/custom/MiniChart";
 
 import { logData3 } from "@/data/demoData";
-import { useEffect } from "react";
-import { getClient } from "@/lib/getClient";
+// import { useEffect } from "react";
+// import { getClient } from "@/lib/getClient";
 
 export default function ControlPage() {
   const { live, pump, conv, tv } = useApp();
 
-  useEffect(() => {
-    const client = getClient();
-    client.on("message", (...msg) => {
-      console.log("browser got message:", msg);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const client = getClient();
+  //   client.on("message", (...msg) => {
+  //     console.log("browser got message:", msg);
+  //   });
+  // }, []);
 
   // Render individual cards
   const renderCard = (item, idx) => {
