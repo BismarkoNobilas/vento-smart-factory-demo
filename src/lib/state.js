@@ -202,10 +202,10 @@ export function onIncoming(msg) {
 
   const tvPoint = {
     t: now,
-    temperature: Number(state.Temperature) || 0,
-    vibrationx: Number(state.X_RMS_VEL) || 0,
-    vibrationy: Number(state.Y_RMS_VEL) || 0,
-    vibrationz: Number(state.Z_RMS_VEL) || 0,
+    temperature: Number(state.Temperature) / 100 || 0,
+    vibrationX: Number(state.X_RMS_VEL) || 0,
+    vibrationY: Number(state.Y_RMS_VEL) || 0,
+    vibrationZ: Number(state.Z_RMS_VEL) || 0,
   };
   pushBuffer("tv", tvPoint);
 }

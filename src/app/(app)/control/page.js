@@ -90,7 +90,7 @@ export default function ControlPage() {
           warningColor: "bg-yellow-400",
           className: "col-span-2",
         },
-        { type: "temperature", value: live?.Temperature ?? 0 },
+        { type: "temperature", value: live?.Temperature / 100 ?? 0 },
         {
           type: "metric",
           title: "Vibration",
