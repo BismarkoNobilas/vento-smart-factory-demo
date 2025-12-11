@@ -92,12 +92,6 @@ export default function ControlPage() {
         },
         { type: "temperature", value: live?.Temperature / 100 ?? 0 },
         {
-          type: "metric",
-          title: "Vibration",
-          value: live?.X_RMS_VEL ?? 0,
-          unit: "mm/s",
-        },
-        {
           type: "chart",
           title: "Temperature",
           data: tv,

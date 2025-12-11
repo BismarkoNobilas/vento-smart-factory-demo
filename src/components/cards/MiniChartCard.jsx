@@ -1,4 +1,5 @@
-import { chartData} from "@/data/demoData";
+"use client";
+import { chartData } from "@/data/demoData";
 import MiniChart from "../custom/MiniChart";
 import TitleBlock from "../custom/TitleBlock";
 

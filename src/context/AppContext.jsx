@@ -16,8 +16,12 @@ export function AppProvider({ children, initialData }) {
     try {
       const r = await fetch("/api/mqtt");
       const j = await r.json();
-
-      if (j.success) setLive(j.data);
+      if (j.success) {
+        setLive(j.data);
+        if (j.data.conv) setConv(j.data.conv);
+        if (j.data.pump) setPump(j.data.pump);
+        if (j.data.tv) setTv(j.data.tv);
+      }
     } catch (e) {
       console.error("fetchLive error:", e);
     }
