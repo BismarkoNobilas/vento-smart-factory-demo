@@ -6,7 +6,8 @@ let client = null;
 
 export function getClient() {
   if (!client) {
-    const url = process.env.MQTT_URL || "wss://192.168.0.123:8084/mqtt";
+    const url = process.env.MQTT_URL || "mqtt://192.168.0.123:1883";
+    client = mqtt.connect(url);
     // client = mqtt.connect(url, {
     //   reconnectPeriod: 2000, // auto reconnect every 2s
     // });

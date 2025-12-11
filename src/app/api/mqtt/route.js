@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { getClient } from "@/lib/getClient";
-import { state, onIncoming } from "@/lib/state";
+import { state, onIncoming, buffers } from "@/lib/state";
 
 const client = getClient();
 // local-server/pushToVercel.js
@@ -227,7 +227,15 @@ if (!client.listenerCount("message")) {
 // GET -> current state for UI cards
 export async function GET() {
   // pushToCloud(msgt);
-  return NextResponse.json({ success: true, data: state });
+  return NextResponse.json({
+    success: true,
+    data: {
+      ...state,
+      conv: buffers.conveyor,
+      pump: buffers.pump,
+      tv: buffers.tv,
+    },
+  });
 }
 
 // // POST -> publish control commands (UI buttons)

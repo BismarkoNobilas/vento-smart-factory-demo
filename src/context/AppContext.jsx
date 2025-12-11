@@ -57,8 +57,8 @@ export function AppProvider({ children, initialData }) {
     }
 
     // live polling every 5s
-    // const interval = setInterval(fetchLive, 5000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(fetchLive, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

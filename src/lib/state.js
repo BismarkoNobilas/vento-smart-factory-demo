@@ -54,20 +54,11 @@ export const state = {
   Z_RMS_VEL: 0,
 };
 
-// ---- 2h ring-buffers in memory (points every 5s) ----
-const TWO_HOURS = 2 * 60 * 60 * 1000;
 export const buffers = {
   conveyor: [], // {t, voltage, current, power, energy, frequency, pf}
   pump: [], // {t, voltage, current, power, energy, frequency, pf, lvl1, lvl2}
   tv: [],
 };
-
-// function pushBuffer(name, point) {
-//   const arr = buffers[name];
-//   arr.push(point);
-//   const cutoff = Date.now() - TWO_HOURS;
-//   while (arr.length && arr[0].t < cutoff) arr.shift();
-// }
 
 // ---- CSV rotation helpers (one file per day) ----
 function dayStamp(d = new Date()) {
@@ -84,70 +75,6 @@ function ensureHeader(file, header) {
     fs.writeFileSync(file, header + "\n", "utf8");
   }
 }
-
-// // ---- sample accumulation (5s samples → 1m CSV row) ----
-// const accum = {
-//   conveyor: [], // array of {voltage,...}
-//   pump: [],
-// };
-
-// export function onIncoming(msg) {
-//   // Merge into state
-//   Object.assign(state, msg);
-
-//   // Propagate machine → conveyors
-//   if ("Machine1" in msg) {
-//     const v = Number(msg.Machine1) ? 1 : 0;
-//     state.conv1 = state.conv2 = state.conv3 = state.conv4 = v;
-//   }
-//   if ("Machine2" in msg) {
-//     const v = Number(msg.Machine2) ? 1 : 0;
-//     state.ship1 = state.ship2 = v;
-//   }
-
-//   // Build 5s points and push to buffers + minute accumulators
-//   const now = Date.now();
-
-//   const cPoint = {
-//     t: now,
-//     voltage: Number(state.Voltage1) || 0,
-//     current: Number(state.Current1) || 0,
-//     power: Number(state.Power1) || 0,
-//     energy: Number(state.Energy1) || 0,
-//     frequency: Number(state.Freq1) || 0,
-//     pf: Number(state.PF1) || 0,
-//   };
-//   pushBuffer("conveyor", cPoint);
-//   accum.conveyor.push(cPoint);
-
-//   const pPoint = {
-//     t: now,
-//     voltage: Number(state.Voltage2) || 0,
-//     current: Number(state.Current2) || 0,
-//     power: Number(state.Power2) || 0,
-//     energy: Number(state.Energy2) || 0,
-//     frequency: Number(state.Freq2) || 0,
-//     pf: Number(state.PF2) || 0,
-//     lvl1: Number(state.Pump1_Low + state.Pump1_Mid + state.Pump1_High) || 0,
-//     lvl2: Number(state.Pump2_Low + state.Pump2_Mid + state.Pump2_High) || 0,
-//   };
-//   pushBuffer("pump", pPoint);
-//   accum.pump.push(pPoint);
-
-//   // client.on("message", (topic, payload) => {
-//   //   try {
-
-//   //   } catch (e) {
-//   //     console.error("❌ invalid JSON from MQTT2:", e.message);
-//   //   }
-//   // });
-// }
-// ---- sample accumulation (5s samples → 1m CSV row) ----
-const accum = {
-  conveyor: [], // array of {voltage,...}
-  pump: [],
-  tv: [],
-};
 
 const MAX_POINTS = 1440; // keep ~2h if 1 point = 5s
 
@@ -217,7 +144,7 @@ function avg(arr, key) {
 }
 
 function flushGroup(group, columns, header) {
-  const samples = accum[group];
+  const samples = buffers[group];
   if (!samples.length) return;
   const row = columns.map((k) =>
     k === "time" ? new Date().toISOString() : avg(samples, k)
@@ -225,7 +152,7 @@ function flushGroup(group, columns, header) {
   const file = csvPath(group);
   ensureHeader(file, header);
   fs.appendFileSync(file, row.join(",") + "\n", "utf8");
-  accum[group] = [];
+  buffers[group] = [];
 }
 
 // singleton timer (avoid duplicates in dev)
