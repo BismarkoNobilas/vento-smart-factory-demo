@@ -4,6 +4,8 @@ import { AppProvider } from "@/context/AppContext";
 import AppNavbar from "@/components/layout/AppNavbar";
 import "@heroui/theme";
 import { getInitialData } from "@/lib/getInitialData";
+import ToastContainer from "@/components/custom/ToastContainer";
+import AlertOverlay from "@/components/custom/AlertOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +40,8 @@ export default async function RootLayout({ children }) {
       >
         <AppProvider initialData={initialData}>
           <AppNavbar />
+          <ToastContainer />
+          <AlertOverlay />
           <main>{children}</main>
         </AppProvider>
       </body>

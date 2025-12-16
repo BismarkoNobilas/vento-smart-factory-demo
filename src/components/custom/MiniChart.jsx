@@ -1,11 +1,20 @@
 "use client";
 
-import { AreaChart, Area, XAxis, YAxis } from "recharts";
+import { useEffect, useState } from "react";
+import {
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  ReferenceLine,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"; // adjust path if needed
+} from "@/components/ui/chart";
 
 export default function MiniChart({
   data = [],
@@ -15,7 +24,20 @@ export default function MiniChart({
   axisStateY,
   domainAdd,
   height = "h-full",
+  type: initialType = "area", // 👈 NEW (area | bar)
+  showToggle = true, // 👈 optional button
+  // 👇 NEW
+  alertValue = 3000, // number (e.g. 80)
+  alertLabel = "ALERT",
+  alertColor = "#ef4444", // red-500
 }) {
+  const [mounted, setMounted] = useState(false);
+  const [type, setType] = useState(initialType);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const config = {
     [dataKey]: {
       label,
@@ -23,19 +45,51 @@ export default function MiniChart({
     },
   };
 
-  // Compute Y-axis domain (ignores 0 values unless everything is 0)
+  // ⛔ prevent SSR / empty-data crash
+  if (!mounted || !Array.isArray(data) || data.length === 0) {
+    return (
+      <div className="min-h-[120px] flex items-center justify-center text-xs text-muted-foreground">
+        No data
+      </div>
+    );
+  }
+
+  // Compute Y-axis domain (ignores 0 unless all 0)
   const getDomain = (add) => [
     () => {
       const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
-      if (nonZero.length === 0) return 0;
-      return Math.min(...nonZero) - add;
+      return nonZero.length ? Math.min(...nonZero) - add : 0;
     },
     () => {
       const nonZero = data.map((d) => d[dataKey]).filter((v) => v > 0);
-      if (nonZero.length === 0) return 10;
-      return Math.max(...nonZero) + add;
+      return nonZero.length ? Math.max(...nonZero) + add : 10;
     },
   ];
+
+  // Axis formatter (unchanged)
+  const renderXAxis = () =>
+    axisStateX && (
+      <XAxis
+        dataKey="t"
+        tickMargin={5}
+        height={20}
+        tickFormatter={(v) =>
+          new Date(v).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+        }
+      />
+    );
+
+  const renderYAxis = () => (
+    <YAxis
+      width={34}
+      domain={domainAdd ? getDomain(domainAdd) : undefined}
+      hide={!axisStateY}
+    />
+  );
 
   return (
     <div className={`w-full ${height} flex flex-col`}>
@@ -43,62 +97,97 @@ export default function MiniChart({
         config={config}
         className="aspect-auto rounded-md w-full min-h-[120px]"
         style={{
-          height: axisStateX ? "calc(100% - 27px)" : "100%", // tweak 22px for your tick size
+          height: axisStateX ? "calc(100% - 27px)" : "100%",
         }}
       >
-        <AreaChart data={data}>
-          {axisStateX && (
-            <XAxis
-              ddataKey={dataKey} // can be "t" or "day"
-              tickMargin={5}
-              height={20} // explicitly control axis height
-              tickFormatter={(v) => {
-                if (dataKey === "t") {
-                  // 🕒 Format as time
-                  return new Date(v).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  });
-                } else if (dataKey === "day") {
-                  // 📅 Format as date
-                  return new Date(v).toLocaleDateString([], {
-                    day: "2-digit",
-                    month: "short",
-                  });
-                } else {
-                  // default fallback
-                  return v;
-                }
-              }}
+        {/* ⚠️ Chart container stays stable */}
+        {type === "area" ? (
+          <AreaChart data={data}>
+            {renderXAxis()}
+            {renderYAxis()}
+            <ChartTooltip content={<ChartTooltipContent />} />
+
+            <defs>
+              <linearGradient
+                id={`fill-${dataKey}`}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
+                <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
+              </linearGradient>
+            </defs>
+
+            <Area
+              type="linear"
+              dataKey={dataKey}
+              stroke="#3b82f6"
+              fill={`url(#fill-${dataKey})`}
+              fillOpacity={0.7}
+              strokeWidth={1}
+              dot={false}
+              isAnimationActive={false}
             />
-          )}
-          <YAxis
-            width={34}
-            domain={domainAdd ? getDomain(domainAdd) : undefined}
-            hide={!axisStateY} // hides ticks, line, labels
-          />
+            {typeof alertValue === "number" && (
+              <ReferenceLine
+                y={alertValue}
+                stroke={alertColor}
+                strokeDasharray="6 4"
+                strokeWidth={2}
+                label={{
+                  value: alertLabel,
+                  position: "right",
+                  fill: alertColor,
+                  fontSize: 12,
+                  fontWeight: 600,
+                }}
+              />
+            )}
+          </AreaChart> //ohrgyczdu
+        ) : (
+          <BarChart data={data}>
+            {renderXAxis()}
+            {renderYAxis()}
+            <ChartTooltip content={<ChartTooltipContent />} />
 
-          <ChartTooltip content={<ChartTooltipContent />} />
-
-          <defs>
-            <linearGradient id={`fill-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="20%" stopColor="#14E240" stopOpacity={0.8} />
-              <stop offset="80%" stopColor="#b0ebbc" stopOpacity={0.8} />
-            </linearGradient>
-          </defs>
-
-          <Area
-            type="monotone"
-            dataKey={dataKey}
-            stroke="#3b82f6"
-            fill={`url(#fill-${dataKey})`}
-            fillOpacity={0.7}
-            strokeWidth={1}
-            dot={false}
-          />
-        </AreaChart>
+            <Bar
+              dataKey={dataKey}
+              fill="#3b82f6"
+              radius={[3, 3, 0, 0]}
+              isAnimationActive={false}
+            />
+            {typeof alertValue === "number" && (
+              <ReferenceLine
+                y={alertValue}
+                stroke={alertColor}
+                strokeDasharray="6 4"
+                strokeWidth={2}
+                label={{
+                  value: alertLabel,
+                  position: "right",
+                  fill: alertColor,
+                  fontSize: 12,
+                  fontWeight: 600,
+                }}
+              />
+            )}
+          </BarChart>
+        )}
       </ChartContainer>
+
+      {/* 🔘 Toggle button */}
+      {showToggle && (
+        <div className="flex justify-end mt-1">
+          <button
+            className="text-xs text-blue-500 hover:underline"
+            onClick={() => setType(type === "area" ? "bar" : "area")}
+          >
+            Switch to {type === "area" ? "Bar" : "Area"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

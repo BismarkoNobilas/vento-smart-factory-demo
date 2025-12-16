@@ -1,6 +1,6 @@
 "use client";
 import { chartData } from "@/data/demoData";
-import MiniChart from "../custom/MiniChart";
+import MiniChart from "../custom/MiniChart.client";
 import TitleBlock from "../custom/TitleBlock";
 
 export default function MiniChartCard({
@@ -20,7 +20,7 @@ export default function MiniChartCard({
     >
       <TitleBlock
         title={title}
-        value={data[data.length - 1]?.[dataKey]}
+        value={data[data.length - 1]?.[dataKey] ?? 0}
         unit={unit}
         showValue={true}
       />

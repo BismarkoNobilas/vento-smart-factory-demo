@@ -2,6 +2,7 @@
 // Central state + sampling + CSV writing
 import fs from "node:fs";
 import path from "node:path";
+import { fmt } from "./numFormat";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -9,33 +10,33 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 // ---- current state (latest values shown in cards) ----
 export const state = {
   // Power Status
-  Machine1: 0,
-  Machine2: 0,
-  Pump1: 0,
-  Pump2: 0,
-  Lamp: 0,
+  M1: 0,
+  M2: 0,
+  P1: 0,
+  P2: 0,
+  Lp: 0,
 
   // Conveyor metrics (c*)
-  Voltage1: 0,
-  Current1: 0,
-  Power1: 0,
-  Energy1: 0,
-  Freq1: 0,
-  PF1: 0,
+  V1: 0,
+  C1: 0,
+  P1: 0,
+  E1: 0,
+  F1: 0,
+  Q1: 0,
 
   // Pump metrics (p*)
-  Voltage2: 0,
-  Current2: 0,
-  Power2: 0,
-  Energy2: 0,
-  Freq2: 0,
-  PF2: 0,
-  Pump1_Low: 0,
-  Pump1_Mid: 0,
-  Pump1_High: 0,
-  Pump2_Low: 0,
-  Pump2_Mid: 0,
-  Pump2_High: 0,
+  V2: 0,
+  C2: 0,
+  P2: 0,
+  E2: 0,
+  F2: 0,
+  Q2: 0,
+  Pm1L: 0,
+  Pm1M: 0,
+  Pm1H: 0,
+  Pm2L: 0,
+  Pm2M: 0,
+  Pp2H: 0,
 
   // Derived displays for Machine 1 & 2 conveyors
   conv1: 0,
@@ -48,15 +49,15 @@ export const state = {
   autoPumpControl: false, // 🔹 auto pump logic
   autoLampControl: false,
 
-  Temperature: 0,
-  X_RMS_VEL: 0,
-  Y_RMS_VEL: 0,
-  Z_RMS_VEL: 0,
+  Temp: 0,
+  VibX: 0,
+  VibY: 0,
+  VibZ: 0,
 };
 
 export const buffers = {
-  conveyor: [], // {t, voltage, current, power, energy, frequency, pf}
-  pump: [], // {t, voltage, current, power, energy, frequency, pf, lvl1, lvl2}
+  conveyor: [],
+  pump: [],
   tv: [],
 };
 
@@ -76,7 +77,7 @@ function ensureHeader(file, header) {
   }
 }
 
-const MAX_POINTS = 1440; // keep ~2h if 1 point = 5s
+const MAX_POINTS = 144000; // keep ~2h if 1 point = 5s
 
 function pushBuffer(name, point) {
   const arr = buffers[name];
@@ -105,34 +106,34 @@ export function onIncoming(msg) {
 
   const cPoint = {
     t: now,
-    voltage: Number(state.Voltage1) || 0,
-    current: Number(state.Current1) || 0,
-    power: Number(state.Power1) || 0,
-    energy: Number(state.Energy1) || 0,
-    frequency: Number(state.Freq1) || 0,
-    pf: Number(state.PF1) || 0,
+    voltage: Number(state.V1) * 0.1 || 0,
+    current: Number(state.C1) * 0.001 || 0,
+    power: Number(state.P1) * 0.1 || 0,
+    energy: Number(state.E1) || 0,
+    frequency: Number(state.F1) * 0.1 || 0,
+    pf: Number(state.Q1) * 0.01 || 0,
   };
   pushBuffer("conveyor", cPoint);
 
   const pPoint = {
     t: now,
-    voltage: Number(state.Voltage2) || 0,
-    current: Number(state.Current2) || 0,
-    power: Number(state.Power2) || 0,
-    energy: Number(state.Energy2) || 0,
-    frequency: Number(state.Freq2) || 0,
-    pf: Number(state.PF2) || 0,
-    lvl1: Number(state.Pump1_Low + state.Pump1_Mid + state.Pump1_High) || 0,
-    lvl2: Number(state.Pump2_Low + state.Pump2_Mid + state.Pump2_High) || 0,
+    voltage: Number(state.V2) || 0,
+    current: Number(state.C2) || 0,
+    power: Number(state.P2) || 0,
+    energy: Number(state.E2) || 0,
+    frequency: Number(state.F2) || 0,
+    pf: Number(state.Q2) || 0,
+    lvl1: Number(state.Pm1L + state.Pm1M + state.Pm1H) || 0,
+    lvl2: Number(state.Pm2L + state.Pm2M + state.Pm2H) || 0,
   };
   pushBuffer("pump", pPoint);
 
   const tvPoint = {
     t: now,
-    temperature: Number(state.Temperature) / 100 || 0,
-    vibrationX: Number(state.X_RMS_VEL) || 0,
-    vibrationY: Number(state.Y_RMS_VEL) || 0,
-    vibrationZ: Number(state.Z_RMS_VEL) || 0,
+    temperature: fmt(Number(state.Temp) * 0.01) || 0,
+    vibrationX: Number(state.VibX) || 0,
+    vibrationY: Number(state.VibY) || 0,
+    vibrationZ: Number(state.VibZ) || 0,
   };
   pushBuffer("tv", tvPoint);
 }
@@ -190,3 +191,30 @@ export function setAutoControl(type, enabled) {
   if (type === "pump") state.autoPumpControl = enabled;
   if (type === "lamp") state.autoLampControl = enabled;
 }
+
+// lib/state.js
+
+// export const connection = {
+//   mqtt: {
+//     status: "DISCONNECTED", // CONNECTING | CONNECTED | ERROR | STALE
+//     url: null,
+//     lastMessageAt: null,
+//     lastError: null,
+//   },
+// };
+
+// // lib/state.js
+// const STALE_TIMEOUT = 10_000; // 10 seconds
+
+// if (!globalThis.__mqtt_watchdog__) {
+//   globalThis.__mqtt_watchdog__ = setInterval(() => {
+//     const last = connection.mqtt.lastMessageAt;
+//     if (
+//       connection.mqtt.status === "CONNECTED" &&
+//       last &&
+//       Date.now() - last > STALE_TIMEOUT
+//     ) {
+//       connection.mqtt.status = "STALE";
+//     }
+//   }, 2000);
+// }

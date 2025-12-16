@@ -11,6 +11,7 @@ export function AppProvider({ children, initialData }) {
   const [tv, setTv] = useState(initialData?.tv ?? []);
   const [now, setNow] = useState(new Date());
   const [role, setRole] = useState("Manager");
+  const [connection, setConnection] = useState(null);
 
   async function fetchLive() {
     try {
@@ -18,6 +19,7 @@ export function AppProvider({ children, initialData }) {
       const j = await r.json();
       if (j.success) {
         setLive(j.data);
+        setConnection(j.data.connection);
         if (j.data.conv) setConv(j.data.conv);
         if (j.data.pump) setPump(j.data.pump);
         if (j.data.tv) setTv(j.data.tv);
@@ -61,13 +63,13 @@ export function AppProvider({ children, initialData }) {
     }
 
     // live polling every 5s
-    const interval = setInterval(fetchLive, 5000);
+    const interval = setInterval(fetchLive, 2000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <AppContext.Provider
-      value={{ live, conv, pump, tv, now, role, setRole, publish }}
+      value={{ live, conv, pump, connection, tv, now, role, setRole, publish }}
     >
       {children}
     </AppContext.Provider>

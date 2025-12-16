@@ -260,3 +260,16 @@ input:checked + .slider:before {
   }
 }
 /* animation: expandPulse 3600ms linear infinite; */
+
+@keyframes toastTimer {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+.animate-toast-timer {
+  animation-name: toastTimer;
+  animation-timing-function: linear;
+}
