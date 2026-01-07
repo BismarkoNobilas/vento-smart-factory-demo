@@ -11,8 +11,8 @@ export const ALARMS = [
 
     check: (d) => Math.max(d.vibrationX, d.vibrationY, d.vibrationZ),
 
-    warning: 3200,
-    critical: 5000,
+    warning: null,
+    critical: 2800,
 
     parameter: "VibX/VibY/VibZ",
     why: "Unbalance, misalignment, mounting buruk, keausan bearing, grease rusak",
@@ -28,7 +28,7 @@ export const ALARMS = [
 
     check: (d) => d.temperature,
 
-    warning: 80,
+    warning: 40,
     critical: null,
 
     parameter: "Temperature",
@@ -46,10 +46,10 @@ export const ALARMS = [
     type: "Trip",
     source: "Panel",
 
-    check: (d) => d.V1,
+    check: (d) => d.V1 > 300,
 
     warning: null,
-    critical: 250,
+    critical: true,
 
     parameter: "V1",
     why: "Gangguan suplai listrik",
@@ -62,10 +62,10 @@ export const ALARMS = [
     type: "Trip",
     source: "Panel",
 
-    check: (d) => d.V1,
+    check: (d) => d.V1 < 260,
 
     warning: null,
-    critical: 180,
+    critical: true,
 
     parameter: "V1",
     why: "Listrik lemah",
@@ -82,26 +82,27 @@ export const ALARMS = [
     type: "Trip",
     source: "Motor 1",
 
-    check: (d) => d.C1,
+    check: (d) => d.C1 > 0.75,
 
     warning: null,
-    critical: 1200,
+    critical: true,
 
     parameter: "A1",
     why: "Beban berlebih, bearing macet",
     prevention: "Sesuaikan kapasitas motor, cek bearing",
   },
-
+  //cubix
+  //shape
   {
     id: "UNDER_CURRENT",
     title: "Under Current",
     type: "Trip",
     source: "Motor 1",
 
-    check: (d) => d.C1,
+    check: (d) => d.C1 < 0.05,
 
     warning: null,
-    critical: 100,
+    critical: true,
 
     parameter: "A1",
     why: "Kehilangan beban, slip",
@@ -117,7 +118,7 @@ export const ALARMS = [
     check: (d) => d.C1,
 
     warning: null,
-    critical: 2000,
+    critical: 20,
 
     parameter: "A1",
     why: "Poros macet",
@@ -155,7 +156,7 @@ export const ALARMS = [
     source: "Motor 1",
 
     check: (d) =>
-      d.C1 > 1100 && Math.max(d.vibrationX, d.vibrationY, d.vibrationZ) > 3000,
+      d.C1 > 0.7 && Math.max(d.vibrationX, d.vibrationY, d.vibrationZ) > 3000,
 
     warning: true,
     critical: null,
@@ -171,7 +172,7 @@ export const ALARMS = [
     type: "Trip",
     source: "Motor 1",
 
-    check: (d) => d.C1 > 1200 && d.temperature > 90,
+    check: (d) => d.C1 > 0.5 && d.temperature > 90,
 
     warning: null,
     critical: true,
@@ -188,7 +189,7 @@ export const ALARMS = [
     source: "Motor 1",
 
     check: (d) =>
-      d.C1 > 1200 &&
+      d.C1 > 0.5 &&
       d.temperature > 95 &&
       Math.max(d.vibrationX, d.vibrationY, d.vibrationZ) > 4000,
 

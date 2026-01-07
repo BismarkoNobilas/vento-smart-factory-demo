@@ -27,4 +27,11 @@ export const useNotificationStore = create((set, get) => ({
         a.id === id ? { ...a, acknowledged: true } : a
       ),
     })),
+
+  clearAlert: (id) =>
+    set((state) => ({
+      alerts: state.alerts.filter((a) => a.id !== id),
+    })),
+
+  clearAll: () => set({ alerts: [] }),
 }));

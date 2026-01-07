@@ -242,7 +242,7 @@ export default function ControlPage() {
             {machine5Data.map((motor, motorIdx) => (
               <div
                 key={motorIdx}
-                className="grid grid-cols-6 gap-3 p-4 w-auto max-h-[95vh] mx-auto border-b-2"
+                className="grid grid-cols-6 gap-3 p-4 w-auto h-fit mx-auto border-b-2"
               >
                 {motor.cards.map((item, i) => renderCard(item, i))}
               </div>
