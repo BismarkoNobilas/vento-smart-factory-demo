@@ -183,7 +183,7 @@ export default function ControlPage() {
         {
           type: "metric",
           title: "Frequensi",
-          value: fmt(live.Q1),
+          value: fmt(live.F1),
           unit: "hz",
         },
         { type: "temperature", value: fmt(live.Temp) },

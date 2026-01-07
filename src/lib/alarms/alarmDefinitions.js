@@ -82,10 +82,10 @@ export const ALARMS = [
     type: "Trip",
     source: "Motor 1",
 
-    check: (d) => d.C1 > 0.75,
+    check: (d) => d.C1,
 
     warning: null,
-    critical: true,
+    critical: 0.5,
 
     parameter: "A1",
     why: "Beban berlebih, bearing macet",
