@@ -55,6 +55,24 @@ export const state = {
   VibZ: 0,
 };
 
+const SCALE = {
+  V1: 0.1,
+  C1: 0.001,
+  P1: 0.1,
+  E1: 1,
+  F1: 0.1,
+  Q1: 0.01,
+
+  V2: 0.1,
+  C2: 0.001,
+  P2: 0.1,
+  E2: 1,
+  F2: 0.1,
+  Q2: 0.01,
+
+  Temp: 0.01,
+};
+
 export const buffers = {
   conveyor: [],
   pump: [],
@@ -87,17 +105,34 @@ function pushBuffer(name, point) {
   }
 }
 
+function normalizeIncoming(msg) {
+  const out = {};
+
+  for (const [key, value] of Object.entries(msg)) {
+    if (key in SCALE) {
+      out[key] = fmt(Number(value) * SCALE[key]);
+    } else {
+      // digital / flags / already OK
+      out[key] = fmt(Number(value) || value);
+    }
+  }
+
+  return out;
+}
+
 export function onIncoming(msg) {
   // Merge into state
-  Object.assign(state, msg);
+  const data = normalizeIncoming(msg);
+
+  Object.assign(state, data);
 
   // Propagate machine → conveyors
-  if ("Machine1" in msg) {
-    const v = Number(msg.Machine1) ? 1 : 0;
+  if ("Machine1" in data) {
+    const v = Number(data.Machine1) ? 1 : 0;
     state.conv1 = state.conv2 = state.conv3 = state.conv4 = v;
   }
-  if ("Machine2" in msg) {
-    const v = Number(msg.Machine2) ? 1 : 0;
+  if ("Machine2" in data) {
+    const v = Number(data.Machine2) ? 1 : 0;
     state.ship1 = state.ship2 = v;
   }
 
@@ -106,12 +141,12 @@ export function onIncoming(msg) {
 
   const cPoint = {
     t: now,
-    voltage: Number(state.V1) * 0.1 || 0,
-    current: Number(state.C1) * 0.001 || 0,
-    power: Number(state.P1) * 0.1 || 0,
+    voltage: Number(state.V1) || 0,
+    current: Number(state.C1) || 0,
+    power: Number(state.P1) || 0,
     energy: Number(state.E1) || 0,
-    frequency: Number(state.F1) * 0.1 || 0,
-    pf: Number(state.Q1) * 0.01 || 0,
+    frequency: Number(state.F1) || 0,
+    pf: Number(state.Q1) || 0,
   };
   pushBuffer("conveyor", cPoint);
 
@@ -130,7 +165,7 @@ export function onIncoming(msg) {
 
   const tvPoint = {
     t: now,
-    temperature: fmt(Number(state.Temp) * 0.01) || 0,
+    temperature: Number(state.Temp) || 0,
     vibrationX: Number(state.VibX) || 0,
     vibrationY: Number(state.VibY) || 0,
     vibrationZ: Number(state.VibZ) || 0,

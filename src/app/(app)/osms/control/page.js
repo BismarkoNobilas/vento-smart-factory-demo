@@ -15,11 +15,10 @@ import { useNotificationStore } from "@/stores/useNotificationStore";
 import AlertOverlay from "@/components/custom/AlertOverlay";
 
 import { useEffect, useRef } from "react";
+import { evaluateAlarms } from "@/lib/evauateAlarm";
 
 export default function ControlPage() {
   const { live, pump, conv, tv } = useApp();
-  const VIBRATION_WARNING = 2000;
-  const VIBRATION_CRITICAL = 4000;
 
   const logData3 = [
     { start: "07:00", end: "12:00", status: "STOP" },
@@ -29,49 +28,28 @@ export default function ControlPage() {
     // { start: "21:00", end: "23:30", status: "RUNNING" },
   ];
 
-  function createAlert(level, value, source) {
-    useNotificationStore.getState().addAlert({
-      id: crypto.randomUUID(),
-      level,
-      title: level === "critical" ? "CRITICAL VIBRATION" : "Vibration Warning",
-      message: `Vibration value reached ${value}`,
+  const VIBRATION_WARNING = 3200;
+  const VIBRATION_CRITICAL = 5000;
 
-      why: "Excessive vibration detected",
-      when: new Date().toLocaleString(),
-      where: source,
-
-      source,
-      dataKey: "vibration",
-      value,
-
-      createdAt: Date.now(),
-      acknowledged: false,
-    });
-  }
-
-  const lastLevelRef = useRef("NONE");
+  const lastLevelsRef = useRef({});
 
   useEffect(() => {
     if (!tv.length) return;
 
     const latest = tv[tv.length - 1];
-    const vib = Math.max(
-      latest.vibrationX,
-      latest.vibrationY,
-      latest.vibrationZ
+
+    evaluateAlarms(
+      {
+        vibrationX: latest.vibrationX,
+        vibrationY: latest.vibrationY,
+        vibrationZ: latest.vibrationZ,
+        temperature: latest.temperature,
+        V1: live.V1,
+        C1: live.C1,
+      },
+      lastLevelsRef
     );
-
-    let level = "NONE";
-    if (vib > VIBRATION_CRITICAL) level = "critical";
-    else if (vib > VIBRATION_WARNING) level = "warning";
-
-    // edge-trigger only
-    if (level !== "NONE" && lastLevelRef.current !== level) {
-      createAlert(level, vib, "Motor 1");
-    }
-
-    lastLevelRef.current = level;
-  }, [tv]);
+  }, [tv, live]);
 
   function getVibrationWarning(tv = []) {
     if (!tv.length) {
@@ -179,13 +157,13 @@ export default function ControlPage() {
         {
           type: "metric",
           title: "Voltage",
-          value: fmt(live.V1 * 0.1),
+          value: fmt(live.V1),
           unit: "V",
         },
         {
           type: "metric",
           title: "Current",
-          value: fmt(live.C1 * 0.001),
+          value: fmt(live.C1),
           unit: "A",
         },
         {
@@ -198,17 +176,17 @@ export default function ControlPage() {
         {
           type: "metric",
           title: "Power",
-          value: fmt(live.P1 * 0.1),
+          value: fmt(live.P1),
           unit: "w",
         },
         { type: "metric", title: "Energy", value: fmt(live.E1), unit: "wh" },
         {
           type: "metric",
           title: "Frequensi",
-          value: fmt(live.Q1 * 0.1),
+          value: fmt(live.Q1),
           unit: "hz",
         },
-        { type: "temperature", value: fmt(live?.Temp * 0.01) },
+        { type: "temperature", value: fmt(live.Temp) },
         {
           type: "chart",
           title: "Temperature",

@@ -3,15 +3,22 @@ import React from "react";
 import Link from "next/link";
 import Clock from "../custom/Clock";
 import RoleSwitcher from "../custom/RoleSwitcher";
+import { menuItems1, menuItems2 } from "@/data/profileData";
 
-export default function AppNavbar() {
+export default function AppNavbar({ menuSwitch = "default" }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [
-    { label: "Monitoring", href: "/monitoring" },
-    { label: "Machine", href: "/machine" },
-    { label: "Widgets", href: "/widgets" },
-  ];
+  const menuItems =
+    menuSwitch === "maket"
+      ? menuItems1
+      : menuSwitch === "osms"
+      ? menuItems2
+      : menuItems1;
+  // [
+  //   { label: "Monitoring", href: "/monitoring" },
+  //   { label: "Machine", href: "/machine" },
+  //   { label: "Widgets", href: "/widgets" },
+  // ];
 
   return (
     <header className="w-full bg-white border-b">

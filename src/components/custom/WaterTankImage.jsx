@@ -17,7 +17,7 @@ export default function WaterTankImage({ label, level }) {
       <div className="relative w-40 h-50 justify-center">
         {/* Tank frame */}
         <img
-          src="tanki-air.png"
+          src="/tanki-air.png"
           alt="Water Tank"
           className="absolute inset-0 w-full h-full object-contain z-10"
         />

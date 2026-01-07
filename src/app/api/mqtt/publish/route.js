@@ -55,9 +55,9 @@ export async function POST(req) {
     const { topic, message } = await req.json();
     const client = getClient();
 
-    const payload = buildPublishPayload(message);
-
-    client.publish(topic, JSON.stringify(payload));
+    //const payload = buildPublishPayload(message);
+    const payload = message;
+    client.publish(topic, payload);
     console.log("📤 Published:", topic, JSON.stringify(payload, null, 2));
 
     return NextResponse.json({ success: true, payload });

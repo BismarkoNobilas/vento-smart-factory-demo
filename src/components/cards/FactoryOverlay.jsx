@@ -30,7 +30,7 @@ function FactoryOverlay({ videoSrc, overlays }) {
                 }}
               >
                 <img
-                  src="info_icon.svg"
+                  src="/info_icon.svg"
                   className="w-[40px] h-[40px] opacity-90"
                 />
               </PopoverTrigger>

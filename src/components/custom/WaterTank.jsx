@@ -35,7 +35,7 @@ export default function WaterTank({ label, level }) {
 
         <img
           className="relative"
-          src="water-tank-2.png"
+          src="/water-tank-2.png"
           alt="Motor"
           width={250}
         />
