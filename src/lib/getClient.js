@@ -10,8 +10,8 @@ export function getClient() {
 
     client.on("connect", () => {
       console.log("✅ MQTT connected:", url);
-      client.subscribe("/PLCMaketSV", (err) => {
-        if (!err) console.log("📡 Subscribed to /PLCMaketSV");
+      client.subscribe("/PLCMaketPV", (err) => {
+        if (!err) console.log("📡 Subscribed to /PLCMaketPV");
       });
     });
 

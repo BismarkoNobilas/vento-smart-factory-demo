@@ -24,7 +24,7 @@ if (!client.listenerCount("message")) {
   client.on("message", (topic, payload) => {
     // console.log(client);
     try {
-      if (topic !== "/PLCMaketSV") return;
+      if (topic !== "/PLCMaketPV") return;
       const raw = payload
         .toString("utf8")
         .replace(/[\x00-\x1F\x7F]/g, "") // remove NULL bytes
