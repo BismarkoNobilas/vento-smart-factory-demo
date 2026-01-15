@@ -5,6 +5,8 @@ function formatTime(iso) {
   return new Date(iso).toLocaleTimeString("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
+    hour12: false,
+    timeZone: "UTC", // Ensures it stays 13:00 regardless of your local time zone
   });
 }
 
@@ -24,6 +26,7 @@ const statusColor = {
 };
 
 export default function RuntimeHistoryTable({ data = [] }) {
+  //   console.log("🟢 RuntimeHistoryTable data:", data);
   return (
     <div className="overflow-x-auto border rounded bg-white">
       <table className="w-full text-sm border-collapse">

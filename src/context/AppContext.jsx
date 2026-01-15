@@ -118,7 +118,7 @@ export function AppProvider({ children, initialData }) {
     // 🟢 Runtime history: every 1 minute
     const runtimeInterval = setInterval(() => {
       fetchRuntime("today");
-    }, 60_000);
+    }, 20_000);
 
     return () => {
       clearInterval(liveInterval);
