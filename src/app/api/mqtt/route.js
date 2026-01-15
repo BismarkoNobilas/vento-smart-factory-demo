@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { getClient } from "@/lib/getClient";
-import { state, onIncoming, buffers, onMqttConnect } from "@/lib/state";
+import { state, onIncoming, buffers } from "@/lib/state";
 
 const client = getClient();
 // local-server/pushToVercel.js
@@ -29,12 +29,12 @@ if (!client.listenerCount("message")) {
         .toString("utf8")
         .replace(/[\x00-\x1F\x7F]/g, "") // remove NULL bytes
         .trim(); // remove padding spaces / newlines
-      console.log("📥 MQTT before:", raw);
+      // console.log("📥 MQTT before:", raw);
       const add = raw;
       // console.log("📥 MQTT after:", add);
       const msg = JSON.parse(add);
       onIncoming(msg);
-      // onMqttConnect();
+      onMqttConnect();
 
       // pushToCloud(msg);
 
