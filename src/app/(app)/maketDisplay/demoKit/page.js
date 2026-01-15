@@ -18,11 +18,15 @@ import useDemoData from "@/hooks/useDemoData";
 import WaterTankImage from "@/components/custom/WaterTankImage";
 import { getClient } from "@/lib/getClient";
 import RuntimeHistoryTable from "@/components/custom/RuntimeHistoryTable";
+import { manualStart, manualStop } from "@/lib/state";
+import { useState } from "react";
 
 export default function DemoKitPage() {
   const { live, pump, conv, runtime, connection } = useApp();
   // console.log("🟢 RUNTIME IN PAGE:", mapRuntimeForTimeline(runtime));
   const { production, oee, quantity, water } = useDemoData();
+  const [showReason, setShowReason] = useState(false);
+  const [reason, setReason] = useState("");
 
   async function sendToPLC(binary) {
     const dec = binaryToDecimal(binary); // 20
@@ -58,7 +62,27 @@ export default function DemoKitPage() {
       timeZone: "UTC", // Ensures it stays 13:00 regardless of your local time zone
     });
   }
+  const STOP_REASONS = [
+    "Material jam",
+    "Maintenance",
+    "Overheat",
+    "Sensor error",
+    "Power issue",
+    "Other",
+  ];
 
+  function handleStopConfirm() {
+    if (!reason) {
+      alert("Please select a reason");
+      return;
+    }
+
+    sendToPLC("000");
+    manualStop(reason);
+
+    setShowReason(false);
+    setReason("");
+  }
   function mapRuntimeForTimeline(runtime) {
     // console.log("Mapping runtime for timeline:", runtime);
     return runtime.map((r) => ({
@@ -203,6 +227,7 @@ export default function DemoKitPage() {
                       className="bg-green-400 rounded px-3 py-1 text-white"
                       onClick={() => {
                         sendToPLC("011");
+                        manualStart();
                       }}
                     >
                       ON
@@ -211,9 +236,7 @@ export default function DemoKitPage() {
                   <div>
                     <button
                       className="bg-red-400 rounded px-3 py-1 text-white"
-                      onClick={() => {
-                        sendToPLC("000");
-                      }}
+                      onClick={() => setShowReason(true)}
                     >
                       OFF
                     </button>
@@ -303,6 +326,50 @@ export default function DemoKitPage() {
               </div>
             ))}
           </div>
+          {showReason && (
+            <div className="col-span-2 mt-2 grid gap-2">
+              <select
+                className="border rounded px-2 py-1"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              >
+                <option value="">Select stop reason</option>
+                {STOP_REASONS.map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+
+              {/* Optional custom input */}
+              {reason === "Other" && (
+                <input
+                  className="border rounded px-2 py-1"
+                  placeholder="Enter reason..."
+                  onChange={(e) => setReason(e.target.value)}
+                />
+              )}
+
+              <div className="flex gap-2 justify-end">
+                <button
+                  className="px-3 py-1 text-sm border rounded"
+                  onClick={() => {
+                    setShowReason(false);
+                    setReason("");
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="px-3 py-1 text-sm bg-red-500 text-white rounded"
+                  onClick={handleStopConfirm}
+                >
+                  Confirm Stop
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </Card>
     </main>
