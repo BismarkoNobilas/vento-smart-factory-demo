@@ -106,17 +106,24 @@ export function AppProvider({ children, initialData }) {
     // initial load (no SSR data)
     if (!initialData) {
       fetchHistory();
-      fetchRuntime("today");
+      fetchRuntime("today"); // initial runtime load
       fetchLive();
     }
 
-    // polling
-    const interval = setInterval(() => {
-      fetchLive(); // live snapshot
-      fetchRuntime("today");
+    // 🔴 Live data: every 3 seconds
+    const liveInterval = setInterval(() => {
+      fetchLive();
     }, 3000);
 
-    return () => clearInterval(interval);
+    // 🟢 Runtime history: every 1 minute
+    const runtimeInterval = setInterval(() => {
+      fetchRuntime("today");
+    }, 60_000);
+
+    return () => {
+      clearInterval(liveInterval);
+      clearInterval(runtimeInterval);
+    };
   }, []);
 
   // ======================

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { onIncomingRuntime } from "@/lib/state";
+import { onIncomingRuntime, updateRuntimeEnd } from "@/lib/state";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -44,6 +44,7 @@ export async function GET() {
 
     // console.log("RUNTIME TIMELINE:", timeline);
     onIncomingRuntime(timeline);
+    updateRuntimeEnd();
     return NextResponse.json({
       success: true,
       data: timeline,

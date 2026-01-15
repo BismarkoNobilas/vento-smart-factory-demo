@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fmt } from "./numFormat";
+import { start } from "node:repl";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -10,11 +11,11 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 // ---- current state (latest values shown in cards) ----
 export const state = {
   // Power Status
-  M1: 0,
-  M2: 0,
-  U1: 0,
-  U2: 0,
-  Lp: 0,
+  M1: 0, //Conveyor Machine 1
+  M2: 0, //Conveyor Machine 2
+  U1: 0, //Pump Unit 1
+  U2: 0, //Pump Unit 2
+  Lp: 0, //Lamp
 
   // Conveyor metrics (c*)
   V1: 0,
@@ -57,9 +58,11 @@ export const state = {
   mqttConnected: false,
 
   current: {
+    start: nowISO(),
+    end: nowISO(),
     status: "SYSTEM_OFF", // initial
-    since: nowISO(),
     reason: "System startup",
+    source: "system",
   },
 
   lastMessageAt: null,
@@ -140,8 +143,12 @@ function normalizeIncoming(msg) {
 
   return out;
 }
+
 export function onIncomingRuntime(runtimeArray) {
-  // console.log("🟢 Runtime:", msg);
+  const latest = runtimeArray.at(-1);
+  if (!latest) return;
+
+  state.current = { ...latest };
   replaceBuffer("runtime", runtimeArray);
 }
 
@@ -277,12 +284,12 @@ export function setAutoControl(type, enabled) {
 const HISTORY_DIR = path.join(process.cwd(), "data");
 const HISTORY_FILE = historyFilePath();
 
-function historyFilePath() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return path.join(HISTORY_DIR, `runtime_history_${y}-${m}-${dd}.csv`);
+function historyFilePath(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+
+  return path.join(HISTORY_DIR, `runtime_history_${y}-${m}-${d}.csv`);
 }
 
 /* ==============================
@@ -292,18 +299,18 @@ function nowISO() {
   return new Date().toISOString();
 }
 
-function ensureHistoryFile() {
+function ensureHistoryFile(filePath) {
   if (!fs.existsSync(HISTORY_DIR)) {
     fs.mkdirSync(HISTORY_DIR, { recursive: true });
   }
 
-  if (!fs.existsSync(HISTORY_FILE)) {
-    fs.writeFileSync(HISTORY_FILE, "start,end,status,reason,source\n", "utf8");
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, "start,end,status,reason,source\n", "utf8");
   }
 }
 
 function appendHistory(entry) {
-  ensureHistoryFile();
+  ensureHistoryFile(historyFilePath());
 
   const line = [
     entry.start,
@@ -318,6 +325,36 @@ function appendHistory(entry) {
   fs.appendFileSync(HISTORY_FILE, line + "\n", "utf8");
 }
 
+function replaceLastHistoryRow(filePath, newRow) {
+  ensureHistoryFile(filePath);
+
+  const content = fs.readFileSync(filePath, "utf8").trim();
+  const lines = content.split("\n");
+
+  if (lines.length <= 1) return; // header only
+
+  const header = lines[0];
+  const data = lines.slice(1);
+
+  data[data.length - 1] = [
+    newRow.start,
+    newRow.end,
+    newRow.status,
+    newRow.reason ?? "",
+    newRow.source ?? "system",
+  ].join(",");
+
+  fs.writeFileSync(filePath, [header, ...data].join("\n") + "\n", "utf8");
+}
+
+export function updateRuntimeEnd() {
+  if (!state.current) return;
+  replaceLastHistoryRow(historyFilePath(), {
+    ...state.current,
+    end: nowISO(),
+  });
+}
+
 /* ==============================
    CORE: STATUS CHANGE
 ================================ */
@@ -327,9 +364,9 @@ function changeStatus(newStatus, reason = null, source = "system") {
   if (state.current.status === newStatus) return;
 
   // close previous state
-  appendHistory({
-    start: state.current.since,
-    end: now,
+  appendHistory(historyFilePath(), {
+    start: state.current.start,
+    end: nowISO(),
     status: state.current.status,
     reason: state.current.reason,
     source: state.current.source,
@@ -337,8 +374,9 @@ function changeStatus(newStatus, reason = null, source = "system") {
 
   // open new state
   state.current = {
+    start: now,
+    end: now,
     status: newStatus,
-    since: now,
     reason,
     source,
   };

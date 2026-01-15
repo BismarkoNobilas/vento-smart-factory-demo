@@ -236,7 +236,7 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className="bg-green-400 rounded px-3 py-1 text-white"
+                      className="bg-green-400 rounded px-3 py-1 text-white hover:bg-green-500 cursor-pointer "
                       onClick={() => {
                         sendToPLC("011");
                         handleStart();
@@ -247,13 +247,65 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className="bg-red-400 rounded px-3 py-1 text-white"
+                      className="bg-red-400 rounded px-3 py-1 text-white hover:bg-red-500 cursor-pointer"
                       onClick={() => setShowReason(true)}
                     >
                       OFF
                     </button>
                   </div>
                 </div>
+                {showReason && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                    {/* Modal box */}
+                    <div className="bg-white rounded-lg shadow-lg w-[360px] p-4 grid gap-3">
+                      <h3 className="text-lg font-semibold text-center">
+                        Stop Machine
+                      </h3>
+
+                      <select
+                        className="border rounded px-2 py-1"
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
+                      >
+                        <option value="">Select stop reason</option>
+                        {STOP_REASONS.map((r) => (
+                          <option key={r} value={r}>
+                            {r}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* Optional custom input */}
+                      {reason === "Other" && (
+                        <input
+                          className="border rounded px-2 py-1"
+                          placeholder="Enter reason..."
+                          onChange={(e) => setReason(e.target.value)}
+                        />
+                      )}
+
+                      <div className="flex justify-end gap-2 pt-2">
+                        <button
+                          className="px-3 py-1 text-sm border rounded hover:bg-gray-100"
+                          onClick={() => {
+                            setShowReason(false);
+                            setReason("");
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
+                          disabled={!reason}
+                          onClick={handleStopConfirm}
+                        >
+                          Confirm Stop
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </Card>
               <div className="bg-zinc-50 shadow-sm rounded p-2 m-0 w-fit">
                 <TitleBlock title="Total Bottle" showValue={false} />
@@ -338,50 +390,6 @@ export default function DemoKitPage() {
               </div>
             ))}
           </div>
-          {showReason && (
-            <div className="col-span-2 mt-2 grid gap-2">
-              <select
-                className="border rounded px-2 py-1"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              >
-                <option value="">Select stop reason</option>
-                {STOP_REASONS.map((r) => (
-                  <option key={r} value={r}>
-                    {r}
-                  </option>
-                ))}
-              </select>
-
-              {/* Optional custom input */}
-              {reason === "Other" && (
-                <input
-                  className="border rounded px-2 py-1"
-                  placeholder="Enter reason..."
-                  onChange={(e) => setReason(e.target.value)}
-                />
-              )}
-
-              <div className="flex gap-2 justify-end">
-                <button
-                  className="px-3 py-1 text-sm border rounded"
-                  onClick={() => {
-                    setShowReason(false);
-                    setReason("");
-                  }}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  className="px-3 py-1 text-sm bg-red-500 text-white rounded"
-                  onClick={handleStopConfirm}
-                >
-                  Confirm Stop
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </Card>
     </main>

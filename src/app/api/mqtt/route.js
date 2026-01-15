@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { getClient } from "@/lib/getClient";
-import { state, onIncoming, buffers } from "@/lib/state";
+import { state, onIncoming, buffers, onMqttConnect } from "@/lib/state";
 
 const client = getClient();
 // local-server/pushToVercel.js
@@ -34,6 +34,7 @@ if (!client.listenerCount("message")) {
       // console.log("📥 MQTT after:", add);
       const msg = JSON.parse(add);
       onIncoming(msg);
+      onMqttConnect();
 
       // pushToCloud(msg);
 
