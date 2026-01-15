@@ -12,7 +12,8 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 export const state = {
   // Power Status
   M1: 0, //Conveyor Machine 1
-  M2: 0, //Conveyor Machine 2
+  conv1: 0,
+  conv2: 0,
   U1: 0, //Pump Unit 1
   U2: 0, //Pump Unit 2
   Lp: 0, //Lamp
@@ -160,15 +161,15 @@ export function onIncoming(msg) {
   Object.assign(state, data);
 
   // 2️⃣ Machine → device propagation
-  if ("Machine1" in data) {
-    const v = Number(data.Machine1) ? 1 : 0;
-    state.conv1 = state.conv2 = state.conv3 = state.conv4 = v;
-  }
+  // if ("Machine1" in data) {
+  //   const v = Number(data.Machine1) ? 1 : 0;
+  //   state.conv1 = state.conv2 = state.conv3 = state.conv4 = v;
+  // }
 
-  if ("Machine2" in data) {
-    const v = Number(data.Machine2) ? 1 : 0;
-    state.ship1 = state.ship2 = v;
-  }
+  // if ("Machine2" in data) {
+  //   const v = Number(data.Machine2) ? 1 : 0;
+  //   state.ship1 = state.ship2 = v;
+  // }
 
   // 3️⃣ STATUS CHANGE DETECTION (runtime history)
   // Machine1 is your MAIN runtime source

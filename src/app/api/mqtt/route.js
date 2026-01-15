@@ -29,7 +29,7 @@ if (!client.listenerCount("message")) {
         .toString("utf8")
         .replace(/[\x00-\x1F\x7F]/g, "") // remove NULL bytes
         .trim(); // remove padding spaces / newlines
-      // console.log("📥 MQTT before:", raw);
+      console.log("📥 MQTT before:", raw);
       const add = raw;
       // console.log("📥 MQTT after:", add);
       const msg = JSON.parse(add);
