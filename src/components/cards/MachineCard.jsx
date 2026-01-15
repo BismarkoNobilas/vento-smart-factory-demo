@@ -18,6 +18,7 @@ import TemperatureCard from "./TemperatureCard";
 import { runtimeData } from "@/data/demoData";
 
 export default function MachineCard({ title, data = [], index }) {
+  const machineRuntime = data?.[0]?.cards?.find((c) => c.type === "runtime");
   const renderCard = (item, idx) => {
     switch (item.type) {
       case "runtime":
@@ -75,16 +76,16 @@ export default function MachineCard({ title, data = [], index }) {
   return (
     <Card className="grid gap-3 w-fit p-4 h-fit bg-zinc-50 shadow-md">
       <div className="grid w-full h-fit gap-4">
-        <RunTimeCard
-          logs={runtimeData[index].logs}
-          title={title ?? runtimeData[index].title}
-          status={runtimeData[index].status}
-          statusColor={runtimeData[index].statusColor}
-          warning={runtimeData[index].warning}
-          warningColor={runtimeData[index].warningColor}
-          bgColor={runtimeData[index].bgColor}
-          className={runtimeData[index].className}
-        />
+        {machineRuntime && (
+          <RunTimeCard
+            logs={machineRuntime.logs}
+            title={title ?? "Machine Runtime"}
+            status={machineRuntime.status}
+            statusColor={machineRuntime.statusColor}
+            warning={machineRuntime.warning}
+            warningColor={machineRuntime.warningColor}
+          />
+        )}
 
         <div className="grid gap-2">
           {data.map((motor, idx) => {

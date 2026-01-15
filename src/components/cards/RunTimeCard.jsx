@@ -1,4 +1,3 @@
-import { logData } from "@/data/demoData";
 import MachineTimeline from "../custom/MachineTimeline";
 
 function RunTimeCard({
@@ -8,9 +7,10 @@ function RunTimeCard({
   warning = "OKE",
   warningColor = "bg-green-500",
   logs = [],
-  timelineLabels = ["07:00", "15:00", "23:00", "07:00"],
+  timelineLabels = ["07:00", "13:00", "19:00", "07:00"],
   bgColor = "bg-zinc-50",
 }) {
+  // console.log("🟢 RUNTIME CARD LOGS:", logs);
   return (
     <div className={`grid ${bgColor} shadow-sm rounded w-full h-full`}>
       <div className="p-3 grid">

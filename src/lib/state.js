@@ -12,8 +12,8 @@ export const state = {
   // Power Status
   M1: 0,
   M2: 0,
-  P1: 0,
-  P2: 0,
+  U1: 0,
+  U2: 0,
   Lp: 0,
 
   // Conveyor metrics (c*)
@@ -53,6 +53,16 @@ export const state = {
   VibX: 0,
   VibY: 0,
   VibZ: 0,
+
+  mqttConnected: false,
+
+  current: {
+    status: "SYSTEM_OFF", // initial
+    since: nowISO(),
+    reason: "System startup",
+  },
+
+  lastMessageAt: null,
 };
 
 const SCALE = {
@@ -77,6 +87,7 @@ export const buffers = {
   conveyor: [],
   pump: [],
   tv: [],
+  runtime: [],
 };
 
 // ---- CSV rotation helpers (one file per day) ----
@@ -95,7 +106,7 @@ function ensureHeader(file, header) {
   }
 }
 
-const MAX_POINTS = 144000; // keep ~2h if 1 point = 5s
+const MAX_POINTS = 1440; // keep ~2h if 1 point = 5s
 
 function pushBuffer(name, point) {
   const arr = buffers[name];
@@ -103,6 +114,16 @@ function pushBuffer(name, point) {
   if (arr.length > MAX_POINTS) {
     arr.shift(); // remove oldest
   }
+}
+function replaceBuffer(name, data) {
+  // runtime comes as an ARRAY already
+  if (!Array.isArray(data)) {
+    buffers[name] = [];
+    return;
+  }
+
+  // replace ENTIRE buffer
+  buffers[name] = data;
 }
 
 function normalizeIncoming(msg) {
@@ -119,24 +140,47 @@ function normalizeIncoming(msg) {
 
   return out;
 }
+export function onIncomingRuntime(runtimeArray) {
+  // console.log("🟢 Runtime:", msg);
+  replaceBuffer("runtime", runtimeArray);
+}
 
 export function onIncoming(msg) {
-  // Merge into state
-  const data = normalizeIncoming(msg);
+  state.lastMessageAt = Date.now();
 
+  // 1️⃣ Normalize & merge
+  const data = normalizeIncoming(msg);
   Object.assign(state, data);
 
-  // Propagate machine → conveyors
+  // 2️⃣ Machine → device propagation
   if ("Machine1" in data) {
     const v = Number(data.Machine1) ? 1 : 0;
     state.conv1 = state.conv2 = state.conv3 = state.conv4 = v;
   }
+
   if ("Machine2" in data) {
     const v = Number(data.Machine2) ? 1 : 0;
     state.ship1 = state.ship2 = v;
   }
 
-  // Build 5s points and push to buffers (rolling window)
+  // 3️⃣ STATUS CHANGE DETECTION (runtime history)
+  // Machine1 is your MAIN runtime source
+  if ("Machine1" in data) {
+    const running = Number(data.Machine1) === 1;
+
+    if (running) {
+      changeStatus("RUNNING", null, "sensor");
+    } else {
+      changeStatus("STOP", null, "sensor");
+    }
+  }
+
+  // Optional warning detection
+  if (Number(state.warning) === 1) {
+    changeStatus("WARNING", "Sensor warning", "sensor");
+  }
+
+  // 4️⃣ Rolling buffers (5s resolution)
   const now = Date.now();
 
   const cPoint = {
@@ -217,7 +261,7 @@ if (!globalThis.__csv_timer__) {
     flushGroup(
       "tv",
       ["time", "temperature", "vibrationX", "vibrationY", "vibrationZ"],
-      "time,temperature, vibrationX, vibrationY, vibrationZ"
+      "time,temperature,vibrationX,vibrationY,vibrationZ"
     );
   }, 60_000);
 }
@@ -227,29 +271,138 @@ export function setAutoControl(type, enabled) {
   if (type === "lamp") state.autoLampControl = enabled;
 }
 
-// lib/state.js
+/* ==============================
+   CONFIG
+================================ */
+const HISTORY_DIR = path.join(process.cwd(), "data");
+const HISTORY_FILE = historyFilePath();
 
-// export const connection = {
-//   mqtt: {
-//     status: "DISCONNECTED", // CONNECTING | CONNECTED | ERROR | STALE
-//     url: null,
-//     lastMessageAt: null,
-//     lastError: null,
-//   },
-// };
+function historyFilePath() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return path.join(HISTORY_DIR, `runtime_history_${y}-${m}-${dd}.csv`);
+}
 
-// // lib/state.js
-// const STALE_TIMEOUT = 10_000; // 10 seconds
+/* ==============================
+   HELPERS
+================================ */
+function nowISO() {
+  return new Date().toISOString();
+}
 
-// if (!globalThis.__mqtt_watchdog__) {
-//   globalThis.__mqtt_watchdog__ = setInterval(() => {
-//     const last = connection.mqtt.lastMessageAt;
-//     if (
-//       connection.mqtt.status === "CONNECTED" &&
-//       last &&
-//       Date.now() - last > STALE_TIMEOUT
-//     ) {
-//       connection.mqtt.status = "STALE";
-//     }
-//   }, 2000);
-// }
+function ensureHistoryFile() {
+  if (!fs.existsSync(HISTORY_DIR)) {
+    fs.mkdirSync(HISTORY_DIR, { recursive: true });
+  }
+
+  if (!fs.existsSync(HISTORY_FILE)) {
+    fs.writeFileSync(HISTORY_FILE, "start,end,status,reason,source\n", "utf8");
+  }
+}
+
+function appendHistory(entry) {
+  ensureHistoryFile();
+
+  const line = [
+    entry.start,
+    entry.end,
+    entry.status,
+    entry.reason ?? "",
+    entry.source ?? "system",
+  ]
+    .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+    .join(",");
+
+  fs.appendFileSync(HISTORY_FILE, line + "\n", "utf8");
+}
+
+/* ==============================
+   CORE: STATUS CHANGE
+================================ */
+function changeStatus(newStatus, reason = null, source = "system") {
+  const now = nowISO();
+
+  if (state.current.status === newStatus) return;
+
+  // close previous state
+  appendHistory({
+    start: state.current.since,
+    end: now,
+    status: state.current.status,
+    reason: state.current.reason,
+    source: state.current.source,
+  });
+
+  // open new state
+  state.current = {
+    status: newStatus,
+    since: now,
+    reason,
+    source,
+  };
+
+  console.log(
+    `[STATE] ${state.current.status} @ ${now} (${reason ?? "no reason"})`
+  );
+}
+
+/* ==============================
+   MQTT HANDLERS
+================================ */
+export function onMqttConnect() {
+  state.mqttConnected = true;
+
+  changeStatus("RUNNING", "MQTT connected", "system");
+}
+
+export function onMqttDisconnect() {
+  state.mqttConnected = false;
+
+  changeStatus("DISCONNECTED", "MQTT disconnected", "system");
+}
+
+/**
+ * Incoming MQTT JSON payload handler
+ * Called from mqtt/route.js
+ */
+/* ==============================
+   MANUAL ACTIONS (UI)
+================================ */
+export function manualStop(reason) {
+  changeStatus("STOP", reason, "manual");
+}
+
+export function manualStart() {
+  changeStatus("RUNNING", null, "manual");
+}
+
+/* ==============================
+   SYSTEM POWER LOSS LOGIC
+================================ */
+export function systemShutdown() {
+  changeStatus("SYSTEM_OFF", "System shutdown / power loss", "system");
+}
+
+/* ==============================
+   HEALTH CHECK (optional timer)
+================================ */
+export function checkMqttHeartbeat(timeoutMs = 15000) {
+  if (!state.mqttConnected) return;
+
+  if (state.lastMessageAt && Date.now() - state.lastMessageAt > timeoutMs) {
+    changeStatus("DISCONNECTED", "No MQTT heartbeat", "system");
+  }
+}
+
+/* ==============================
+   EXPORT
+================================ */
+export function getCurrentState() {
+  return state.current;
+}
+
+export function getHistoryFilePath() {
+  return HISTORY_FILE;
+}

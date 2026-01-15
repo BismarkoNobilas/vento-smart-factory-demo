@@ -102,8 +102,6 @@ export const logData3 = [
   { start: "07:00", end: "14:00", status: "RUNNING" },
   { start: "14:00", end: "15:00", status: "STOP" },
   { start: "15:00", end: "20:00", status: "RUNNING" },
-  { start: "20:00", end: "21:00", status: "WARNING" },
-  { start: "21:00", end: "23:30", status: "WARNING" },
 ];
 
 export const machineStatuses = [

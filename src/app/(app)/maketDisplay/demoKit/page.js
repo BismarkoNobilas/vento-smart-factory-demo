@@ -17,11 +17,12 @@ import TitleBlock from "@/components/custom/TitleBlock";
 import useDemoData from "@/hooks/useDemoData";
 import WaterTankImage from "@/components/custom/WaterTankImage";
 import { getClient } from "@/lib/getClient";
+import RuntimeHistoryTable from "@/components/custom/RuntimeHistoryTable";
 
 export default function DemoKitPage() {
-  const { live, pump, conv } = useApp();
+  const { live, pump, conv, runtime, connection } = useApp();
+  // console.log("🟢 RUNTIME IN PAGE:", mapRuntimeForTimeline(runtime));
   const { production, oee, quantity, water } = useDemoData();
-  const client = getClient();
 
   async function sendToPLC(binary) {
     const dec = binaryToDecimal(binary); // 20
@@ -46,6 +47,25 @@ export default function DemoKitPage() {
       throw new Error("Invalid binary string");
     }
     return parseInt(binStr, 2);
+  }
+
+  function toHHMM(iso) {
+    const d = new Date(iso);
+    return d.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "UTC", // Ensures it stays 13:00 regardless of your local time zone
+    });
+  }
+
+  function mapRuntimeForTimeline(runtime) {
+    // console.log("Mapping runtime for timeline:", runtime);
+    return runtime.map((r) => ({
+      start: toHHMM(r.start),
+      end: toHHMM(r.end),
+      status: r.status,
+    }));
   }
   // Render individual cards
   const renderCard = (item, idx) => {
@@ -99,7 +119,7 @@ export default function DemoKitPage() {
       cards: [
         {
           type: "runtime",
-          logs: logData3,
+          logs: mapRuntimeForTimeline(runtime),
           title: "Motor 1",
           status: "RUNNING",
           statusColor: "bg-green-500",
@@ -228,6 +248,9 @@ export default function DemoKitPage() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="mt-4">
+              <RuntimeHistoryTable data={runtime} />
             </div>
           </div>
           {/* Render Motors */}
