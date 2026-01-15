@@ -34,7 +34,7 @@ if (!client.listenerCount("message")) {
       // console.log("📥 MQTT after:", add);
       const msg = JSON.parse(add);
       onIncoming(msg);
-      onMqttConnect();
+      // onMqttConnect();
 
       // pushToCloud(msg);
 

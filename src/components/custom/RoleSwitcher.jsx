@@ -16,13 +16,13 @@ export default function RoleSwitcher() {
     <div className="flex items-center gap-2">
       <label>Operator :</label>
       <Select value={role} onValueChange={setRole}>
-        <SelectTrigger className="w-[120px]">
+        <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="Select Role" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="Operator">Operator</SelectItem>
           <SelectItem value="Technician">Technician</SelectItem>
-          <SelectItem value="Manager">Manager</SelectItem>
+          <SelectItem value="Manager">Manager - Julius Obed</SelectItem>
         </SelectContent>
       </Select>
     </div>
