@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fmt } from "./numFormat";
 import { start } from "node:repl";
+import { Scale } from "lucide-react";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -136,6 +137,8 @@ function normalizeIncoming(msg) {
   for (const [key, value] of Object.entries(msg)) {
     if (key in SCALE) {
       out[key] = fmt(Number(value) * SCALE[key]);
+    } else if (value === "0000") {
+      out[key] = 0;
     } else {
       // digital / flags / already OK
       out[key] = fmt(Number(value) || value);
