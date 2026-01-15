@@ -299,8 +299,16 @@ function historyFilePath(date = new Date()) {
 /* ==============================
    HELPERS
 ================================ */
+// function nowISO() {
+//   return new Date().toISOString();
+// }
+
 function nowISO() {
-  return new Date().toISOString();
+  const d = new Date();
+  const tzOffsetMs = d.getTimezoneOffset() * 60000;
+  const localISO = new Date(d - tzOffsetMs).toISOString().slice(0, -1); // remove Z
+
+  return localISO; // "2026-01-15T16:47:00.000"
 }
 
 function ensureHistoryFile(filePath) {

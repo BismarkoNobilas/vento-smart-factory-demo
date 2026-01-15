@@ -23,6 +23,7 @@ import { useState } from "react";
 export default function DemoKitPage() {
   const { live, pump, conv, runtime, connection } = useApp();
   // console.log("🟢 RUNTIME IN PAGE:", mapRuntimeForTimeline(runtime));
+  console.log("🟢 LIVE IN PAGE:", live);
   const { production, oee, quantity, water } = useDemoData();
   const [showReason, setShowReason] = useState(false);
   const [reason, setReason] = useState("");
@@ -71,7 +72,6 @@ export default function DemoKitPage() {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
-      timeZone: "UTC", // Ensures it stays 13:00 regardless of your local time zone
     });
   }
   const STOP_REASONS = [

@@ -6,7 +6,6 @@ function formatTime(iso) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-    timeZone: "UTC", // Ensures it stays 13:00 regardless of your local time zone
   });
 }
 
