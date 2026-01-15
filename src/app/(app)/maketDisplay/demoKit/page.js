@@ -18,7 +18,6 @@ import useDemoData from "@/hooks/useDemoData";
 import WaterTankImage from "@/components/custom/WaterTankImage";
 import { getClient } from "@/lib/getClient";
 import RuntimeHistoryTable from "@/components/custom/RuntimeHistoryTable";
-import { manualStart, manualStop } from "@/lib/state";
 import { useState } from "react";
 
 export default function DemoKitPage() {
@@ -42,6 +41,19 @@ export default function DemoKitPage() {
       }),
     });
   }
+
+  async function handleStart() {
+    await fetch("/api/manual/start", { method: "POST" });
+  }
+
+  async function handleStop(reason) {
+    await fetch("/api/manual/stop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reason }),
+    });
+  }
+
   function padZero(value, length = 2) {
     return String(value).padStart(length, "0");
   }
@@ -78,7 +90,7 @@ export default function DemoKitPage() {
     }
 
     sendToPLC("000");
-    manualStop(reason);
+    handleStop(reason);
 
     setShowReason(false);
     setReason("");
@@ -227,7 +239,7 @@ export default function DemoKitPage() {
                       className="bg-green-400 rounded px-3 py-1 text-white"
                       onClick={() => {
                         sendToPLC("011");
-                        manualStart();
+                        handleStart();
                       }}
                     >
                       ON
