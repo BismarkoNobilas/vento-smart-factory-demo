@@ -229,8 +229,11 @@ export function onIncoming(msg) {
   pushBuffer("tv", tvPoint);
   // console.log("DATA:", data);
   // console.log("STATE:", state);
+
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
+    console.log("conv1:", state.conv1, "->", decoded.conv1);
+    console.log("conv2:", state.conv2, "->", decoded.conv2);
     if (
       (state.conv1 === 1 || state.conv2 === 1) &&
       (decoded.conv1 === 0 || decoded.conv2 === 0)
