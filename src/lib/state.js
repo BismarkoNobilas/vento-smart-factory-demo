@@ -230,7 +230,10 @@ export function onIncoming(msg) {
   console.log("STATE:", state);
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
-    if ((state.conv1 === 1 || state.conv2 === 1) && decoded.conv1 === 0) {
+    if (
+      (state.conv1 === 1 || state.conv2 === 1) &&
+      (decoded.conv1 === 0 || decoded.conv2 === 0)
+    ) {
       // Notifikation for reason of the stop
       // off : normal maintance emergency
       useNotificationStore.getState().addAlert({
