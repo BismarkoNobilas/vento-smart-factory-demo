@@ -1,3 +1,4 @@
+import AutoStopAlertModal from "@/components/custom/AutoStopAlertModal";
 import AppNavbar from "@/components/layout/AppNavbar";
 // import { getMaketClient } from "@/lib/mqtt/maketClient";
 
@@ -12,6 +13,7 @@ export default function MaketDisplayLayout({ children }) {
     <div>
       <AppNavbar menuSwitch="maket" />
       {children}
+      <AutoStopAlertModal />
     </div>
   );
 }

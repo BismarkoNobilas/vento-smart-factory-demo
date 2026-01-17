@@ -1,3 +1,4 @@
+// src/stores/useNotificationStore.ts
 import { create } from "zustand";
 
 export const useNotificationStore = create((set, get) => ({
@@ -24,7 +25,7 @@ export const useNotificationStore = create((set, get) => ({
   acknowledgeAlert: (id) =>
     set((state) => ({
       alerts: state.alerts.map((a) =>
-        a.id === id ? { ...a, acknowledged: true } : a
+        a.id === id ? { ...a, acknowledged: true } : a,
       ),
     })),
 

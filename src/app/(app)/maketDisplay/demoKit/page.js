@@ -193,7 +193,7 @@ export default function DemoKitPage() {
         {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
-          title: "Motor 1",
+          title: "Motor",
           status: latest?.status || "N/A",
           statusColor: statusColor(latest?.status) || "bg-zinc-400",
           warning: latest?.reason || "Normal",
@@ -334,8 +334,8 @@ export default function DemoKitPage() {
 
                         <button
                           className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
-                          disabled={!reason}
-                          onClick={handleStopConfirm}
+                          // disabled={!reason}
+                          onClick={handleStop("Manual Stop")}
                         >
                           Confirm Stop
                         </button>

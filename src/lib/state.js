@@ -229,7 +229,19 @@ export function onIncoming(msg) {
 
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
-
+    if (state.U1 === 1 && decoded.U1 === 0) {
+      // Notifikation for reason of the stop
+      // off : normal maintance emergency
+      useNotificationStore.getState().addAlert({
+        id: crypto.randomUUID(),
+        type: "AUTO_STOP",
+        title: "Machine stopped",
+        message: "Machine stopped automatically. Please select a reason.",
+        requiresInput: true,
+        acknowledged: false,
+        createdAt: Date.now(),
+      });
+    }
     state.Lp = decoded.Lp;
     state.U1 = decoded.U1;
     state.U2 = decoded.U2;
@@ -260,7 +272,7 @@ function flushGroup(group, columns, header) {
   const samples = buffers[group];
   if (!samples.length) return;
   const row = columns.map((k) =>
-    k === "time" ? new Date().toISOString() : avg(samples, k)
+    k === "time" ? new Date().toISOString() : avg(samples, k),
   );
   const file = csvPath(group);
   ensureHeader(file, header);
@@ -274,7 +286,7 @@ if (!globalThis.__csv_timer__) {
     flushGroup(
       "conveyor",
       ["time", "voltage", "current", "power", "energy", "frequency", "pf"],
-      "time,voltage,current,power,energy,frequency,pf"
+      "time,voltage,current,power,energy,frequency,pf",
     );
     flushGroup(
       "pump",
@@ -289,12 +301,12 @@ if (!globalThis.__csv_timer__) {
         "lvl1",
         "lvl2",
       ],
-      "time,voltage,current,power,energy,frequency,pf,lvl1,lvl2"
+      "time,voltage,current,power,energy,frequency,pf,lvl1,lvl2",
     );
     flushGroup(
       "tv",
       ["time", "temperature", "vibrationX", "vibrationY", "vibrationZ"],
-      "time,temperature,vibrationX,vibrationY,vibrationZ"
+      "time,temperature,vibrationX,vibrationY,vibrationZ",
     );
   }, 60_000);
 }
@@ -416,7 +428,7 @@ function changeStatus(newStatus, reason = null, source = "system") {
   };
 
   console.log(
-    `[STATE] ${state.current.status} @ ${now} (${reason ?? "no reason"})`
+    `[STATE] ${state.current.status} @ ${now} (${reason ?? "no reason"})`,
   );
 }
 
