@@ -255,11 +255,11 @@ function decodeMachineBits(dec) {
   const v = Number(dec) || 0;
 
   return {
-    conv2: v & 0b00001 ? 1 : 0,
-    conv1: v & 0b00010 ? 1 : 0,
-    U2: v & 0b00100 ? 1 : 0,
-    U1: v & 0b01000 ? 1 : 0,
     Lp: v & 0b10000 ? 1 : 0,
+    conv1: v & 0b00010 ? 1 : 0,
+    conv2: v & 0b00001 ? 1 : 0,
+    U1: v & 0b01000 ? 1 : 0,
+    U2: v & 0b00100 ? 1 : 0,
   };
 }
 
