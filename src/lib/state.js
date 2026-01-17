@@ -226,10 +226,11 @@ export function onIncoming(msg) {
     vibrationZ: Number(state.VibZ) || 0,
   };
   pushBuffer("tv", tvPoint);
-
+  console.log("DATA:", data);
+  console.log("STATE:", state);
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
-    if (state.U1 === 1 && decoded.U1 === 0) {
+    if ((state.conv1 === 1 || state.conv2 === 1) && decoded.conv1 === 0) {
       // Notifikation for reason of the stop
       // off : normal maintance emergency
       useNotificationStore.getState().addAlert({
