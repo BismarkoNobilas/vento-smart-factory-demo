@@ -226,8 +226,8 @@ export function onIncoming(msg) {
     vibrationZ: Number(state.VibZ) || 0,
   };
   pushBuffer("tv", tvPoint);
-  console.log("DATA:", data);
-  console.log("STATE:", state);
+  // console.log("DATA:", data);
+  // console.log("STATE:", state);
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
     if (
