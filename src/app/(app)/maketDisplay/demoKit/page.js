@@ -285,7 +285,10 @@ export default function DemoKitPage() {
                   <div>
                     <button
                       className="bg-red-400 rounded px-3 py-1 text-white hover:bg-red-500 cursor-pointer"
-                      onClick={() => setShowReason(true)}
+                      onClick={() => {
+                        sendToPLC("000");
+                        // setShowReason(true)
+                      }}
                     >
                       OFF
                     </button>
@@ -334,8 +337,8 @@ export default function DemoKitPage() {
 
                         <button
                           className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
-                          // disabled={!reason}
-                          onClick={handleStop("Manual Stop")}
+                          disabled={!reason}
+                          onClick={handleStopConfirm}
                         >
                           Confirm Stop
                         </button>
