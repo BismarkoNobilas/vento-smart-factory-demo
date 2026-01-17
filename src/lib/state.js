@@ -233,19 +233,15 @@ export function onIncoming(msg) {
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
     console.log("conv1:", state.conv1, "->", decoded.conv1);
-    console.log("conv2:", state.conv2, "->", decoded.conv2);
-    if (
-      (state.conv1 === 1 || state.conv2 === 1) &&
-      (decoded.conv1 === 0 || decoded.conv2 === 0)
-    ) {
+    if (state.conv1 === 1 && decoded.conv1 === 0) {
       // Notifikation for reason of the stop
       // off : normal maintance emergency
       useNotificationStore.getState().addAlert({
         id: crypto.randomUUID(),
         type: "AUTO_STOP",
-        title: "Machine stopped",
-        message: "Machine stopped automatically. Please select a reason.",
-        requiresInput: true,
+        machineId: "M1",
+        title: "Machine stopped automatically",
+        message: "Please select stop reason",
         acknowledged: false,
         createdAt: Date.now(),
       });
