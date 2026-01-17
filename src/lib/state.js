@@ -5,6 +5,7 @@ import path from "node:path";
 import { fmt } from "./numFormat";
 import { start } from "node:repl";
 import { Scale } from "lucide-react";
+import { useNotificationStore } from "@/stores/useNotificationStore";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
