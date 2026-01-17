@@ -226,6 +226,28 @@ export function onIncoming(msg) {
     vibrationZ: Number(state.VibZ) || 0,
   };
   pushBuffer("tv", tvPoint);
+
+  if ("M1" in data) {
+    const decoded = decodeMachineBits(data.M1);
+
+    state.Lp = decoded.Lp;
+    state.U1 = decoded.U1;
+    state.U2 = decoded.U2;
+    state.conv1 = decoded.conv1;
+    state.conv2 = decoded.conv2;
+  }
+}
+
+function decodeMachineBits(dec) {
+  const v = Number(dec) || 0;
+
+  return {
+    conv2: v & 0b00001 ? 1 : 0,
+    conv1: v & 0b00010 ? 1 : 0,
+    U2: v & 0b00100 ? 1 : 0,
+    U1: v & 0b01000 ? 1 : 0,
+    Lp: v & 0b10000 ? 1 : 0,
+  };
 }
 
 // Once/min write one row per group (avg of 5s samples)

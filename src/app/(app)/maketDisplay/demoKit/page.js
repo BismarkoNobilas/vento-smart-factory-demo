@@ -103,6 +103,43 @@ export default function DemoKitPage() {
       status: r.status,
     }));
   }
+  function OnOff({ on }) {
+    return (
+      <span
+        className={`px-2 py-1 text-xs font-bold rounded ${
+          on ? "bg-green-500 text-white" : "bg-gray-300 text-black"
+        }`}
+      >
+        {on ? "ON" : "OFF"}
+      </span>
+    );
+  }
+  function getLatestRuntime(runtime = []) {
+    if (!runtime.length) return null;
+    return runtime[runtime.length - 1];
+  }
+  function statusColor(status) {
+    switch (status) {
+      case "RUNNING":
+        return "bg-green-500";
+      case "WARNING":
+        return "bg-yellow-400";
+      case "STOP":
+        return "bg-red-500";
+      case "DISCONNECTED":
+        return "bg-gray-500";
+      default:
+        return "bg-zinc-400";
+    }
+  }
+  function warningColor(status) {
+    if (status === "WARNING") return "bg-yellow-400";
+    if (status === "RUNNING") return "bg-green-500";
+    if (status === "STOP") return "bg-red-500";
+    return "bg-zinc-400";
+  }
+
+  const latest = getLatestRuntime(runtime);
   // Render individual cards
   const renderCard = (item, idx) => {
     switch (item.type) {
@@ -157,10 +194,10 @@ export default function DemoKitPage() {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
           title: "Motor 1",
-          status: "RUNNING",
-          statusColor: "bg-green-500",
-          warning: "OK",
-          warningColor: "bg-green-500",
+          status: latest?.status || "N/A",
+          statusColor: statusColor(latest?.status) || "bg-zinc-400",
+          warning: latest?.reason || "Normal",
+          warningColor: warningColor(latest?.reason) || "bg-zinc-400",
           className: "col-span-2",
         },
         {

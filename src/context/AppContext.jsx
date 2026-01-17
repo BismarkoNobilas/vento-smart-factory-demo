@@ -113,12 +113,12 @@ export function AppProvider({ children, initialData }) {
     // 🔴 Live data: every 3 seconds
     const liveInterval = setInterval(() => {
       fetchLive();
-    }, 3000);
+    }, 3_000);
 
     // 🟢 Runtime history: every 1 minute
     const runtimeInterval = setInterval(() => {
       fetchRuntime("today");
-    }, 20_000);
+    }, 5_000);
 
     return () => {
       clearInterval(liveInterval);
