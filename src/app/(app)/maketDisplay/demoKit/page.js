@@ -333,6 +333,7 @@ export default function DemoKitPage() {
                       onClick={() => {
                         sendToPLC("000");
                         setShowReason(true);
+                        callLog();
                       }}
                     >
                       OFF
