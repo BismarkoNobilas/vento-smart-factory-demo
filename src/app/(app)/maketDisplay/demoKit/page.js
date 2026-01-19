@@ -174,7 +174,7 @@ export default function DemoKitPage() {
   }
   const latest = getLatestRuntime(runtime);
 
-  function status(status) {
+  function statusName(status) {
     if (!status) return;
     if (status === 1) return "RUNNING";
     if (status === 0) return "STOP";
@@ -235,7 +235,7 @@ export default function DemoKitPage() {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
           title: "Motor",
-          status: status(live.conv1) || "N/A",
+          status: statusName(live.conv1) || "N/A",
           statusColor: statusColor(latest?.status) || "bg-zinc-400",
           warning: latest?.reason || "Normal",
           warningColor: warningColor(latest?.reason) || "bg-zinc-400",
