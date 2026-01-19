@@ -23,7 +23,7 @@ import { useState } from "react";
 export default function DemoKitPage() {
   const { live, pump, conv, runtime, connection } = useApp();
   // console.log("🟢 RUNTIME IN PAGE:", mapRuntimeForTimeline(runtime));
-  // console.log("🟢 LIVE IN PAGE:", live);
+  console.log("🟢 LIVE IN PAGE:", live);
   const { production, oee, quantity, water } = useDemoData();
   const [category, setCategory] = useState("");
   const [subReason, setSubReason] = useState("");
@@ -294,6 +294,9 @@ export default function DemoKitPage() {
       ],
     },
   ];
+  function callLog() {
+    console.log("Live Data:", live);
+  }
 
   return (
     <main className="flex-1 p-1 overflow-auto">
@@ -411,7 +414,10 @@ export default function DemoKitPage() {
                             (category === "Maintenance" && !subReason) ||
                             (category === "Other" && !customReason)
                           }
-                          onClick={handleStopConfirm}
+                          onClick={() => {
+                            callLog();
+                            handleStopConfirm();
+                          }}
                         >
                           Confirm Stop
                         </button>
