@@ -166,7 +166,7 @@ export default function DemoKitPage() {
   const latest = getLatestRuntime(runtime);
 
   function status(status) {
-    if (!latest.status) return;
+    if (!status) return;
     if (status === 0) return "RUNNING";
     if (status === 1) return "STOP";
     return "UNKNOWN";
