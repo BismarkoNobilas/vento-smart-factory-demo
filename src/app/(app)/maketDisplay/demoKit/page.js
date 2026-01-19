@@ -28,6 +28,8 @@ export default function DemoKitPage() {
   const [category, setCategory] = useState("");
   const [subReason, setSubReason] = useState("");
   const [customReason, setCustomReason] = useState("");
+  const [showReason, setShowReason] = useState(false);
+  const [reason, setReason] = useState("");
 
   async function sendToPLC(binary) {
     const dec = binaryToDecimal(binary); // 20
@@ -121,10 +123,18 @@ export default function DemoKitPage() {
 
     // sendToPLC("00");
     // handleStop(reason);
+    const reason = getFinalReason();
 
     setShowReason(false);
     setReason("");
   }
+
+  function getFinalReason() {
+    if (category === "Maintenance") return subReason;
+    if (category === "Other") return customReason;
+    return category; // Normal Stop
+  }
+
   function mapRuntimeForTimeline(runtime) {
     // console.log("Mapping runtime for timeline:", runtime);
     return runtime.map((r) => ({
