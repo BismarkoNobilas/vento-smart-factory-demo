@@ -25,8 +25,9 @@ export default function DemoKitPage() {
   // console.log("🟢 RUNTIME IN PAGE:", mapRuntimeForTimeline(runtime));
   // console.log("🟢 LIVE IN PAGE:", live);
   const { production, oee, quantity, water } = useDemoData();
-  const [showReason, setShowReason] = useState(false);
-  const [reason, setReason] = useState("");
+  const [category, setCategory] = useState("");
+  const [subReason, setSubReason] = useState("");
+  const [customReason, setCustomReason] = useState("");
 
   async function sendToPLC(binary) {
     const dec = binaryToDecimal(binary); // 20
@@ -106,10 +107,8 @@ export default function DemoKitPage() {
     if (!status) return "bg-zinc-400";
 
     if (OK_REASONS.includes(status)) return "bg-green-500";
-
     if (CRITICAL_REASONS.includes(status)) return "bg-red-500";
     if (WARNING_REASONS.includes(status)) return "bg-yellow-400";
-
     // "Other" or unknown
     return "bg-yellow-400";
   }
@@ -167,8 +166,8 @@ export default function DemoKitPage() {
 
   function status(status) {
     if (!status) return;
-    if (status === 0) return "RUNNING";
-    if (status === 1) return "STOP";
+    if (status === 1) return "RUNNING";
+    if (status === 0) return "STOP";
     return "UNKNOWN";
   }
 
@@ -328,21 +327,26 @@ export default function DemoKitPage() {
                 </div>
                 {showReason && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                    {/* Modal box */}
                     <div className="bg-white rounded-lg shadow-lg w-[360px] p-4 grid gap-3">
                       <h3 className="text-lg font-semibold text-center">
-                        Machine Have Been Stop
+                        Machine Has Stopped!!!
                       </h3>
 
                       <p className="text-sm text-gray-600">
-                        Please Select Stop Reason:
+                        Please select stop reason:
                       </p>
+
+                      {/* Main category */}
                       <select
                         className="border rounded px-2 py-1"
-                        value={reason}
-                        onChange={(e) => setReason(e.target.value)}
+                        value={category}
+                        onChange={(e) => {
+                          setCategory(e.target.value);
+                          setSubReason("");
+                          setCustomReason("");
+                        }}
                       >
-                        <option value="">Select stop reason</option>
+                        <option value="">Select category</option>
                         {STOP_REASONS.map((r) => (
                           <option key={r} value={r}>
                             {r}
@@ -350,15 +354,14 @@ export default function DemoKitPage() {
                         ))}
                       </select>
 
-                      {reason === "Maintenance" && (
+                      {/* Maintenance reasons */}
+                      {category === "Maintenance" && (
                         <select
                           className="border rounded px-2 py-1"
-                          value={reason}
-                          onChange={(e) =>
-                            setReason("Maintenance" + e.target.value)
-                          }
+                          value={subReason}
+                          onChange={(e) => setSubReason(e.target.value)}
                         >
-                          <option value="">Select stop reason</option>
+                          <option value="">Select maintenance reason</option>
                           {Mt_REASONS.map((r) => (
                             <option key={r} value={r}>
                               {r}
@@ -367,12 +370,13 @@ export default function DemoKitPage() {
                         </select>
                       )}
 
-                      {/* Optional custom input */}
-                      {reason === "Other" && (
+                      {/* Other input */}
+                      {category === "Other" && (
                         <input
                           className="border rounded px-2 py-1"
                           placeholder="Enter reason..."
-                          onChange={(e) => setReason(e.target.value)}
+                          value={customReason}
+                          onChange={(e) => setCustomReason(e.target.value)}
                         />
                       )}
 
@@ -380,8 +384,10 @@ export default function DemoKitPage() {
                         <button
                           className="px-3 py-1 text-sm border rounded hover:bg-gray-100"
                           onClick={() => {
+                            setCategory("");
+                            setSubReason("");
+                            setCustomReason("");
                             setShowReason(false);
-                            setReason("");
                           }}
                         >
                           Cancel
@@ -389,7 +395,11 @@ export default function DemoKitPage() {
 
                         <button
                           className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
-                          disabled={!reason}
+                          disabled={
+                            !category ||
+                            (category === "Maintenance" && !subReason) ||
+                            (category === "Other" && !customReason)
+                          }
                           onClick={handleStopConfirm}
                         >
                           Confirm Stop
