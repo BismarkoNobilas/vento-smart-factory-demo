@@ -163,6 +163,7 @@ export default function DemoKitPage() {
         return "bg-zinc-400";
     }
   }
+  const latest = getLatestRuntime(runtime);
 
   function status(status) {
     if (!latest.status) return;
@@ -171,7 +172,6 @@ export default function DemoKitPage() {
     return "UNKNOWN";
   }
 
-  const latest = getLatestRuntime(runtime);
   // Render individual cards
   const renderCard = (item, idx) => {
     switch (item.type) {
