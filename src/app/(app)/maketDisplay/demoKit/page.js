@@ -173,7 +173,7 @@ export default function DemoKitPage() {
     }
   }
   const latest = getLatestRuntime(runtime);
-  const latestStatus = statusName(latest?.status);
+  const latestStatus = statusName(live?.conv1);
 
   function statusName(status) {
     if (!status) return;
