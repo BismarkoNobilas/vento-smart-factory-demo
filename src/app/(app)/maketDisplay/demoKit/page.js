@@ -89,7 +89,7 @@ export default function DemoKitPage() {
       return;
     }
 
-    sendToPLC("00");
+    // sendToPLC("00");
     // handleStop(reason);
 
     setShowReason(false);
@@ -287,7 +287,7 @@ export default function DemoKitPage() {
                       className="bg-red-400 rounded px-3 py-1 text-white hover:bg-red-500 cursor-pointer"
                       onClick={() => {
                         sendToPLC("000");
-                        // setShowReason(true)
+                        setShowReason(true);
                       }}
                     >
                       OFF
