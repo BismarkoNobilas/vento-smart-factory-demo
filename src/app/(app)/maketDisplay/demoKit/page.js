@@ -116,7 +116,7 @@ export default function DemoKitPage() {
   }
 
   function handleStopConfirm() {
-    if (!reason) {
+    if (!customReason) {
       alert("Please select a reason");
       return;
     }
@@ -236,8 +236,8 @@ export default function DemoKitPage() {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
           title: "Motor",
-          status: latestStatus || "N/A",
-          statusColor: statusColor(latestStatus) || "bg-zinc-400",
+          status: statusName(live.conv1) || "N/A",
+          statusColor: statusColor(statusName(live.conv1)) || "bg-zinc-400",
           warning: latest?.reason || "Normal",
           warningColor: warningColor(latest?.reason) || "bg-zinc-400",
           className: "col-span-2",
@@ -333,7 +333,6 @@ export default function DemoKitPage() {
                       onClick={() => {
                         sendToPLC("000");
                         setShowReason(true);
-                        callLog();
                       }}
                     >
                       OFF
