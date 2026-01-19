@@ -169,7 +169,7 @@ export default function DemoKitPage() {
       case "DISCONNECTED":
         return "bg-gray-500";
       default:
-        return "bg-zinc-400";
+        return "bg-red-500";
     }
   }
   const latest = getLatestRuntime(runtime);
