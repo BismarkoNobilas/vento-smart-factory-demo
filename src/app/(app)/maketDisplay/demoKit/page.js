@@ -76,13 +76,43 @@ export default function DemoKitPage() {
   }
   const STOP_REASONS = ["Normal Stop", "Maintenance", "Other"];
   const Mt_REASONS = [
+    //maintanance reasons
     "Monthly check",
+    "Cleaning",
+    "Lubrication",
     "Material jam",
     "Overheat",
     "Sensor error",
     "Power issue",
     "Other",
   ];
+
+  const OK_REASONS = ["Normal Stop"];
+
+  const WARNING_REASONS = [
+    "Maintenance",
+    "Monthly check",
+    "Cleaning",
+    "Lubrication",
+  ];
+
+  const CRITICAL_REASONS = [
+    "Material jam",
+    "Overheat",
+    "Sensor error",
+    "Power issue",
+  ];
+  function warningColor(status) {
+    if (!status) return "bg-zinc-400";
+
+    if (OK_REASONS.includes(status)) return "bg-green-500";
+
+    if (CRITICAL_REASONS.includes(status)) return "bg-red-500";
+    if (WARNING_REASONS.includes(status)) return "bg-yellow-400";
+
+    // "Other" or unknown
+    return "bg-yellow-400";
+  }
 
   function handleStopConfirm() {
     if (!reason) {
@@ -133,11 +163,12 @@ export default function DemoKitPage() {
         return "bg-zinc-400";
     }
   }
-  function warningColor(status) {
-    if (status === "WARNING") return "bg-yellow-400";
-    if (status === "RUNNING") return "bg-green-500";
-    if (status === "STOP") return "bg-red-500";
-    return "bg-zinc-400";
+
+  function status(status) {
+    if (!latest.status) return;
+    if (status === 0) return "RUNNING";
+    if (status === 1) return "STOP";
+    return "UNKNOWN";
   }
 
   const latest = getLatestRuntime(runtime);
@@ -195,7 +226,7 @@ export default function DemoKitPage() {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
           title: "Motor",
-          status: latest?.status || "N/A",
+          status: status(live.conv1) || "N/A",
           statusColor: statusColor(latest?.status) || "bg-zinc-400",
           warning: latest?.reason || "Normal",
           warningColor: warningColor(latest?.reason) || "bg-zinc-400",
@@ -274,7 +305,7 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className={`${live.conv1 === 1 ? "bg-green-500" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-green-500`}
+                      className={`${live.conv1 === 1 ? "bg-green-500" : "bg-gray-400"} rounded px-3 py-1 text-white `}
                       onClick={() => {
                         sendToPLC("011");
                         // handleStart();
@@ -285,7 +316,7 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className={`${live.conv1 === 0 ? "bg-red-500" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-red-500`}
+                      className={`${live.conv1 === 0 ? "bg-red-500" : "bg-gray-400"} rounded px-3 py-1 text-white `}
                       onClick={() => {
                         sendToPLC("000");
                         setShowReason(true);
