@@ -7,7 +7,7 @@ function RunTimeCard({
   warning = "OKE",
   warningColor = "bg-green-500",
   logs = [],
-  timelineLabels = ["07:00", "13:00", "19:00", "07:00"],
+  timelineLabels = ["07:00", "15:00", "23:00", "07:00"],
   bgColor = "bg-zinc-50",
 }) {
   // console.log("🟢 RUNTIME CARD LOGS:", logs);
