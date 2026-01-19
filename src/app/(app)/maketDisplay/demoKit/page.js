@@ -116,10 +116,10 @@ export default function DemoKitPage() {
   }
 
   function handleStopConfirm() {
-    if (!customReason) {
-      alert("Please select a reason");
-      return;
-    }
+    // if (!customReason) {
+    //   alert("Please select a reason");
+    //   return;
+    // }
 
     // sendToPLC("00");
     // handleStop(reason);
@@ -236,8 +236,8 @@ export default function DemoKitPage() {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
           title: "Motor",
-          status: statusName(live.conv1) || "N/A",
-          statusColor: statusColor(statusName(live.conv1)) || "bg-zinc-400",
+          status: statusName(live.conv1) || "STOP",
+          statusColor: statusColor(statusName(live.conv1)) || "bg-red-500",
           warning: latest?.reason || "Normal",
           warningColor: warningColor(latest?.reason) || "bg-zinc-400",
           className: "col-span-2",
