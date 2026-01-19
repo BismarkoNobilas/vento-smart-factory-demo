@@ -232,19 +232,31 @@ export function onIncoming(msg) {
 
   if ("M1" in data) {
     const decoded = decodeMachineBits(data.M1);
-    console.log("conv1:", state.conv1, "->", decoded.conv1);
-    if (state.conv1 === 1 && decoded.conv1 === 0) {
-      // Notifikation for reason of the stop
-      // off : normal maintance emergency
-      useNotificationStore.getState().addAlert({
-        id: crypto.randomUUID(),
-        type: "AUTO_STOP",
-        machineId: "M1",
-        title: "Machine stopped automatically",
-        message: "Please select stop reason",
-        acknowledged: false,
-        createdAt: Date.now(),
-      });
+
+    const wasRunning = state.conv1 === 1;
+    const isRunning = decoded.conv1 === 1;
+
+    // ON → OFF
+    if (wasRunning && !isRunning) {
+      const store = useNotificationStore.getState();
+
+      const hasActiveAutoStop = store.alerts.some(
+        (a) =>
+          a.type === "AUTO_STOP" && a.machineId === "M1" && !a.acknowledged,
+      );
+
+      if (!hasActiveAutoStop) {
+        console.log("💡 Adding AUTO_STOP alert");
+        store.addAlert({
+          id: crypto.randomUUID(),
+          type: "AUTO_STOP", // 👈 YOUR APP DECISION
+          machineId: "M1",
+          title: "Machine stopped automatically",
+          message: "Please select stop reason",
+          acknowledged: false,
+          createdAt: Date.now(),
+        });
+      }
     }
     state.Lp = decoded.Lp;
     state.U1 = decoded.U1;
