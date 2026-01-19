@@ -23,7 +23,7 @@ import { useState } from "react";
 export default function DemoKitPage() {
   const { live, pump, conv, runtime, connection } = useApp();
   // console.log("🟢 RUNTIME IN PAGE:", mapRuntimeForTimeline(runtime));
-  console.log("🟢 LIVE IN PAGE:", live);
+  // console.log("🟢 LIVE IN PAGE:", live);
   const { production, oee, quantity, water } = useDemoData();
   const [showReason, setShowReason] = useState(false);
   const [reason, setReason] = useState("");

@@ -14,7 +14,7 @@ export function AppProvider({ children, initialData }) {
   const [pump, setPump] = useState(initialData?.pump ?? []);
   const [tv, setTv] = useState(initialData?.tv ?? []);
   const [runtime, setRuntime] = useState(initialData?.runtime ?? []); // ✅ RUNTIME HISTORY (CSV)
-  console.log(runtime);
+  // console.log(runtime);
   const [connection, setConnection] = useState(null);
   const [now, setNow] = useState(new Date());
   const [role, setRole] = useState("Manager");
@@ -101,7 +101,7 @@ export function AppProvider({ children, initialData }) {
   // ======================
   useEffect(() => {
     setNow(new Date());
-    console.log("⏱️ Polling useEffect");
+    // console.log("⏱️ Polling useEffect");
 
     // initial load (no SSR data)
     if (!initialData) {
