@@ -36,7 +36,7 @@ export default function RuntimeHistoryTable({ data = [] }) {
             <th className="border px-3 py-2 text-left">Duration</th>
             <th className="border px-3 py-2 text-left">Status</th>
             <th className="border px-3 py-2 text-left">Reason</th>
-            <th className="border px-3 py-2 text-left">Source</th>
+            {/* <th className="border px-3 py-2 text-left">Source</th> */}
           </tr>
         </thead>
 
@@ -58,9 +58,9 @@ export default function RuntimeHistoryTable({ data = [] }) {
                 </span>
               </td>
               <td className="border px-3 py-2">{row.reason || "-"}</td>
-              <td className="border px-3 py-2 font-mono text-xs">
+              {/* <td className="border px-3 py-2 font-mono text-xs">
                 {row.source}
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

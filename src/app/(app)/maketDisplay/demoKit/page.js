@@ -74,9 +74,10 @@ export default function DemoKitPage() {
       hour12: false,
     });
   }
-  const STOP_REASONS = [
+  const STOP_REASONS = ["Normal Stop", "Maintenance", "Other"];
+  const Mt_REASONS = [
+    "Monthly check",
     "Material jam",
-    "Maintenance",
     "Overheat",
     "Sensor error",
     "Power issue",
@@ -314,6 +315,23 @@ export default function DemoKitPage() {
                           </option>
                         ))}
                       </select>
+
+                      {reason === "Maintenance" && (
+                        <select
+                          className="border rounded px-2 py-1"
+                          value={reason}
+                          onChange={(e) =>
+                            setReason("Maintenance" + e.target.value)
+                          }
+                        >
+                          <option value="">Select stop reason</option>
+                          {Mt_REASONS.map((r) => (
+                            <option key={r} value={r}>
+                              {r}
+                            </option>
+                          ))}
+                        </select>
+                      )}
 
                       {/* Optional custom input */}
                       {reason === "Other" && (
