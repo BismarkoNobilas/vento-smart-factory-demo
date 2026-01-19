@@ -269,11 +269,11 @@ export default function DemoKitPage() {
               <Card className="p-0 gap-0 m-0">
                 <div className="grid grid-cols-2 gap-2 p-2 w-fit mx-auto">
                   <div className="col-span-2">
-                    <TitleBlock title="Machine" showValue={false} />
+                    <TitleBlock title="Status Machine" showValue={false} />
                   </div>
                   <div>
                     <button
-                      className="bg-green-400 rounded px-3 py-1 text-white hover:bg-green-500 cursor-pointer "
+                      className={`${live.conv1 === 1 ? "bg-green-400" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-green-500 cursor-pointer`}
                       onClick={() => {
                         sendToPLC("011");
                         // handleStart();
@@ -284,7 +284,7 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className="bg-red-400 rounded px-3 py-1 text-white hover:bg-red-500 cursor-pointer"
+                      className={`${live.conv1 === 0 ? "bg-red-400" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-red-500 cursor-pointer`}
                       onClick={() => {
                         sendToPLC("000");
                         setShowReason(true);
