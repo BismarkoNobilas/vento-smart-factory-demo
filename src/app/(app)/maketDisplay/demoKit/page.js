@@ -331,9 +331,12 @@ export default function DemoKitPage() {
                     {/* Modal box */}
                     <div className="bg-white rounded-lg shadow-lg w-[360px] p-4 grid gap-3">
                       <h3 className="text-lg font-semibold text-center">
-                        Stop Machine
+                        Machine Have Been Stop
                       </h3>
 
+                      <p className="text-sm text-gray-600">
+                        Please Select Stop Reason:
+                      </p>
                       <select
                         className="border rounded px-2 py-1"
                         value={reason}
