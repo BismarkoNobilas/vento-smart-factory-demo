@@ -274,7 +274,7 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className={`${live.conv1 === 1 ? "bg-green-400" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-green-500 cursor-pointer`}
+                      className={`${live.conv1 === 1 ? "bg-green-500" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-green-500`}
                       onClick={() => {
                         sendToPLC("011");
                         // handleStart();
@@ -285,7 +285,7 @@ export default function DemoKitPage() {
                   </div>
                   <div>
                     <button
-                      className={`${live.conv1 === 0 ? "bg-red-400" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-red-500 cursor-pointer`}
+                      className={`${live.conv1 === 0 ? "bg-red-500" : "bg-gray-400"} rounded px-3 py-1 text-white hover:bg-red-500`}
                       onClick={() => {
                         sendToPLC("000");
                         setShowReason(true);
