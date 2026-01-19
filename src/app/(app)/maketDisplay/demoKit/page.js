@@ -173,6 +173,7 @@ export default function DemoKitPage() {
     }
   }
   const latest = getLatestRuntime(runtime);
+  const latestStatus = statusName(latest?.status);
 
   function statusName(status) {
     if (!status) return;
@@ -235,8 +236,8 @@ export default function DemoKitPage() {
           type: "runtime",
           logs: mapRuntimeForTimeline(runtime),
           title: "Motor",
-          status: statusName(live.conv1) || "N/A",
-          statusColor: statusColor(latest?.status) || "bg-zinc-400",
+          status: latestStatus || "N/A",
+          statusColor: statusColor(latestStatus) || "bg-zinc-400",
           warning: latest?.reason || "Normal",
           warningColor: warningColor(latest?.reason) || "bg-zinc-400",
           className: "col-span-2",
